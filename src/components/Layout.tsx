@@ -8,17 +8,19 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 export const Layout: React.FC<Props> = ({children, ...otherProps})=>{
   return (
     <div className="bg-bgDark text-white min-w-screen min-h-screen
-    grid grid-cols-4 grid-rows-3" {...otherProps}>
-      <AsideMenu className="w-full col-span-1 row-span-full bg-bgLight"  />
-      <main className="col-start-2 col-end-5 row-start-1 row-end-4 bg-tomato flex flex-col justify-center items-center grid-start-2 grid-end-3">
-        <NavegationMenuHeader className="" />
+    grid grid-cols-12 grid-rows-layout font-oswald" {...otherProps}>
+      <div className="col-start-1 col-end-4 row-span-full relative z-10">
+        <AsideMenu className="h-screen fixed w-full max-w-[calc(100vw/12*3)] left-0 bg-bgLight" />
+      </div>
+      <main className="col-start-4 col-end-13 row-start-1 row-end-3 flex flex-col justify-center items-center z-20">
+        <NavegationMenuHeader />
         <section>
           {
             children
           }
         </section>
       </main>
-      <footer className="bg-primaryRed col-start-1 col-end-5 row-span-3">
+      <footer className="bg-primaryRed col-start-1 col-end-13 row-start-3 row-end-4 z-30">
         ESTE ES EL FOOTER
       </footer>
     </div>
