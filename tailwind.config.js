@@ -9,20 +9,14 @@ module.exports = {
   ],
   prefix: "",
   theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
+    colors: {
+      "bgDark": "#22181C",
+      "bgLight": "#D9D9D9",
+      "primaryRed": "#5A0001",
+      "tomato": "#F13030"
     },
-    extend: {
-      colors: {
-        
-      },
-      borderRadius: {
-        
-    },
-    },
+    fontFamily: {
+      "oswald": ["Oswald Variable", "monospace", "sans-serif"]
+    }
   }
 }
