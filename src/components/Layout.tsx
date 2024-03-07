@@ -1,6 +1,7 @@
 import { HTMLAttributes } from "react"
 import { AsideMenu } from "./AsideMenu"
 import { NavegationMenuHeader } from "./NavegationMenuHeader"
+import { Footer } from "./Footer"
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   children: JSX.Element | JSX.Element[]
@@ -20,9 +21,7 @@ export const Layout: React.FC<Props> = ({children, ...otherProps})=>{
           }
         </section>
       </main>
-      <footer className="bg-primaryRed col-start-1 col-end-13 row-start-3 row-end-4 z-30">
-        ESTE ES EL FOOTER
-      </footer>
+      <Footer className="col-start-1 col-end-13 row-start-3 row-end-4 z-30" />
     </div>
   )
 }
