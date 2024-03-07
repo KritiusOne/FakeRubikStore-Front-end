@@ -7,7 +7,7 @@ interface Props extends HTMLAttributes<HTMLButtonElement> {
 }
 export const OptionButton: React.FC<Props> = ({title, Icon,...props})=>{
   return (
-    <button {...props} className={`w-full flex text-center text-md text-primaryRed ${props.className} gap-4 py-2 px-4 hover:bg-primaryRed hover:text-bgLight`} >
+    <button {...props} className={`w-full flex text-center text-md text-primaryRed gap-4 py-2 px-4 hover:bg-primaryRed hover:text-bgLight ${props.className}`} >
       <Icon />
       <span> {title} </span>
     </button>
