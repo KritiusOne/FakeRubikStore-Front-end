@@ -4,7 +4,7 @@ import { NavegationMenuHeader } from "./NavegationMenuHeader"
 import { Footer } from "./Footer"
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
-  children: JSX.Element | JSX.Element[]
+  children: JSX.Element | JSX.Element[] | string
 }
 export const Layout: React.FC<Props> = ({children, ...otherProps})=>{
   return (

@@ -5,7 +5,7 @@ function App() {
 
   return (
     <Layout>
-      <div><h1>HOLA MUNDO</h1></div>
+      <div className='h-[600vh]'><h1>HOLA MUNDO</h1></div>
     </Layout>
   )
 }
