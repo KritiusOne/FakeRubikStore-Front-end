@@ -7,7 +7,7 @@ export const PUBLIC_ROUTES = {
   ABOUT: "/about-us",
   LOGIN: "/login",
   SINGIN: "/signin",
-  404: "/*"
+  404: "*"
 }
 export const PRIVATE_USER_ROUTES = {
   PROFILE_CONFIG: "/profile",
