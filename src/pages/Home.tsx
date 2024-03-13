@@ -11,7 +11,7 @@ export const Home: React.FC = ()=>{
   }, [])
   return (
     <Layout>
-      <main className="p-b-5 px-10 flex flex-col justify-around items-center">
+      <main className="p-b-5 px-4 flex flex-col justify-around items-center">
         <Hero />
         <BestProductsSection /> 
       </main>

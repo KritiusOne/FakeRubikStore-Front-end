@@ -19,7 +19,7 @@ export const AsideMenu: React.FC<Props> = ({...props})=>{
       <ExpandedLogo height="80" width="80" FillColor="#5A0001" Title="Fake Rubik Store" className="text-3xl w-full flex flex-col-reverse justify-normal items-center text-primaryRed" />
       <ButtonCollection className="w-full flex flex-col justify-center items-start">
         <OptionButton Icon={CartIcon} title="Carrito de compras" />
-        <OptionButton Icon={UserIcon} title="Usuario" />
+        <OptionButton Icon={UserIcon} title="Iniciar Sesión" />
         <OptionButton Icon={CartIcon} title="Promociones" />
         <OptionButton Icon={ForYouIcon} title="Recomendados para ti" />
       </ButtonCollection>
