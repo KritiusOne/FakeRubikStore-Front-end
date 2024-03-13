@@ -1,36 +1,60 @@
 import { HTMLAttributes, useState } from "react"
 import { CardProduct } from "./CardProduct"
 import { useProductStorage } from "@/zustand/ProductStorage"
+import { Product } from "@/types/ProductsTypes"
 
 interface CarrouselProductsProps extends HTMLAttributes<HTMLElement> {
 
 }
 export const CarrouselProducts: React.FC<CarrouselProductsProps> = ({ ...props }) => {
   const productsCarousel = useProductStorage(state => state.BestProducts)
-  const [indexSelected, setIndexSelected] = useState<number[]>([0, 1, 2, 3, 4])
+  const [indexSelected, setIndexSelected] = useState<number[]>([0, 1, 2, 3])
+  const [ProductSelected, setProductSelected] = useState<Product[]>(productsCarousel.slice(0, productsCarousel.length/2))
   const next = () => {
-    const condition = productsCarousel.length > indexSelected[4] + 1
+    const condition = productsCarousel.length > indexSelected[3] + 1
     if (condition){
       const newState = indexSelected.slice(1, indexSelected.length)
-      newState.push(indexSelected[4] + 1)
+      newState.push(indexSelected[3] + 1)
+      const newSelectedProducts: Product[] = []
+      for (const key of newState) {
+        newSelectedProducts.push(productsCarousel[key])
+      }
       setIndexSelected(newState)
+      setProductSelected(newSelectedProducts)
     }else{
       const newState = indexSelected.slice(1, indexSelected.length)
       newState.push(0)
+      const newSelectedProducts: Product[] = []
+      for (const key of newState) {
+        newSelectedProducts.push(productsCarousel[key])
+      }
       setIndexSelected(newState)
+      setProductSelected(newSelectedProducts)
     }
   }
   const previous = () => {
     const condition = indexSelected[0] == 0 
     if (condition){
-      const newState = indexSelected.slice(0, indexSelected.length - 1)
-      newState.push(10)
-      console.log(newState)
+      const newState = [...indexSelected]
+      newState.pop()
+      newState.unshift(9)
+      const newSelectedProducts:Product[] = []
+      for (const key of newState) {
+        newSelectedProducts.push(productsCarousel[key])
+      }
+
       setIndexSelected(newState)
+      setProductSelected(newSelectedProducts)
     }else{
-      const newState = indexSelected.slice(0, indexSelected.length - 1)
-      newState.push(indexSelected[0] - 1)
+      const newState = [...indexSelected]
+      newState.pop()
+      newState.unshift(indexSelected[0] - 1)
+      const newSelectedProducts:Product[] = []
+      for (const key of newState) {
+        newSelectedProducts.push(productsCarousel[key])
+      }
       setIndexSelected(newState)
+      setProductSelected(newSelectedProducts)
     }
   }
   return (
@@ -44,9 +68,12 @@ export const CarrouselProducts: React.FC<CarrouselProductsProps> = ({ ...props }
         </span>
       </button>
       <div {...props} className="flex flex-col relative w-full">
-        <div className="flex flex-row justify-center items-center gap-3">
-          {
-            productsCarousel.map((product, i) => !indexSelected.includes(i) ? <CardProduct title={product.name} categories={"NO"} originalPrice={product.price} price={product.price} priceOff={0} thumbnail={product.thumbnail} key={product.id} className="text-primaryRed" /> : null)
+        <div className={`flex flex-row justify-center items-center gap-3`}>
+        {
+            ProductSelected.length != 0 ? ProductSelected.map((product) => <CardProduct title={product.name} categories={"NO"} originalPrice={product.price} price={product.price} priceOff={0} thumbnail={product.thumbnail} key={product.id} className="text-primaryRed" />)
+            : 
+            productsCarousel.map((product, i) => indexSelected.includes(i) ?
+            <CardProduct title={product.name} categories={"NO"} originalPrice={product.price} price={product.price} priceOff={0} thumbnail={product.thumbnail} key={product.id} className="text-primaryRed" /> : null)
           }
         </div>
 
