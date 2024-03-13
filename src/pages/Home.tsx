@@ -1,32 +1,19 @@
+import { BestProductsSection } from "@/components/BestProductsSection";
 import { Hero } from "@/components/Hero";
 import { Layout } from "@/components/Layout"
-import { CardProduct } from "@/components/ui/CardProduct";
 import response from "@/lib/mocks/products.json"
-import { useEffect, useState } from "react"
-interface MockProducts {
-  id:                 number;
-  title:              string;
-  description:        string;
-  price:              number;
-  discountPercentage: number;
-  rating:             number;
-  stock:              number;
-  brand:              string;
-  category:           string;
-  thumbnail:          string;
-  images:             string[];
-}
+import { useProductStorage } from "@/zustand/ProductStorage";
+import { useEffect } from "react";
 export const Home: React.FC = ()=>{
-  const [products, setProducts] = useState<MockProducts[] | null>(null)
+  const products = useProductStorage()
   useEffect(()=>{
-    const newProducts = response.products
-    setProducts(newProducts)
+    products.getProductsMock(response.products)
   }, [])
-  console.log(products)
   return (
     <Layout>
-      <main className="p-b-5 px-10">
+      <main className="p-b-5 px-10 flex flex-col justify-around items-center">
         <Hero />
+        <BestProductsSection /> 
       </main>
     </Layout>
   )
