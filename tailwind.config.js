@@ -14,7 +14,8 @@ module.exports = {
         "bgDark": "#22181C",
         "bgLight": "#D9D9D9",
         "primaryRed": "#5A0001",
-        "tomato": "#F13030"
+        "tomato": "#F13030",
+        "green": "#0A7510"
       },
       fontFamily: {
         "oswald": ["Oswald Variable", "monospace", "sans-serif"]
