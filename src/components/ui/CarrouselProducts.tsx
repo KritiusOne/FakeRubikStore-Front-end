@@ -8,14 +8,15 @@ interface CarrouselProductsProps extends HTMLAttributes<HTMLElement> {
 }
 export const CarrouselProducts: React.FC<CarrouselProductsProps> = ({ ...props }) => {
   const productsCarousel = useProductStorage(state => state.BestProducts)
-  const [indexSelected, setIndexSelected] = useState<number[]>([0, 1, 2])
+  const [indexSelected, setIndexSelected] = useState<number[]>(window.innerWidth >= 900 ?[0, 1, 2] : [0])
   const [ProductSelected, setProductSelected] = useState<Product[]>(productsCarousel.slice(0, productsCarousel.length/2))
   const [animation, setAnimation] = useState("")
   const next = () => {
-    const condition = productsCarousel.length > indexSelected[2] + 1
+    const condition = productsCarousel.length > indexSelected[indexSelected.length - 1] + 1
     if (condition){
-      const newState = indexSelected.slice(1, indexSelected.length)
-      newState.push(indexSelected[2] + 1)
+      const newState = [...indexSelected]
+      newState.shift()
+      newState.push(indexSelected[indexSelected.length - 1] + 1)
       const newSelectedProducts: Product[] = []
       for (const key of newState) {
         newSelectedProducts.push(productsCarousel[key])
@@ -45,7 +46,6 @@ export const CarrouselProducts: React.FC<CarrouselProductsProps> = ({ ...props }
       for (const key of newState) {
         newSelectedProducts.push(productsCarousel[key])
       }
-
       setIndexSelected(newState)
       setProductSelected(newSelectedProducts)
     }else{
@@ -72,12 +72,12 @@ export const CarrouselProducts: React.FC<CarrouselProductsProps> = ({ ...props }
         </span>
       </button>
       <div {...props} className="flex flex-col relative w-full">
-        <div className={`flex flex-row justify-center items-center gap-3`}>
+        <div className={`flex flex-row justify-center items-center gap-3 overflow-hidden`}>
         {
             ProductSelected.length != 0 ? ProductSelected.map((product) => <CardProduct title={product.name} categories={"NO"} originalPrice={product.price} price={product.price} priceOff={0} thumbnail={product.thumbnail} key={product.id} className={`text-primaryRed ${animation == 'right' ? 'slide-in-right' : animation == 'left' ? 'slide-in-left' : ''}`} />)
             : 
             productsCarousel.map((product, i) => indexSelected.includes(i) ?
-            <CardProduct title={product.name} categories={"NO"} originalPrice={product.price} price={product.price} priceOff={0} thumbnail={product.thumbnail} key={product.id} className={`text-primaryRed ${animation == 'right' ? 'slide-in-right' : animation == 'left' ? 'slide-in-left' : ''}`} /> : null)
+            <CardProduct title={product.name} categories={"NO"} originalPrice={product.price} price={product.price} priceOff={0} thumbnail={product.thumbnail} key={product.id} className={`text-primaryRed `} /> : null)
           }
         </div>
 

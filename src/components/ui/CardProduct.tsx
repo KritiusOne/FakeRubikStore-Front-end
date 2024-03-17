@@ -1,5 +1,4 @@
 import { HTMLAttributes } from "react"
-import { Badge } from "./Badge"
 import { Button } from "./Button"
 import { CartIcon } from "./icons/CartIcon"
 import { ArrowRightIcon } from "./icons/ArrowRightIcon"
@@ -17,7 +16,6 @@ export const CardProduct: React.FC<Props> = ({title, thumbnail, price, categorie
     <article {...props} className={`relative flex flex-col justify-center items-center bg-bgLight gap-2 rounded-md overflow-hidden  ${props.className}`}>
       <header className="w-full flex-grow"> <img className="w-full h-full aspect-video" src={thumbnail} alt={`Miniatura del producto ${title}`} /> </header>
       <h3 className="font-semibold text-center text-xl text-pretty px-3"> {title} </h3>
-
       <section className="flex flex-row justify-center items-center gap-4">
         {
           price == originalPrice ? <h2 className="font-bold text-xl text-pretty text-center text-primaryRed"> ${originalPrice} </h2> :
