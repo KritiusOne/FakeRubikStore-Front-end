@@ -13,6 +13,7 @@ export const Hero: React.FC<Props> = ({...props})=>{
   const [selectedImg, setSelectedImage] = useState(imgs[0])
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [loaded, setLoaded] = useState(false)
+  
   useEffect(()=>{
     const interval = setInterval(() => {
       selectNewImage(selectedIndex, imgs);
@@ -43,7 +44,7 @@ export const Hero: React.FC<Props> = ({...props})=>{
     <section aria-label="Hero" className="p-4 w-full h-full flex flex-col justify-center gap-5" {...props} >
       {/*Esta imagen se cambia por el carrusel */}
       <Carrousel imgCarrousel={getImageURL(selectedImg)} previous={previous} next={next}/>
-      <div className="flex flex-col md:flex-row justify-around items-center w-full gap-4"> 
+      <div className="flex flex-col lg:flex-row justify-around items-center w-full gap-4 px-5"> 
         <Card Icon={CategoryIcon} buttonName="Buscar por categorias" title="Nuestras categorias" handleClick={handleTesting}/>
         <Card title="Mejores Productos" buttonName="Mejor Rankeados" Icon={StartIcon} handleClick={handleTesting}/>
         <Card Icon={HeartIcon} buttonName="Ver Favoritos" handleClick={handleTesting} title="Tus Favoritos" />
