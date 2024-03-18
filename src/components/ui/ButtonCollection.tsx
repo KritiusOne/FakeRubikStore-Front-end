@@ -5,7 +5,7 @@ interface Props extends HTMLAttributes<HTMLElement> {
 }
 export const ButtonCollection: React.FC<Props> = ({children, ...props})=>{
   return (
-    <section {...props} className={`w-full flex flex-col justify-center items-start ${props.className} gap-2`}>
+    <section {...props} className={`flex flex-row justify-center items-start ${props.className} gap-2`}>
       {
         children
       }
