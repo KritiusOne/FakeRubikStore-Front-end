@@ -10,16 +10,22 @@ import { HistoryIcon } from "./ui/icons/HistoryIcon"
 import { FilterIcon } from "./ui/icons/FilterIcon"
 import { WCAIcon } from "./ui/icons/WCAIcon"
 import { DeliveryIcon } from "./ui/icons/DeliveriesIcon"
+import { useNavigate } from "react-router-dom"
+import { PUBLIC_ROUTES } from "@/routes/TypesRoutes"
 
 interface Props extends HTMLAttributes<HTMLElement> {}
 
 export const AsideMenu: React.FC<Props> = ({...props})=>{
+  const navegate = useNavigate()
+  const navegationOptions = (URL: string)=>{
+    navegate(URL)
+  }
+  //esto va a ser cambiado por el carrtio
   return (
     <aside  {...props} className={`py-4 flex flex-col justify-between items-center ${props.className}`}>
-      <ExpandedLogo height="80" width="80" FillColor="#5A0001" Title="Fake Rubik Store" className="text-3xl w-full flex flex-col-reverse justify-normal items-center text-primaryRed" />
       <ButtonCollection className="w-full flex flex-col justify-center items-start">
         <OptionButton Icon={CartIcon} title="Carrito de compras" />
-        <OptionButton Icon={UserIcon} title="Iniciar Sesión" />
+        <OptionButton onClick={()=> navegationOptions(PUBLIC_ROUTES.LOGIN)} Icon={UserIcon} title="Iniciar Sesión" />
         <OptionButton Icon={CartIcon} title="Promociones" />
         <OptionButton Icon={ForYouIcon} title="Recomendados para ti" />
       </ButtonCollection>
