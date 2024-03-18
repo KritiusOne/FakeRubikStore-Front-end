@@ -42,7 +42,6 @@ export const Hero: React.FC<Props> = ({...props})=>{
   }
   return (
     <section aria-label="Hero" className="p-4 w-full h-full flex flex-col justify-center gap-5" {...props} >
-      {/*Esta imagen se cambia por el carrusel */}
       <Carrousel imgCarrousel={getImageURL(selectedImg)} previous={previous} next={next}/>
       <div className="flex flex-col lg:flex-row justify-around items-center w-full gap-4 px-5"> 
         <Card Icon={CategoryIcon} buttonName="Buscar por categorias" title="Nuestras categorias" handleClick={handleTesting}/>
