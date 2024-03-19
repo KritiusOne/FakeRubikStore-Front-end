@@ -1,15 +1,11 @@
 import { HTMLAttributes} from "react"
-import { AsideMenu } from "./AsideMenu"
 import { SearchBar } from "./SearchBar"
 import { Footer } from "./Footer"
-import { Link } from "react-router-dom"
-import { PUBLIC_ROUTES } from "@/routes/TypesRoutes"
 import { OptionButton } from "./ui/OptionButton"
-import { CartIcon } from "./ui/icons/CartIcon"
 import { FilterIcon } from "./ui/icons/FilterIcon"
 import { HistoryIcon } from "./ui/icons/HistoryIcon"
-import { UserIcon } from "./ui/icons/UserIcon"
 import { WCAIcon } from "./ui/icons/WCAIcon"
+import { HMenu } from "./ui/icons/HMenu"
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   children: JSX.Element | JSX.Element[] | string
@@ -17,11 +13,12 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 export const Layout: React.FC<Props> = ({children, ...otherProps})=>{
 
   return (
-    <div className="bg-bgDark min-w-screen min-h-screen
-    flex flex-col justify-center items-start font-oswald" {...otherProps}>
-      <header className="w-full bg-bgLight sticky top-0 z-30">
-        <SearchBar />
-        <ul className="flex flex-row justify-center items-center">
+    <div {...otherProps} className={`bg-bgDark min-w-screen min-h-screen
+    flex flex-col justify-center items-start font-oswald ${otherProps.className}`} >
+      <header className="w-full bg-bgLight sticky top-0 z-30 flex flex-row justify-between items-center py-3 px-4 md:flex-col md:justify-center overflow-hidden">
+        <HMenu className="block md:hidden cursor-pointer text-primaryRed" />
+        <SearchBar className="w-full" />
+        <ul className="md:flex flex-row justify-center items-center hidden">
           <li>
             <OptionButton title="WCA" Icon={WCAIcon} />
           </li>
