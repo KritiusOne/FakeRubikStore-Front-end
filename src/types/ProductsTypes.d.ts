@@ -1,12 +1,10 @@
 export interface Product {
-  id: number; 
   name:        string;
   price:       number;
   stock:       number;
   image:       string;
   description: string;
   thumbnail:   string;
-  rating:      number;
 }
 export interface ProductMock {
   id:                 number;
@@ -20,4 +18,20 @@ export interface ProductMock {
   category:           string;
   thumbnail:          string;
   images:             string[];
+}
+export interface MetaData {
+  totalCount:      number;
+  pageSize:        number;
+  currentPage:     number;
+  totalPage:       number;
+  hasNextPage:     boolean;
+  hasPreviousPage: boolean;
+  nextPageURL:     string;
+  previousPageURL: string;
+}
+export interface Response {
+  metaData:   MetaData;
+  statusCode: number;
+  msg:        string;
+  response:   Product[];
 }
