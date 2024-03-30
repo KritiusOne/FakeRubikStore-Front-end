@@ -2,7 +2,7 @@ import { User } from "@/types/UserTypes";
 import { create } from "zustand";
 interface UserSesion extends User {
   activeSesion: boolean
-  setUser: () => void
+  setUser: (newUser: User) => void
 }
 export const useUserSesion = create<UserSesion>((set)=>({
   id: 0,
@@ -12,14 +12,16 @@ export const useUserSesion = create<UserSesion>((set)=>({
   secondName: "",
   email: "",
   phone: "",
+  password: "",
   activeSesion: false,
-  setUser: ()=>set((state)=>({
-    id:state.id,
-    idRole: state.idRole,
-    idAddress: state.idAddress,
-    email: state.email,
-    name: state.name,
-    secondName: state.secondName,
-    phone: state.phone,
+  setUser: (newUser: User)=>set(()=>({
+    id:newUser.id,
+    idRole: newUser.idRole,
+    idAddress: newUser.idAddress,
+    email: newUser.email,
+    name: newUser.name,
+    secondName: newUser.secondName,
+    phone: newUser.phone,
+    activeSesion: true
   }))
 }))
