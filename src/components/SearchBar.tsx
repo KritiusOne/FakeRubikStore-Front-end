@@ -7,11 +7,13 @@ import { UserIcon } from "./ui/icons/UserIcon"
 import { CartIcon } from "./ui/icons/CartIcon"
 import { OptionButton } from "./ui/OptionButton"
 import { ButtonCollection } from "./ui/ButtonCollection"
+import { useUserSesion } from "@/zustand/UserStorage"
 
 interface Props extends HTMLAttributes<HTMLElement> {}
 
 export const SearchBar: React.FC<Props> = ()=>{
   const navegate = useNavigate()
+  const User = useUserSesion()
   const handleClickLogo = (URL: string)=>{
     navegate(URL)
   }
@@ -25,7 +27,7 @@ export const SearchBar: React.FC<Props> = ()=>{
         </button>
       </nav>
       <ButtonCollection className="hidden md:flex flex-row text-sm">
-        <Link className="text-bgLight bg-primaryRed px-4 py-2 rounded-lg flex flex-row gap-2 hover:bg-bgLight hover:text-primaryRed border-2 border-primaryRed" to={PUBLIC_ROUTES.LOGIN}> <UserIcon /> Iniciar sesión  </Link>
+        <Link className="text-bgLight bg-primaryRed px-4 py-2 rounded-lg flex flex-row gap-2 hover:bg-bgLight hover:text-primaryRed border-2 border-primaryRed" to={PUBLIC_ROUTES.LOGIN}> <UserIcon /> { User.activeSesion ? User.name : "Iniciar Sesion" }  </Link>
         <OptionButton Icon={CartIcon} title="Ver Carrito" className="rounded-lg" />
       </ButtonCollection>
     </div>
