@@ -3,7 +3,7 @@ export const PUBLIC_ROUTES = {
   HOME: "/",
   SEARCH: "/:product-name",
   PRODUCTS: "/products",
-  VIEW_PRODUCT: "/products/:id",
+  VIEW_PRODUCT: "/products/details/:id",
   ABOUT: "/about-us",
   LOGIN: "/login",
   SINGIN: "/signin",
