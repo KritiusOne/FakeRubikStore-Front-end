@@ -74,10 +74,14 @@ export const CarrouselProducts: React.FC<CarrouselProductsProps> = ({ ...props }
       <div {...props} className="flex flex-col relative w-full overflow-hidden">
         <div className={`flex flex-row justify-center items-center gap-3 overflow-hidden`}>
         {
-            ProductSelected.length != 0 ? ProductSelected.map((product, i) => <CardProduct title={product.name} categories={"NO"} originalPrice={product.price} price={product.price} priceOff={0} thumbnail={product.thumbnail} key={i} className={`text-primaryRed ${animation == 'right' ? 'slide-in-right' : animation == 'left' ? 'slide-in-left' : ''}`} />) 
+            ProductSelected.length != 0 ? ProductSelected.map((product, i) => <CardProduct key={i} title={product.name} price={product.price} thumbnail={product.thumbnail} 
+            description={product.description} image={product.image} 
+            stock={product.stock} className={`text-primaryRed ${animation == 'right' ? 'slide-in-right' : animation == 'left' ? 'slide-in-left' : ''}`} />) 
             : 
             productsCarousel.map((product, i) => indexSelected.includes(i) ?
-            <CardProduct title={product.name} categories={"NO"} originalPrice={product.price} price={product.price} priceOff={0} thumbnail={product.thumbnail} key={i} className={`text-primaryRed `} /> : null)
+            <CardProduct key={i} title={product.name} price={product.price} thumbnail={product.thumbnail} 
+            description={product.description} image={product.image} 
+            stock={product.stock} className={`text-primaryRed `} /> : null)
           }
         </div>
 
