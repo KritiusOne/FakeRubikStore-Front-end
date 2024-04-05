@@ -15,7 +15,13 @@ interface Props extends HTMLAttributes<HTMLElement> {
 }
 export const CardProduct: React.FC<Props> = ({ title, thumbnail, price, image, description, stock, ...props }) => {
   const baseURL = PUBLIC_ROUTES.VIEW_PRODUCT.split(":")
-  const finalURL = `${baseURL[0]}${baseURL[1]}?${title}-${thumbnail}-${price}-${image}-${description}-${stock}`
+  const urlParams = new URLSearchParams()
+  urlParams.set("title", title)
+  urlParams.set("image", image)
+  urlParams.set("thumbnail", thumbnail)
+  urlParams.set("price", price.toString())
+  urlParams.set("description", description)
+  const finalURL = `${baseURL[0]}${baseURL[1]}?${urlParams.toString()}`
   const navegate = useNavigate()
   return (
     <article {...props} className={`relative flex flex-col justify-center items-center bg-bgLight gap-2 rounded-md overflow-hidden w-full ${props.className}`}>
