@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom"
 import { PUBLIC_ROUTES } from "@/routes/TypesRoutes"
 
 interface Props extends HTMLAttributes<HTMLElement> {
+  productId: number
   title: string
   thumbnail: string
   price: number
@@ -13,12 +14,11 @@ interface Props extends HTMLAttributes<HTMLElement> {
   description: string
   stock: number
 }
-export const CardProduct: React.FC<Props> = ({ title, thumbnail, price, image, description, stock, ...props }) => {
+export const CardProduct: React.FC<Props> = ({ productId, title, thumbnail, price, image, description, stock, ...props }) => {
   const baseURL = PUBLIC_ROUTES.VIEW_PRODUCT.split(":")
   const urlParams = new URLSearchParams()
   urlParams.set("title", title)
-  urlParams.set("image", image)
-  urlParams.set("thumbnail", thumbnail)
+  urlParams.set("id", productId.toString())
   urlParams.set("price", price.toString())
   urlParams.set("description", description)
   const finalURL = `${baseURL[0]}${baseURL[1]}?${urlParams.toString()}`

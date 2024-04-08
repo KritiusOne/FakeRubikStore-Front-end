@@ -74,12 +74,12 @@ export const CarrouselProducts: React.FC<CarrouselProductsProps> = ({ ...props }
       <div {...props} className="flex flex-col relative w-full overflow-hidden">
         <div className={`flex flex-row justify-center items-center gap-3 overflow-hidden`}>
         {
-            ProductSelected.length != 0 ? ProductSelected.map((product, i) => <CardProduct key={i} title={product.name} price={product.price} thumbnail={product.thumbnail} 
+            ProductSelected.length != 0 ? ProductSelected.map((product) => <CardProduct key={product.id} productId={product.id} title={product.name} price={product.price} thumbnail={product.thumbnail} 
             description={product.description} image={product.image} 
             stock={product.stock} className={`text-primaryRed ${animation == 'right' ? 'slide-in-right' : animation == 'left' ? 'slide-in-left' : ''}`} />) 
             : 
             productsCarousel.map((product, i) => indexSelected.includes(i) ?
-            <CardProduct key={i} title={product.name} price={product.price} thumbnail={product.thumbnail} 
+            <CardProduct productId={product.id} key={product.id} title={product.name} price={product.price} thumbnail={product.thumbnail} 
             description={product.description} image={product.image} 
             stock={product.stock} className={`text-primaryRed `} /> : null)
           }
