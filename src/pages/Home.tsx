@@ -21,9 +21,11 @@ export const Home: React.FC = ()=>{
           <h2 className="text-2xl md:text-4xl text-center text-bgLight font-bold">Cubos de Rubik</h2>
           <div className="Home__products--section w-full">
             {
-              products.AllProducts.map((product)=> <CardProduct key={product.id} title={product.name} price={product.price} thumbnail={product.thumbnail} 
-               description={product.description} image={product.image} 
-               stock={product.stock} productId={product.id}/>)
+              products.AllProducts.map((product)=> <CardProduct key={product.id}
+              price={product.price}
+              productId={product.id}
+              thumbnail={product.thumbnail}
+              title={product.name} />)
             }
           </div>
         </div>
