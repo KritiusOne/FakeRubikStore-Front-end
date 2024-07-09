@@ -2,10 +2,18 @@ export interface Product {
   id:          number;
   name:        string;
   price:       number;
-  stock:       number;
-  image:       string;
-  description: string;
   thumbnail:   string;
+}
+export interface AllDataProduct {
+  reviews:           Review[];
+  productCategories: any[];
+  id:                number;
+  name:              string;
+  price:             number;
+  stock:             number;
+  image:             string;
+  description:       string;
+  thumbnail:         string;
 }
 export interface ProductMock {
   id:                 number;
@@ -35,4 +43,10 @@ export interface Response {
   statusCode: number;
   msg:        string;
   response:   Product[];
+}
+export interface Review {
+  productId:   number;
+  userId:      number;
+  description: string;
+  rate:        number;
 }
