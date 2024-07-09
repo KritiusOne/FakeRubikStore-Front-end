@@ -34,7 +34,7 @@ export const SingIn: React.FC = () => {
             <label className="text-xl"> Confirmar contraseña </label>
             <input value={secondPassword} onChange={(e) => setSecondPassword(e.target.value)} className='w-full outline-none rounded-3xl px-4 bg-bgLight focus:bg-white text-balck border-2 text-black' type="password" />
           </div>
-          <Button onClick={() => console.log("SI PRESIONE")} className='bg-tomato outline-none hover:bg-green px-2 py-1 rounded-md' title="Registrarse" />
+          <Button size="extraLarge" primary={true} onClick={() => console.log("SI PRESIONE")} className='bg-tomato border-tomato outline-none hover:bg-green hover:border-green px-2 py-1 rounded-md'> <span>Registrarse</span> </Button>
         </form>
       </div>
     </Layout>

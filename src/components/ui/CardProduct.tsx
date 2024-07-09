@@ -10,17 +10,11 @@ interface Props extends HTMLAttributes<HTMLElement> {
   title: string
   thumbnail: string
   price: number
-  image: string
-  description: string
-  stock: number
 }
-export const CardProduct: React.FC<Props> = ({ productId, title, thumbnail, price, image, description, stock, ...props }) => {
+export const CardProduct: React.FC<Props> = ({ productId, title, thumbnail, price, ...props }) => {
   const baseURL = PUBLIC_ROUTES.VIEW_PRODUCT.split(":")
   const urlParams = new URLSearchParams()
-  urlParams.set("title", title)
   urlParams.set("id", productId.toString())
-  urlParams.set("price", price.toString())
-  urlParams.set("description", description)
   const finalURL = `${baseURL[0]}${baseURL[1]}?${urlParams.toString()}`
   const navegate = useNavigate()
   return (
@@ -31,9 +25,9 @@ export const CardProduct: React.FC<Props> = ({ productId, title, thumbnail, pric
         <h2 className="font-bold text-xl text-pretty text-center text-primaryRed">  ${price} </h2>
       </section>
       <footer className="flex flex-col md:flex-row justify-center items-center w-full gap-3 pb-2 px-2">
-        <Button title="Add cart" className={"max-w-32 flex text-center text-md rounded-md px-3 bg-primaryRed justify-between gap-2 items-center hover:bg-tomato transition-colors ease-in-out"} Icon={CartIcon} />
-        <Button title="Ver" className="max-w-32 flex text-center text-md rounded-md px-3 justify-between gap-2 items-center bg-bgDark hover:bg-green transition-colors ease-in-out" Icon={ArrowRightIcon}
-          onClick={() => navegate(`${finalURL}`)} />
+        <Button size="extraLarge" primary={true} className={"max-w-32 flex text-center text-md rounded-md justify-between gap-2 items-center hover:border-tomato hover:bg-tomato transition-colors ease-in-out text-bgLight"}> <span className="text-sm">Add Cart</span> <CartIcon /></Button>
+        <Button size="large" className="max-w-32 flex text-center text-md rounded-md px-3 justify-between gap-2 items-center hover:border-green hover:bg-green transition-colors ease-in-out text-bgLight" 
+          onClick={() => navegate(`${finalURL}`)} > <span className="text-md">Ver</span> <ArrowRightIcon /> </Button>
       </footer>
     </article>
   )

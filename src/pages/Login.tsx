@@ -50,7 +50,7 @@ export function Login() {
           <label className="text-xl"> Contraseña </label>
           <input value={password} onChange={(e) => setPassword(e.target.value)} className='w-full outline-none rounded-3xl px-4 bg-bgLight focus:bg-white text-balck border-2 text-black' type="password" />
         </div>
-        <Button onClick={handleClck} className='bg-tomato outline-none hover:bg-green' title="Iniciar sesion" />
+        <Button primary={true} size="extraLarge" onClick={ ()=> handleClck} className='outline-none hover:bg-green'> <span>Iniciar sesion</span> </Button>
         <Link className='bg-tomato outline-none hover:bg-green text-center' to={PUBLIC_ROUTES.SINGIN}> Registrarse </Link>
       </form>
     </Layout>
