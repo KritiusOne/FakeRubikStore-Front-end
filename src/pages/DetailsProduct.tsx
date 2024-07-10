@@ -1,5 +1,6 @@
 import { Layout } from "@/components/Layout"
 import { Button } from "@/components/ui/Button"
+import { Comment } from "@/components/ui/Comment"
 import { Divider } from "@/components/ui/Divider"
 import { CartIcon } from "@/components/ui/icons/CartIcon"
 import { ProgressBar } from "@/components/ui/Progressbar"
@@ -83,8 +84,10 @@ export const DetailsProduct: React.FC = () => {
                 1 <IconStarFilled height={16} className="text-yellow-300" />
               </div>
             </div>
-            <div>
-              aqui van los comentarios
+            <div className="flex flex-col justify-start items-center">
+              {
+                productDatails && productDatails?.reviews.map((review)=> <Comment description={review.description} rate={review.rate} key={review.userId} />)
+              }
             </div>
           </div>
         </section>
