@@ -33,7 +33,7 @@ export const ProgressBar: React.FC<Props> = ({reviews, typeBar}) => {
   }, [reviews])
   return (
     <div className="rounded-md h-1 w-full bg-bgDark dark:bg-neutral-600">
-      <div className="rounded-md h-1 bg-yellow-500" style={{ width: percent }}></div>
+      <div className={`rounded-md h-1 ${typeBar == "1" ? "bg-primaryRed" : typeBar == "2" ? "bg-orange-500" : typeBar == "3" ? "bg-yellow-300" : typeBar == "4" ? "bg-green" : "bg-blue-500"}`} style={{ width: percent }}></div>
     </div>
   )
 }

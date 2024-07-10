@@ -54,7 +54,7 @@ export const DetailsProduct: React.FC = () => {
         <section className="flex flex-col justify-center items-center w-full">
           <h2 className="text-2xl text-pretty">Opiniones del producto</h2>
           <div className="grid grid-cols-2 gap-2 justify-center items-center w-full">
-            <div className="max-w-96 flex flex-col px-5">
+            <div className="max-w-full flex flex-col justify-end px-5">
               <div className="flex flex-row justify-center items-center gap-4">
                 <h3 className="text-3xl"> {numStars.toFixed(1)} </h3>
                 <div className="flex flex-col">
@@ -62,7 +62,7 @@ export const DetailsProduct: React.FC = () => {
                   <span> {productDatails?.reviews.length} Calificacion(es) </span>
                 </div>
               </div>
-              <div className="flex flex-row justify-center items-center gap-2 flex-1">
+              <div className="flex flex-row justify-end items-center gap-2 flex-1">
                 <ProgressBar typeBar="5" reviews={productDatails?.reviews} />
                 5 <IconStarFilled className="text-yellow-300" height={16} />
               </div>
