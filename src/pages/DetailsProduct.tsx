@@ -19,7 +19,6 @@ export const DetailsProduct: React.FC = () => {
     const getProduct = async () => {
       const URL = `${import.meta.env.VITE_API_URL_PRODUCT_BY_ID}${params.get("id")}`
       const response = await fetch(URL)
-      console.log(response)
       if (response.ok) {
         const productData: ResponseBase<AllDataProduct> = await response.json()
         const sumRate = productData.response.reviews.reduce((prev, current) => current.rate + prev, 0)
@@ -37,7 +36,7 @@ export const DetailsProduct: React.FC = () => {
           <section>
             <img src={productDatails?.image} alt={`Imagen del ${productDatails?.name}`} />
           </section>
-          <section className="flex flex-col justify-center items-center px-4 text-center">
+          <section className="flex flex-col justify-center items-center px-4 text-center mt-4 md:mt-0">
             <h1 className="text-3xl w-full"> {productDatails?.name} </h1>
             <strong className="text-xl"> {productDatails?.price} </strong>
             <Stars numStars={numStars} size="large" />
@@ -56,7 +55,7 @@ export const DetailsProduct: React.FC = () => {
           <h2 className="text-2xl text-pretty">Opiniones del producto</h2>
           <div className="grid grid-cols-2 gap-2 justify-center items-center w-full">
             <div className="max-w-full flex flex-col justify-end px-5">
-              <div className="flex flex-row justify-center items-center gap-4">
+              <div className="flex md:flex-row flex-col justify-center items-center md:gap-4 gap-1">
                 <h3 className="text-3xl"> {numStars.toFixed(1)} </h3>
                 <div className="flex flex-col">
                   <Stars numStars={numStars} size="small" />
