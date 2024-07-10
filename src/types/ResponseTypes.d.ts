@@ -3,3 +3,7 @@ export interface ResponseWithToken<T> {
   msg:      string
   response: T
 }
+export interface ResponseBase<T> {
+  msg:      string
+  response: T
+}

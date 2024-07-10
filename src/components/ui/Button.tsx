@@ -1,15 +1,23 @@
-import { IconsProps } from "@/types/ComponentsTypes"
-import { HTMLAttributes } from "react"
-
-interface Props extends HTMLAttributes<HTMLElement> {
-  title: string
-  Icon?: React.FC<IconsProps>
+interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
+  primary?: boolean;
+  size?: 'small' | 'medium' | 'large' | "extraLarge";
+  onClick?: () => void;
 }
-export const Button: React.FC<Props> = ({title, Icon,  ...props})=>{
+export const Button = ({
+  primary = false,
+  size = 'medium', children,
+  ...props
+}: ButtonProps) => {
   return (
-    <button {...props} className={`${props.className}`} >
-    <span className="text-sm text-bgLight py-2"> {title} </span>
-    {Icon != null ? <Icon className="text-bgLight p-0 m-0 w-8 h-8" />: null }
-  </button>
-  )
-}
+    <button
+      {...props}
+      type="button"
+      className={`${primary ? "bg-primaryRed text-white font-bold border-primaryRed" : "bg-transparent border-black text-black"} border-2 border-solid rounded-md px-3 py-1
+      ${size == "small" ? "min-w-8 max-w-16" : size == "medium" ? "min-w-12 max-w-20" : size == "large" ? "min-w-16 max-w-24": "min-w-20"}
+      ${props.className}`}
+      
+    >
+      {children}
+    </button>
+  );
+};
