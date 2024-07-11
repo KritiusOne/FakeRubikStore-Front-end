@@ -1,7 +1,6 @@
 import { HTMLAttributes, useEffect, useState } from "react"
 import { Card } from "./Card"
 
-//import { OptionButton } from "./ui/OptionButton"
 import { CategoryIcon } from "./ui/icons/CategoryIcon"
 import { StartIcon } from "./ui/icons/StarIcon"
 import { HeartIcon } from "./ui/icons/HeartIcon"
