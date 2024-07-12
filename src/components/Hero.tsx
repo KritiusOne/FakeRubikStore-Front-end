@@ -41,7 +41,7 @@ export const Hero: React.FC<Props> = ({...props})=>{
   }
   return (
     <section aria-label="Hero" className="w-full flex flex-col justify-center items-center gap-5" {...props} >
-      <Carrousel imgCarrousel={getImageURL(selectedImg)} previous={previous} next={next} className="flex flex-row justify-center items-center w-[50%] md:w-full" />
+      <Carrousel imgCarrousel={getImageURL(selectedImg)} previous={previous} next={next} className="flex flex-row justify-center items-center w-[100%] md:w-full" />
       <div className="flex flex-col lg:flex-row justify-around items-center w-full gap-4 px-5"> 
         <Card Icon={CategoryIcon} buttonName="Buscar por categorias" title="Nuestras categorias" handleClick={handleTesting}/>
         <Card title="Mejores Productos" buttonName="Mejor Rankeados" Icon={StartIcon} handleClick={handleTesting}/>
