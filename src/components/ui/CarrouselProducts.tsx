@@ -63,7 +63,7 @@ export const CarrouselProducts: React.FC<CarrouselProductsProps> = ({ ...props }
   }
   return (
     <div className="flex flex-row items-center justify-between px-5 max-w-full">
-      <button type="button" className="z-30 flex items-center justify-center px-4  cursor-pointer group focus:outline-none" data-carousel-prev onClick={previous}>
+      <button type="button" className="flex items-center justify-center px-4  cursor-pointer group focus:outline-none" data-carousel-prev onClick={previous}>
         <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
           <svg className="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
             <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="M5 1 1 5l4 4" />
@@ -75,16 +75,13 @@ export const CarrouselProducts: React.FC<CarrouselProductsProps> = ({ ...props }
         <div className={`flex flex-row justify-center items-center gap-3 overflow-hidden`}>
         {
             ProductSelected.length != 0 ? ProductSelected.map((product) => <CardProduct key={product.id} productId={product.id} title={product.name} price={product.price} thumbnail={product.thumbnail} 
-            description={product.description} image={product.image} 
-            stock={product.stock} className={`text-primaryRed ${animation == 'right' ? 'slide-in-right' : animation == 'left' ? 'slide-in-left' : ''}`} />) 
+             className={`text-primaryRed ${animation == 'right' ? 'slide-in-right' : animation == 'left' ? 'slide-in-left' : ''}`} />) 
             : 
             productsCarousel.map((product, i) => indexSelected.includes(i) ?
             <CardProduct productId={product.id} key={product.id} title={product.name} price={product.price} thumbnail={product.thumbnail} 
-            description={product.description} image={product.image} 
-            stock={product.stock} className={`text-primaryRed `} /> : null)
+            className={`text-primaryRed `} /> : null)
           }
         </div>
-
       </div>
       <button type="button" className="z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next onClick={next}>
         <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
