@@ -11,7 +11,7 @@ interface CarrouselProductsProps extends HTMLAttributes<HTMLElement> {
 export const CarrouselProducts: React.FC<CarrouselProductsProps> = ({ ...props }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const productsCarousel = useProductStorage(state => state.BestProducts)
-  const [numCards, setNumCards] = useState(window.innerWidth <= 600 ? 2 : window.innerWidth <= 830 ? 3 : 4)
+  const [numCards, setNumCards] = useState(window.innerWidth <= 600 ? 2 : window.innerWidth <= 1024 ? 3 : 4)
   const [arrCards, setArrCards] = useState<Product[]>([])
   //const [animation, setAnimation] = useState("")
   const next = () => {
@@ -33,12 +33,21 @@ export const CarrouselProducts: React.FC<CarrouselProductsProps> = ({ ...props }
     }
   }
   const previous = () => {
-    if(currentIndex - 1 + numCards > 0){
+    const newIndex = currentIndex - 1 < 0 ? 9 : currentIndex - 1
+    if(newIndex + numCards > 9){
       const copy = [...productsCarousel]
-      const aux = copy.slice(currentIndex - 1)
-      //por terminar
+      const aux = copy.slice(newIndex)
+      let faltantes = newIndex + numCards - 10
+      let parcialIndex = 0
+      while(faltantes > 0){
+        aux.push(copy[parcialIndex])
+        faltantes--
+        parcialIndex++
+      }
+      setCurrentIndex(newIndex)
+      setArrCards(aux)
     }else{
-      setArrCards(productsCarousel.slice(currentIndex - 1, currentIndex + numCards))
+      setArrCards(productsCarousel.slice(currentIndex - 1, currentIndex - 1+ numCards))
       setCurrentIndex(currentIndex - 1)
     }
     
@@ -48,7 +57,8 @@ export const CarrouselProducts: React.FC<CarrouselProductsProps> = ({ ...props }
     setCurrentIndex(0)
   }
   useEffect(()=>{
-    window.addEventListener("resize", ()=> setNumCards(window.innerWidth <= 600 ? 2 : window.innerWidth <= 830 ? 3 : 4) )
+    window.addEventListener("resize", ()=> setNumCards(window.innerWidth <= 600 ? 2 : window.innerWidth <= 1024 ? 3 : 4) )
+    console.log(window.innerWidth)
   })
   return (
     <div className="flex flex-row items-center justify-between px-5 max-w-full">
@@ -58,13 +68,11 @@ export const CarrouselProducts: React.FC<CarrouselProductsProps> = ({ ...props }
         </span>
       </Button>
       <div {...props} className="flex flex-col relative w-full overflow-hidden">
-        <div className={`flex flex-row justify-center items-center gap-3 overflow-hidden`}>
+        <div className={`flex flex-row justify-center items-center gap-3 overflow-hidden duration-1000 ease-in-out`}>
           {
-            currentIndex == 0 ? productsCarousel.slice(currentIndex, currentIndex + numCards).map(product => <CardProduct productId={product.id} key={product.id} title={product.name} price={product.price} thumbnail={product.thumbnail}
-              className={`text-primaryRed `} /> )
+            currentIndex == 0 ? productsCarousel.slice(currentIndex, currentIndex + numCards).map(product => <CardProduct productId={product.id} key={product.id} title={product.name} price={product.price} thumbnail={product.thumbnail} /> )
               :
-              arrCards.map(product => <CardProduct productId={product.id} key={product.id} title={product.name} price={product.price} thumbnail={product.thumbnail}
-                className={`text-primaryRed `} />)
+              arrCards.map(product => <CardProduct productId={product.id} key={product.id} title={product.name} price={product.price} thumbnail={product.thumbnail} />)
           }
         </div>
       </div>
