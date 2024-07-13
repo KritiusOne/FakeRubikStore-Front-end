@@ -6,26 +6,26 @@ import { CardProduct } from "@/components/ui/CardProduct";
 import { useProductStorage } from "@/zustand/ProductStorage";
 import { useURLStorage } from "@/zustand/URLStorage";
 import { useEffect } from "react";
-export const Home: React.FC = ()=>{
+export const Home: React.FC = () => {
   const products = useProductStorage()
   const url = useURLStorage(urlStorage => urlStorage.Products)
-  useEffect(()=>{
+  useEffect(() => {
     products.getProducts(url)
   }, [])
   return (
     <Layout>
-      <main className="w-full p-b-5 px-4 gap-10 flex flex-col justify-around items-center">
+      <main className="max-w-full p gap-10 flex flex-col justify-around items-center">
         <Hero />
-        <BestProductsSection /> 
+        <BestProductsSection />
         <div className="flex flex-col justify-center gap-2 w-full px-5">
           <h2 className="text-2xl md:text-4xl text-center text-bgLight font-bold">Cubos de Rubik</h2>
-          <div className="Home__products--section w-full">
+          <div className="Home__products--section w-full px-4">
             {
-              products.AllProducts.map((product)=> <CardProduct key={product.id}
-              price={product.price}
-              productId={product.id}
-              thumbnail={product.thumbnail}
-              title={product.name} />)
+              products.AllProducts.map((product) => <CardProduct key={product.id}
+                price={product.price}
+                productId={product.id}
+                thumbnail={product.thumbnail}
+                title={product.name} />)
             }
           </div>
         </div>

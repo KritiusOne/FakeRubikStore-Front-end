@@ -19,7 +19,6 @@ export const useProductStorage = create<ProductStorageTypes>((set, get)=>({
     const response = await fetch(url)
     if(response.ok){
       const res:Response = await response.json()
-      console.log(res)
       set({AllProducts: res.response, BestProducts: res.response.slice(0, 10)})
     }
   }
