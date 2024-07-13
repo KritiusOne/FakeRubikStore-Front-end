@@ -19,7 +19,7 @@ export const Home: React.FC = () => {
         <BestProductsSection />
         <div className="flex flex-col justify-center gap-2 w-full px-5">
           <h2 className="text-2xl md:text-4xl text-center text-bgLight font-bold">Cubos de Rubik</h2>
-          <div className="Home__products--section w-full px-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 w-full px-4">
             {
               products.AllProducts.map((product) => <CardProduct key={product.id}
                 price={product.price}

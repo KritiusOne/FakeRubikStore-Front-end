@@ -32,13 +32,6 @@
 .slide-in-left {
   animation: slideInFromLeft 0.5s ease-out forwards;
 }
-.Home__products--section {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  grid-template-rows: repeat(auto-fit, minmax(150px, 350px));
-  gap: 10px;
-  place-content: center;
-}
 @media (max-width: 520px){
   .Home__products--section{
     grid-template-columns: minmax(200px, 250px);
