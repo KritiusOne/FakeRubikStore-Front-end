@@ -18,7 +18,7 @@ export const CardProduct: React.FC<Props> = ({ productId, title, thumbnail, pric
   const finalURL = `${baseURL[0]}${baseURL[1]}?${urlParams.toString()}`
   const navegate = useNavigate()
   return (
-    <article {...props} className={`relative flex flex-col justify-center items-center bg-bgLight gap-2 rounded-md overflow-hidden w-full ${props.className}`}>
+    <article {...props} className={`relative text-primaryRed  flex flex-col justify-center items-center bg-bgLight gap-2 rounded-md overflow-hidden w-full ${props.className}`}>
       <header className="w-full flex-grow"> <img className="w-full h-full aspect-video" src={thumbnail} alt={`Miniatura del producto ${title}`} /> </header>
       <h3 className="font-semibold text-center text-xl text-pretty px-3"> {title} </h3>
       <section className="flex flex-row justify-center items-center gap-4">
