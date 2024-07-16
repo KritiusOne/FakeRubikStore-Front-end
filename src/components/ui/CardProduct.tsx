@@ -25,7 +25,7 @@ export const CardProduct: React.FC<Props> = ({ productId, title, thumbnail, pric
         <h2 className="font-bold text-xl text-pretty text-center text-primaryRed">  ${price} </h2>
       </section>
       <footer className="flex flex-col md:flex-row justify-center items-center w-full gap-3 pb-2 px-2">
-        <Button size="extraLarge" primary={true} className={"max-w-32 flex text-center text-md rounded-md justify-between gap-2 items-center hover:border-tomato hover:bg-tomato transition-colors ease-in-out text-bgLight"}> <span className="text-sm">Add Cart</span> <CartIcon /></Button>
+        <Button size="extraLarge" primary={true} className={"max-w-32 flex text-center text-md rounded-md justify-between gap-2 items-center transition-colors ease-in-out text-bgLight"}> <span className="text-sm">Add Cart</span> <CartIcon /></Button>
         <Button size="large" className="max-w-32 flex text-center text-md rounded-md px-3 justify-between gap-2 items-center hover:border-green hover:bg-green transition-colors ease-in-out text-bgLight" 
           onClick={() => navegate(`${finalURL}`)} > <span className="text-md">Ver</span> <ArrowRightIcon /> </Button>
       </footer>

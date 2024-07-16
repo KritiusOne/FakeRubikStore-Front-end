@@ -58,7 +58,7 @@ export function Login() {
               <input value={password} onChange={(e) => setPassword(e.target.value)} className='w-full outline-none rounded-3xl px-4 bg-bgLight focus:bg-white text-balck border-2 text-black' type="password" placeholder="min 8 caracteres" />
             </div>
             <Button primary={true} size="extraLarge" onClick={handleClck} className='outline-none hover:bg-green'> <span>Iniciar sesion</span> </Button>
-            <Link className='bg-tomato outline-none hover:bg-green text-center' to={PUBLIC_ROUTES.SINGIN}> Registrarse </Link>
+            <Link className='bg-bgLight border-2 border-solid border-bgLight rounded-md text-bgDark py-1 px-2 text-center hover:bg-transparent hover:text-bgLight' to={PUBLIC_ROUTES.SINGIN}> Registrarse </Link>
           </form>
         </section>
         <aside className="">
