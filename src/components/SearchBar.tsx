@@ -8,6 +8,7 @@ import { ButtonCollection } from "./ui/ButtonCollection"
 import { useUserSesion } from "@/zustand/UserStorage"
 import { Button } from "./ui/Button"
 import { IconUserFilled } from "@tabler/icons-react"
+import { Avatar } from "./Avatar"
 
 interface Props extends HTMLAttributes<HTMLElement> { }
 
@@ -27,7 +28,9 @@ export const SearchBar: React.FC<Props> = () => {
         </button>
       </nav>
       <ButtonCollection className="hidden md:flex flex-row text-sm">
-        <Button onClick={()=> navegate(PUBLIC_ROUTES.LOGIN)} size="extraLarge" className="flex flex-row justify-center items-center gap-2" primary={true}><span>Iniciar Sesion</span><IconUserFilled /></Button>
+        {
+          User.activeSesion ? <Avatar nameUser={User.infoUser?.First_Name} /> : <Button onClick={()=> navegate(PUBLIC_ROUTES.LOGIN)} size="extraLarge" className="flex flex-row justify-center items-center gap-2" primary={true}><span>Iniciar Sesion</span><IconUserFilled /></Button>
+        }
         <Button size="extraLarge" className="flex flex-row justify-center items-center gap-2"><span>Ver carrito</span> <CartIcon /></Button>
       </ButtonCollection>
     </div>
