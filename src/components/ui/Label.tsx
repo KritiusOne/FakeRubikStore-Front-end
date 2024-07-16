@@ -5,6 +5,6 @@ interface Props extends HTMLAttributes<HTMLLabelElement> {
 }
 export const Label: React.FC<Props> = ({children, ...props})=>{
   return (
-    <label {...props} className={`mb-2 text-sm font-medium text-bgLight ${props.className}`}> {children} </label>
+    <label {...props} className={`text-sm font-medium text-bgLight ${props.className}`}> {children} </label>
   )
 }
