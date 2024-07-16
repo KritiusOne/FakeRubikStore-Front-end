@@ -27,11 +27,12 @@ export const DetailsProduct: React.FC = () => {
         setNumStars(isNaN(promRate) ? 0 : promRate)
       }
     }
+    window.scroll(0,0)
     getProduct()
   }, [])
   return (
     <Layout className="flex justify-center items-center">
-      <div className="flex flex-col justify-center items-center bg-bgLight">
+      <div className="flex flex-col justify-center items-center bg-bgLight my-6 py-2">
         <main className="flex flex-col md:grid md:grid-cols-3 justify-center items-center lg:min-w-[800px] max-w-full px-6 py-4 text-bgDark mx-6 rounded-md">
           <section>
             <img src={productDatails?.image} alt={`Imagen del ${productDatails?.name}`} />
