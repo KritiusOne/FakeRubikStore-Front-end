@@ -32,8 +32,7 @@
 .slide-in-left {
   animation: slideInFromLeft 0.5s ease-out forwards;
 }
-@media (max-width: 520px){
-  .Home__products--section{
-    grid-template-columns: minmax(200px, 250px);
-  }
+
+.coverImg {
+  height: calc(100vh - 120px);
 }
