@@ -14,7 +14,7 @@ export const Home: React.FC = () => {
   }, [])
   return (
     <Layout>
-      <main className="max-w-full p gap-10 flex flex-col justify-around items-center">
+      <main className="max-w-full p gap-10 flex flex-col justify-around items-center my-6">
         <Hero />
         <BestProductsSection />
         <div className="flex flex-col justify-center gap-2 w-full px-5">
