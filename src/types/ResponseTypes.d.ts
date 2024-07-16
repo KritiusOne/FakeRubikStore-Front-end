@@ -1,7 +1,7 @@
-export interface ResponseWithToken<T> {
-  token:    string  
+export interface ResponseWithToken {
   msg:      string
-  response: T
+  response:    string  
+  typetoken: string
 }
 export interface ResponseBase<T> {
   msg:      string
