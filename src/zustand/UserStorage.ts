@@ -1,27 +1,23 @@
 import { User } from "@/types/UserTypes";
 import { create } from "zustand";
-interface UserSesion extends User {
+interface UserSesion {
+  infoUser: User | null
   activeSesion: boolean
-  setUser: (newUser: User) => void
+  token: string
+  typetoken: string
+  setUser: (jwt: string, jwtType: string) => void
 }
 export const useUserSesion = create<UserSesion>((set)=>({
-  id: 0,
-  idRole: 0,
-  idAddress:  0,
-  name: "",
-  secondName: "",
-  email: "",
-  phone: "",
-  password: "",
+  infoUser: null,
   activeSesion: false,
-  setUser: (newUser: User)=>set(()=>({
-    id:newUser.id,
-    idRole: newUser.idRole,
-    idAddress: newUser.idAddress,
-    email: newUser.email,
-    name: newUser.name,
-    secondName: newUser.secondName,
-    phone: newUser.phone,
-    activeSesion: true
-  }))
+  token: "",
+  typetoken: "",
+  setUser: (jwt, jwtType)=>{
+    const arrJwt = jwt.split(".")
+    const transform = atob(arrJwt[1])
+    const newUser = JSON.parse(transform)
+    localStorage.setItem("token", transform)
+    localStorage.setItem("typetoken", jwtType)
+    set({activeSesion: true, infoUser: newUser, token: jwt, typetoken: jwtType})
+  }
 }))
