@@ -35,7 +35,7 @@ export function Login() {
       .then(response => response.json()
       )
       .then((res: ResponseWithToken) => {
-        setUser(res.response, res.typetoken)
+        setUser(res.response, res.typeToken)
         console.log(res.msg)
         navegator(PUBLIC_ROUTES.HOME)
       })
