@@ -5,6 +5,12 @@ import cover from "@/assets/cover-login-2.avif"
 import { Label } from "@/components/ui/Label"
 import { Input } from "@/components/ui/Input"
 import { emailRegEx, nameRegEx, passwordRegEx } from "@/lib/validation"
+import { SignInUserInfo } from "@/types/UserTypes"
+import { ResponseWithToken } from "@/types/ResponseTypes"
+import { useUserSesion } from "@/zustand/UserStorage"
+import { useNavigate } from "react-router-dom"
+import { PUBLIC_ROUTES } from "@/routes/TypesRoutes"
+
 
 interface SignInField {
   value: string
@@ -31,7 +37,7 @@ export const SingIn: React.FC = () => {
     state: "normal",
     value: ""
   })
-  
+  const [msg, setMsg] = useState("")
   const handleChangeNames = (e: React.ChangeEvent<HTMLInputElement>)=>{
     nameRegEx.test(e.target.value) ? setName({state: "success", value: e.target.value}) : setName({state: "error", value: e.target.value}) 
   }
@@ -44,16 +50,49 @@ export const SingIn: React.FC = () => {
       value: e.target.value
     })
   }
+  const UserLogin = useUserSesion(Storage => Storage.setUser)
+  const navegate = useNavigate()
+
   const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>)=>{
     emailRegEx.test(e.target.value.toLowerCase()) ? setEmail({state: "success", value: e.target.value.toLocaleLowerCase()}) : setEmail({state: "error", value: e.target.value.toLocaleLowerCase()})
-    console.log(e.target.value.toLowerCase())
   }
   const handleChangePasword = (e: React.ChangeEvent<HTMLInputElement>)=>{
     passwordRegEx.test(e.target.value) ? setPassword({state: "success", value: e.target.value}) : setPassword({state: "error", value: e.target.value})
   }
   
   const handleChangeSecondPasword = (e: React.ChangeEvent<HTMLInputElement>)=>{
-    passwordRegEx.test(e.target.value) ? setSecondPassword({state: "success", value: e.target.value}) : setSecondPassword({state: "error", value: e.target.value})
+    passwordRegEx.test(e.target.value) && e.target.value == password.value ? setSecondPassword({state: "success", value: e.target.value}) : setSecondPassword({state: "error", value: e.target.value})
+  }
+  const handleClickButton = ()=>{
+    const pass = name.state == "success" && lastName.state == "success" && email.state == "success" && password.state == "success" && secondPassword.state == "success"
+    if(pass){
+      setMsg("")
+      const sendData: SignInUserInfo = {
+        name: name.value,
+        secondName: lastName.value,
+        email: email.value,
+        phone: "-",
+        password: password.value
+      }
+      const SING_IN_URL = import.meta.env.VITE_API_URL_SIGN_IN
+      fetch(SING_IN_URL, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(sendData)
+      })
+      .then(response => response.json())
+      .then(res => {
+        const withToken: ResponseWithToken = res
+        UserLogin(withToken.response, withToken.typeToken)
+        console.log(withToken.typeToken)
+        navegate(PUBLIC_ROUTES.HOME)
+      })
+      .catch(error => console.log(error))
+    }else{
+      setMsg("Algunos de los campos contienen errores")
+    }
   }
   return (
     <Layout className="w-full flex flex-col justify-between items-center text-bgLight">
@@ -84,7 +123,10 @@ export const SingIn: React.FC = () => {
               <Label htmlFor="second_password" stateData={secondPassword.state}> Confirmar contraseña </Label>
               <Input stateData={secondPassword.state} id="second_password" placeholder="min 8 caracteres" value={secondPassword.value} onChange={handleChangeSecondPasword} className='w-full outline-none rounded-3xl px-4 bg-bgLight focus:bg-white text-balck border-2 text-black' type="password" />
             </div>
-            <Button size="extraLarge" primary={true} onClick={() => console.log("SI PRESIONE")}> <span>Registrarse</span> </Button>
+            {
+              msg != "" && <span> {msg} </span>
+            }
+            <Button size="extraLarge" primary={true} onClick={handleClickButton}> <span>Registrarse</span> </Button>
           </form>
         </div>
         <aside className="h-full">
