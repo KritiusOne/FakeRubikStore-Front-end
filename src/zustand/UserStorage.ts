@@ -6,6 +6,8 @@ interface UserSesion {
   token: string
   typetoken: string
   setUser: (jwt: string, jwtType: string) => void
+  logOut: () => void
+  haveSesion: ()=>void
 }
 export const useUserSesion = create<UserSesion>((set)=>({
   infoUser: null,
@@ -19,5 +21,23 @@ export const useUserSesion = create<UserSesion>((set)=>({
     localStorage.setItem("token", arrJwt[1])
     localStorage.setItem("typetoken", jwtType)
     set({activeSesion: true, infoUser: newUser, token: jwt, typetoken: jwtType})
+  },
+  logOut: ()=>{
+    localStorage.removeItem("token")
+    localStorage.removeItem("typetoken")
+    set({activeSesion: false, infoUser: null, token: "", typetoken: ""})
+  },
+  haveSesion: ()=>{
+    const token = localStorage.getItem("token")
+    if(token != null){
+      const oldUser:User = JSON.parse(atob(token))
+      const dateExp = new Date(oldUser.exp * 1000)
+      const today = new Date(Date.now())
+      if(today < dateExp){
+        const typeToken = localStorage.getItem("typetoken") as string
+        set({activeSesion: true, infoUser: oldUser, token: token, typetoken: typeToken})
+      }
+    }
+    console.log(token)
   }
 }))

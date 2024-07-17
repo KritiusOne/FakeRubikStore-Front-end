@@ -1,13 +1,17 @@
-import { HTMLAttributes} from "react"
+import { HTMLAttributes, useEffect} from "react"
 import { Footer } from "./Footer"
 import { Header } from "./Header"
 import "./layout.css"
+import { useUserSesion } from "@/zustand/UserStorage"
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   children: JSX.Element | JSX.Element[] | string
 }
 export const Layout: React.FC<Props> = ({children, ...otherProps})=>{
-
+  const HaveToken = useUserSesion(Storage => Storage.haveSesion)
+  useEffect(()=>{
+    HaveToken()
+  }, [])
   return (
     <div {...otherProps} className={`layout bg-bgDark min-w-screen min-h-screen
     flex flex-col justify-center items-start font-oswald ${otherProps.className}`} >
