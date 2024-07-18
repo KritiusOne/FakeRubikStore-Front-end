@@ -9,6 +9,7 @@ interface Cart {
   add: (numberSol: number, id: number, nameProd: string, price: number, img: string) => void
   plusStock: (numProd: number, id: number) => void
   minusStock: (numProd: number, id: number) => void
+  removeProduct: (id: number) => void
 }
 export const useCartStorage = create<Cart>((set, get) => ({
   ProductsCart: [],
@@ -42,17 +43,25 @@ export const useCartStorage = create<Cart>((set, get) => ({
   },
   minusStock: (numProd, id) => {
     const cartStorage = get()
-    const finded = cartStorage.ProductsCart.find((prod)=> prod.id == id)
-    if(finded != undefined && finded.numberProd - numProd > 0){
-      finded.numberProd = finded.numberProd - numProd 
+    const finded = cartStorage.ProductsCart.find((prod) => prod.id == id)
+    if (finded != undefined && finded.numberProd - numProd > 0) {
+      finded.numberProd = finded.numberProd - numProd
       const copy = [...cartStorage.ProductsCart]
-      const newCart = copy.map((producto)=>{
-        if(producto.id == id){
+      const newCart = copy.map((producto) => {
+        if (producto.id == id) {
           return finded
         }
         return producto
       })
-      set({...cartStorage, ProductsCart: newCart})
+      const newParcialPrice = newCart.reduce((prev, current)=>prev + current.price * current.numberProd, 0)
+      console.log(newParcialPrice)
+      set({ ...cartStorage, ProductsCart: newCart, parcialPrice: newParcialPrice })
     }
+  },
+  removeProduct: (id)=>{
+    const cartStorage = get()
+    const newCart = cartStorage.ProductsCart.filter(product => product.id != id)
+    const newParcialPrice = newCart.reduce((prev, current)=> prev + current.price * current.numberProd, 0)
+    set({...cartStorage, ProductsCart: newCart, parcialPrice: newParcialPrice})
   }
 }))
