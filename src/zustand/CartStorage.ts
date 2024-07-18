@@ -8,6 +8,7 @@ interface Cart {
   changeViewCart: (view: boolean) => void
   add: (numberSol: number, id: number, nameProd: string, price: number, img: string) => void
   plusStock: (numProd: number, id: number) => void
+  minusStock: (numProd: number, id: number) => void
 }
 export const useCartStorage = create<Cart>((set, get) => ({
   ProductsCart: [],
@@ -23,7 +24,7 @@ export const useCartStorage = create<Cart>((set, get) => ({
     const finded = copy.find((product) => product.id == id)
     if (finded == undefined) {
       copy.push({ id: id, name: nameProd, numberProd: numberSol, price: price, thumbnail: img })
-      const costo = copy.reduce((prev, current)=> prev + current.price * current.numberProd, 0)
+      const costo = copy.reduce((prev, current) => prev + current.price * current.numberProd, 0)
       set({ ...cartStorage, ProductsCart: copy, parcialPrice: costo })
     }
   },
@@ -36,7 +37,22 @@ export const useCartStorage = create<Cart>((set, get) => ({
       }
       return prod
     })
-    const costo = newCart.reduce((prev, current)=> prev + current.price * current.numberProd, 0)
-    set({ ...cartStorage, ProductsCart: newCart, parcialPrice: costo})
+    const costo = newCart.reduce((prev, current) => prev + current.price * current.numberProd, 0)
+    set({ ...cartStorage, ProductsCart: newCart, parcialPrice: costo })
+  },
+  minusStock: (numProd, id) => {
+    const cartStorage = get()
+    const finded = cartStorage.ProductsCart.find((prod)=> prod.id == id)
+    if(finded != undefined && finded.numberProd - numProd > 0){
+      finded.numberProd = finded.numberProd - numProd 
+      const copy = [...cartStorage.ProductsCart]
+      const newCart = copy.map((producto)=>{
+        if(producto.id == id){
+          return finded
+        }
+        return producto
+      })
+      set({...cartStorage, ProductsCart: newCart})
+    }
   }
 }))
