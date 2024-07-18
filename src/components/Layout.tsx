@@ -3,12 +3,15 @@ import { Footer } from "./Footer"
 import { Header } from "./Header"
 import "./layout.css"
 import { useUserSesion } from "@/zustand/UserStorage"
+import { useCartStorage } from "@/zustand/CartStorage"
+import { CartMenu } from "./CartMenu"
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   children: JSX.Element | JSX.Element[] | string
 }
 export const Layout: React.FC<Props> = ({children, ...otherProps})=>{
   const HaveToken = useUserSesion(Storage => Storage.haveSesion)
+  const viewCart = useCartStorage(Storage => Storage.viewCart)
   useEffect(()=>{
     HaveToken()
   }, [])
@@ -21,6 +24,9 @@ export const Layout: React.FC<Props> = ({children, ...otherProps})=>{
             children
           }
       </main>
+          {
+            viewCart && <CartMenu />
+          }
       <div className="footer w-full z-30" >
         <Footer className="w-full h-full"/>
       </div>

@@ -50,3 +50,7 @@ export interface Review {
   description: string;
   rate:        number;
 }
+
+export interface ProductInCart extends Product {
+  numberProd: number
+}

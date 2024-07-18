@@ -9,12 +9,14 @@ import { useUserSesion } from "@/zustand/UserStorage"
 import { Button } from "./ui/Button"
 import { IconUserFilled } from "@tabler/icons-react"
 import { Avatar } from "./Avatar"
+import { useCartStorage } from "@/zustand/CartStorage"
 
 interface Props extends HTMLAttributes<HTMLElement> { }
 
 export const SearchBar: React.FC<Props> = () => {
   const navegate = useNavigate()
   const User = useUserSesion()
+  const cartStorage = useCartStorage()
   const handleClickLogo = (URL: string) => {
     navegate(URL)
   }
@@ -31,7 +33,7 @@ export const SearchBar: React.FC<Props> = () => {
         {
           User.activeSesion ? <Avatar nameUser={User.infoUser?.First_Name} /> : <Button onClick={()=> navegate(PUBLIC_ROUTES.LOGIN)} size="extraLarge" className="flex flex-row justify-center items-center gap-2" primary={true}><span>Iniciar Sesion</span><IconUserFilled /></Button>
         }
-        <Button size="extraLarge" className="flex flex-row justify-center items-center gap-2"><span>Ver carrito</span> <CartIcon /></Button>
+        <Button onClick={()=> cartStorage.changeViewCart(cartStorage.viewCart)} size="extraLarge" className="flex flex-row justify-center items-center gap-2"><span>Ver carrito</span> <CartIcon /></Button>
       </ButtonCollection>
     </div>
   )
