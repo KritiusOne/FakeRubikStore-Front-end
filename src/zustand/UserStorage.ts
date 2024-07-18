@@ -38,6 +38,5 @@ export const useUserSesion = create<UserSesion>((set)=>({
         set({activeSesion: true, infoUser: oldUser, token: token, typetoken: typeToken})
       }
     }
-    console.log(token)
   }
 }))

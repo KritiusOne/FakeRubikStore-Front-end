@@ -20,7 +20,6 @@ export const CarrouselProducts: React.FC<CarrouselProductsProps> = ({ ...props }
       const copy = [...productsCarousel]
       let faltantes = currentIndex + numCards - 9
       let indice = 0
-      console.log(faltantes)
       const aux = copy.slice(currentIndex + 1)
       while(faltantes != 0) {
         aux.push(copy[indice])
@@ -53,12 +52,10 @@ export const CarrouselProducts: React.FC<CarrouselProductsProps> = ({ ...props }
     
   }
   if (currentIndex > 9) {
-    console.log(currentIndex)
     setCurrentIndex(0)
   }
   useEffect(()=>{
     window.addEventListener("resize", ()=> setNumCards(window.innerWidth <= 600 ? 2 : window.innerWidth <= 1024 ? 3 : 4) )
-    console.log(window.innerWidth)
   })
   return (
     <div className="flex flex-row items-center justify-between px-5 max-w-full">
