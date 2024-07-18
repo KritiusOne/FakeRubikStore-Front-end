@@ -4,6 +4,7 @@ import { CartIcon } from "./icons/CartIcon"
 import { ArrowRightIcon } from "./icons/ArrowRightIcon"
 import { useNavigate } from "react-router-dom"
 import { PUBLIC_ROUTES } from "@/routes/TypesRoutes"
+import { useCartStorage } from "@/zustand/CartStorage"
 
 interface Props extends HTMLAttributes<HTMLElement> {
   productId: number
@@ -17,6 +18,10 @@ export const CardProduct: React.FC<Props> = ({ productId, title, thumbnail, pric
   urlParams.set("id", productId.toString())
   const finalURL = `${baseURL[0]}${baseURL[1]}?${urlParams.toString()}`
   const navegate = useNavigate()
+  const cartStorage = useCartStorage()
+  const handleClickAdd = ()=>{
+    cartStorage.add(1, productId, title, price, thumbnail)
+  }
   return (
     <article {...props} className={`relative text-primaryRed  flex flex-col justify-center items-center bg-bgLight gap-2 rounded-md overflow-hidden w-full ${props.className}`}>
       <header className="w-full flex-grow"> <img className="w-full h-full aspect-video" src={thumbnail} alt={`Miniatura del producto ${title}`} /> </header>
@@ -25,7 +30,7 @@ export const CardProduct: React.FC<Props> = ({ productId, title, thumbnail, pric
         <h2 className="font-bold text-xl text-pretty text-center text-primaryRed">  ${price} </h2>
       </section>
       <footer className="flex flex-col md:flex-row justify-center items-center w-full gap-3 pb-2 px-2">
-        <Button size="extraLarge" primary={true} className={"max-w-32 flex text-center text-md rounded-md justify-between gap-2 items-center transition-colors ease-in-out text-bgLight"}> <span className="text-sm">Add Cart</span> <CartIcon /></Button>
+        <Button onClick={handleClickAdd} size="extraLarge" primary={true} className={"max-w-32 flex text-center text-md rounded-md justify-between gap-2 items-center transition-colors ease-in-out text-bgLight"}> <span className="text-sm">Add Cart</span> <CartIcon /></Button>
         <Button size="large" className="max-w-32 flex text-center text-md rounded-md px-3 justify-between gap-2 items-center hover:border-green hover:bg-green transition-colors ease-in-out text-bgLight" 
           onClick={() => navegate(`${finalURL}`)} > <span className="text-md">Ver</span> <ArrowRightIcon /> </Button>
       </footer>
