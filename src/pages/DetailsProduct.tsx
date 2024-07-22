@@ -5,18 +5,20 @@ import { Divider } from "@/components/ui/Divider"
 import { CartIcon } from "@/components/ui/icons/CartIcon"
 import { ProgressBar } from "@/components/ui/Progressbar"
 import { Stars } from "@/components/ui/Stars"
+import { PRIVATE_USER_ROUTES } from "@/routes/TypesRoutes"
 import { AllDataProduct } from "@/types/ProductsTypes"
 import { ResponseBase } from "@/types/ResponseTypes"
 import { useCartStorage } from "@/zustand/CartStorage"
 import { IconStarFilled } from "@tabler/icons-react"
 import { useEffect, useState } from "react"
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 export const DetailsProduct: React.FC = () => {
   const location = useLocation()
   const params = new URLSearchParams(location.search)
   const [productDatails, setProductsDetails] = useState<AllDataProduct>()
   const [numStars, setNumStars] = useState<number>(0)
   const addToCart = useCartStorage(Storage => Storage.add)
+  const navegate = useNavigate()
   useEffect(() => {
     const getProduct = async () => {
       const URL = `${import.meta.env.VITE_API_URL_PRODUCT_BY_ID}${params.get("id")}`
@@ -37,6 +39,12 @@ export const DetailsProduct: React.FC = () => {
       addToCart(1, productDatails.id, productDatails.name, productDatails.price, productDatails.thumbnail)
     }
   }
+  const handleMakeBuyNow = ()=>{
+    if(productDatails != undefined){
+      addToCart(1, productDatails.id, productDatails.name, productDatails.price, productDatails.thumbnail)
+      navegate(PRIVATE_USER_ROUTES.MAKE_BUY)
+    }
+  }
   return (
     <Layout className="flex justify-center items-center">
       <div className="flex flex-col justify-center items-center bg-bgLight my-6 py-2">
@@ -55,7 +63,7 @@ export const DetailsProduct: React.FC = () => {
           <section className="flex flex-col justify-center items-center gap-4">
             <span>Stock disponible: {productDatails?.stock} </span>
             <Button onClick={handleClickAdd} size="extraLarge" className="flex flex-row justify-center items-center gap-2 text-lg"> <span>Agregar al carrito</span> <CartIcon /> </Button>
-            <Button primary={true} size="extraLarge" className="flex flex-row justify-center items-center gap-2 text-lg "> <span>Comprar ahora</span> <CartIcon /> </Button>
+            <Button onClick={handleMakeBuyNow} primary={true} size="extraLarge" className="flex flex-row justify-center items-center gap-2 text-lg "> <span>Comprar ahora</span> <CartIcon /> </Button>
           </section>
         </main>
         <Divider />

@@ -2,14 +2,20 @@ import { useCartStorage } from "@/zustand/CartStorage"
 import { Button } from "./ui/Button"
 import React from "react"
 import { CardCart } from "./CardCart"
+import { useNavigate } from "react-router-dom"
+import { PRIVATE_USER_ROUTES } from "@/routes/TypesRoutes"
 
 export const CartMenu: React.FC = () => {
   const cartStorage = useCartStorage()
+  const navegate = useNavigate()
   const handleClickMenuAside = (e: React.MouseEvent)=>{
     e.stopPropagation()
   }
   const handleClickClose = ()=>{
     cartStorage.changeViewCart(cartStorage.viewCart)
+  }
+  const handleClickMakeBuy = ()=>{
+    cartStorage.ProductsCart.length > 0 ? navegate(PRIVATE_USER_ROUTES.MAKE_BUY) : ""
   }
   return (
     <div className='w-screen h-screen fixed top-0 right-0 flex items-center justify-center md:justify-end bg-black/[0.5] z-50' onClick={handleClickClose}>
@@ -24,7 +30,7 @@ export const CartMenu: React.FC = () => {
         </main>
         <footer className="flex flex-col justify-center items-center mt-2">
           <div className="flex flex-col justify-center items-center gap-2">
-            <Button primary={true} size="extraLarge"> Realizar pedido </Button>
+            <Button onClick={handleClickMakeBuy} primary={true} size="extraLarge"> Realizar pedido </Button>
             <Button onClick={handleClickClose} size="extraLarge"> Cerrar el carrito </Button>
           </div>
           <span> Total: <strong>${cartStorage.parcialPrice} </strong> </span>
