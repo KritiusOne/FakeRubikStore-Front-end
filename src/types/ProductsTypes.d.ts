@@ -54,3 +54,12 @@ export interface Review {
 export interface ProductInCart extends Product {
   numberProd: number
 }
+export interface ProductInfo {
+  id:          number;
+  name:        string;
+  price:       number;
+  stock:       number;
+  image:       string;
+  description: string;
+  thumbnail:   string;
+}

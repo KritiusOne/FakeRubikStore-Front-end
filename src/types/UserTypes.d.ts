@@ -18,3 +18,13 @@ export interface SignInUserInfo {
   phone: string;
   password: string;
 }
+export interface UserOrderInfo {
+  id:         number;
+  idRole:     number;
+  idAddress:  number;
+  name:       string;
+  secondName: string;
+  email:      string;
+  phone:      string;
+  password:   string;
+}
