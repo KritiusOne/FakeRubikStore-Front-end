@@ -23,3 +23,14 @@ export interface OrderProduct {
   price:          number;
   productInfo:    ProductInfo;
 }
+export interface CreateOrder {
+  idUser:        number;
+  date:          Date;
+  finalPrice:    number;
+  orderProducts: CreateOrderProduct[];
+}
+export interface CreateOrderProduct {
+  idProduct:      number;
+  productsNumber: number;
+  price:          number;
+}
