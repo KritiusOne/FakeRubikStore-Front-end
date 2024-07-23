@@ -15,7 +15,7 @@ export const CartMenu: React.FC = () => {
     cartStorage.changeViewCart(cartStorage.viewCart)
   }
   const handleClickMakeBuy = ()=>{
-    cartStorage.ProductsCart.length > 0 ? navegate(PRIVATE_USER_ROUTES.MAKE_BUY) : ""
+    navegate(PRIVATE_USER_ROUTES.MAKE_BUY)
   }
   return (
     <div className='w-screen h-screen fixed top-0 right-0 flex items-center justify-center md:justify-end bg-black/[0.5] z-50' onClick={handleClickClose}>
