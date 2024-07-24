@@ -1,25 +1,23 @@
 import { CardMakeBuy } from "@/components/CardMakeBuy"
 import { Layout } from "@/components/Layout"
+import { UserData } from "@/components/ui/UserData"
 import { useCartStorage } from "@/zustand/CartStorage"
 import { useUserSesion } from "@/zustand/UserStorage"
+import { IconAddressBook, IconUser } from "@tabler/icons-react"
 
 export const MakeBuy: React.FC = ()=>{
   const UserInfo = useUserSesion(Storage => Storage.infoUser)
   const cart = useCartStorage()
   return (
     <Layout>
-      <main className="bg-bgLight my-10 w-full h-full p-5 gap-5">
+      <main className="bg-bgLight my-10 w-full h-full p-5 flex flex-col gap-4">
         <h1 className="font-mono text-3xl font-bold text-center text-black"> Realizar compra </h1>
-        <div className="grid grid-cols-2 justify-center items-center gap-2">
-          <section>
-            <article>
-              login info
-            </article>
-            <article>
-              payment method
-            </article>
+        <div className="flex flex-col md:grid md:grid-cols-2 justify-center items-center gap-2">
+          <section className="h-full w-full flex flex-col items-start justify-start gap-2">
+            <UserData Icon={IconUser} info={`${UserInfo?.First_Name} ${UserInfo?.Last_Name}  - ${UserInfo?.phone == "-" || UserInfo?.phone == null ? "Telefono no definido" : UserInfo.phone}`} title="Contacto" onClickButton={()=> console.log("algo")} />
+            <UserData Icon={IconAddressBook} info="No tenemos informacion de dirección" onClickButton={()=> console.log("quiero cambiar la información de la direccion")} title="Dirección" />
           </section>
-          <aside className="w-full flex flex-col justify-center items-start gap-3">
+          <aside className="w-full flex flex-col justify-center items-start gap-3 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] px-4 py-2 rounded-lg">
             <h2 className="font-semibold font-sans text-2xl flex flex-col justify-center items-start gap-2">Tu orden </h2>
             <div className="flex flex-col justify-center items-center gap-2 w-full">
               {
@@ -35,7 +33,7 @@ export const MakeBuy: React.FC = ()=>{
             <div className="flex flex-col justify-center items-end w-full">
               <strong className="text-lg capitalize"> <span className="font-thin"> total de tipo de productos:</span> {cart.ProductsCart.length} productos </strong>
               <strong className="text-lg capitalize"> <span className="font-thin"> total de unidades:</span> {cart.ProductsCart.reduce((prev, current)=> prev + current.numberProd, 0)} productos </strong>
-              <strong className="text-lg capitalize"> <span className="font-thin">precio parcial:</span> {cart.parcialPrice} productos </strong>
+              <strong className="text-lg capitalize"> <span className="font-thin">precio parcial:</span> ${cart.parcialPrice} productos </strong>
             </div>
             
           </aside>
