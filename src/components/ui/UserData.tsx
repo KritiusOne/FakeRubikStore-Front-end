@@ -19,7 +19,7 @@ export const UserData: React.FC<Props> = ({Icon, info, title, onClickButton})=>{
           </p>
         </div>
       </div>
-      <Button onClick={onClickButton} primary={false} size="large"> Cambiar </Button>
+      <Button className="text-[12px] text-center" onClick={onClickButton} primary={false} size="large"> Cambiar </Button>
     </article>
   )
 }

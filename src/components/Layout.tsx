@@ -19,7 +19,7 @@ export const Layout: React.FC<Props> = ({children, ...otherProps})=>{
     <div {...otherProps} className={`layout bg-bgDark min-w-screen min-h-screen
     flex flex-col justify-center items-start font-oswald ${otherProps.className}`} >
       <Header className="header" />
-      <main className="main flex flex-col justify-between items-center z-20">
+      <main className="h-full main flex flex-col justify-between items-center z-20">
           {
             children
           }
