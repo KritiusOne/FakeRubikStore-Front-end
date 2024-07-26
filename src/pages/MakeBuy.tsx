@@ -1,8 +1,5 @@
 import { CardMakeBuy } from "@/components/CardMakeBuy"
 import { Layout } from "@/components/Layout"
-import { ComponetDatePicker } from "@/components/ui/DatePicker"
-import { Input } from "@/components/ui/Input"
-import { Label } from "@/components/ui/Label"
 import { UserData } from "@/components/ui/UserData"
 import { useCartStorage } from "@/zustand/CartStorage"
 import { useUserSesion } from "@/zustand/UserStorage"
@@ -29,8 +26,9 @@ export const MakeBuy: React.FC = () => {
               <form className="w-full px-2 flex flex-col justify-start items-start gap-2">
                 <label className="text-sm font-thin " htmlFor="numberCard"> Ingrese su tarjeta de credito </label>
                 <input id="numberCard" className="bg-white border-slate-800 border-2 border-solid rounded-lg w-7/12 outline-none px-2 py-1" placeholder="1234567890" />
-                <ComponetDatePicker />
               </form>
+              <div className="w-7/12 px-2">
+              </div>
             </div>
           </section>
 
