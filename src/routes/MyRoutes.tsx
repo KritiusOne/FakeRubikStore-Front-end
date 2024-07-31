@@ -7,6 +7,7 @@ import { NotFount } from "@/pages/NotFound"
 import { DetailsProduct } from "@/pages/DetailsProduct"
 import { Auth_Guard } from "./Auth.guard"
 import { MakeBuy } from "@/pages/MakeBuy"
+import { ProfileConfig } from "@/pages/ProfileConfig"
 export const MyRoutes: React.FC<{}> = () => {
   return (
     <BrowserRouter>
@@ -17,6 +18,9 @@ export const MyRoutes: React.FC<{}> = () => {
         <Route path={PUBLIC_ROUTES.VIEW_PRODUCT} element={<DetailsProduct />} />
         <Route element={<Auth_Guard />} >
           <Route path={PRIVATE_USER_ROUTES.MAKE_BUY} element={<MakeBuy />} />
+        </Route>
+        <Route element={<Auth_Guard />} >
+          <Route path={PRIVATE_USER_ROUTES.PROFILE_CONFIG} element={<ProfileConfig />} />
         </Route>
         <Route path={PUBLIC_ROUTES[404]} element={<NotFount />} />
       </Routes>
