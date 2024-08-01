@@ -19,12 +19,28 @@ export interface SignInUserInfo {
   password: string;
 }
 export interface UserOrderInfo {
-  id:         number;
-  idRole:     number;
-  idAddress:  number;
-  name:       string;
+  id: number;
+  idRole: number;
+  idAddress: number;
+  name: string;
   secondName: string;
-  email:      string;
-  phone:      string;
-  password:   string;
+  email: string;
+  phone: string;
+  password: string;
+}
+
+export interface UserUpdateBaseInfo {
+  name: string;
+  secondName: string;
+  email: string;
+  phone: string;
+  password: string;
+}
+
+export interface AddressUserUpdate {
+  address: string;
+  city: string;
+  state: string;
+  country: string;
+  description: string;
 }
