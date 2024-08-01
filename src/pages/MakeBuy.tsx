@@ -12,10 +12,10 @@ export const MakeBuy: React.FC = () => {
     <Layout>
       <main className="bg-bgLight my-10 w-full h-full p-5 flex flex-col gap-4">
         <h1 className="font-mono text-3xl font-bold text-center text-black"> Realizar compra </h1>
-        <div className="flex max-w-full flex-col-reverse md:grid md:grid-cols-2 justify-center items-center gap-2">
+        <div className="flex max-w-full flex-col-reverse md:grid md:grid-cols-2 justify-center items-center md:items-start gap-2">
           <section className="h-full w-full flex flex-col items-start justify-start gap-2">
-            <UserData Icon={IconUser} info={`${UserInfo?.First_Name} ${UserInfo?.Last_Name}  - ${UserInfo?.phone == "-" || UserInfo?.phone == null ? "Telefono no definido" : UserInfo.phone}`} title="Contacto" onClickButton={() => console.log("algo")} />
-            <UserData Icon={IconAddressBook} info="No tenemos informacion de dirección" onClickButton={() => console.log("quiero cambiar la información de la direccion")} title="Dirección" />
+            <UserData Icon={IconUser} info={`${UserInfo?.First_Name} ${UserInfo?.Last_Name}  - ${UserInfo?.phone == "-" || UserInfo?.phone == undefined ? "Telefono no definido" : UserInfo.phone}`} title="Contacto" />
+            <UserData Icon={IconAddressBook} info="No tenemos informacion de dirección" title="Dirección" />
             <div id="payment" className="w-full h-full shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] rounded-t-lg flex flex-col justify-start items-start gap-6 pb-2">
               <h2 className="w-full bg-bgDark text-bgLight text-start px-2 py-1 rounded-t-lg text-lg">
                 Metodo de pago
