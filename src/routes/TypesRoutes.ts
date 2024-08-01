@@ -14,6 +14,7 @@ export const PRIVATE_USER_ROUTES = {
   CART: "/cart",
   MAKE_BUY: "/confirm_buy",
   SHOPPING_HISTORY: "/shopping-history",
+  EDIT_USER_INFO: "/update/:id"
 }
 export const PRIVATE_SELLER_ROUTES = {
   REPORTS_AREA: "/reports-area/:idArea",

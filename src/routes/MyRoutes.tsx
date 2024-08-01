@@ -16,13 +16,18 @@ export const MyRoutes: React.FC<{}> = () => {
         <Route path={PUBLIC_ROUTES.LOGIN} element={<Login />} />
         <Route path={PUBLIC_ROUTES.SINGIN} element={<SingIn />} />
         <Route path={PUBLIC_ROUTES.VIEW_PRODUCT} element={<DetailsProduct />} />
+        <Route path={PUBLIC_ROUTES[404]} element={<NotFount />} />
+
         <Route element={<Auth_Guard />} >
           <Route path={PRIVATE_USER_ROUTES.MAKE_BUY} element={<MakeBuy />} />
         </Route>
         <Route element={<Auth_Guard />} >
           <Route path={PRIVATE_USER_ROUTES.PROFILE_CONFIG} element={<ProfileConfig />} />
         </Route>
-        <Route path={PUBLIC_ROUTES[404]} element={<NotFount />} />
+        <Route element={<Auth_Guard />} >
+          <Route path={PRIVATE_USER_ROUTES.EDIT_USER_INFO} element={<ProfileConfig />} />
+        </Route>
+        
       </Routes>
     </BrowserRouter>
   )
