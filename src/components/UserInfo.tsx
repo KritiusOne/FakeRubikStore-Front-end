@@ -10,7 +10,7 @@ interface Props {
 export const UserInfo: React.FC<Props> = () => {
   const userInfo = useUserSesion(Storage => Storage.infoUser)
   return (
-    <div className='flex flex-col justify-center items-center gap-2'>
+    <div className='flex flex-col justify-center items-center gap-2 px-2 py-4'>
       <UserData 
       Icon={IconUser} 
       info={ userInfo != null ? userInfo.First_Name + " " + userInfo.Last_Name : "Nombre no recibido"} 

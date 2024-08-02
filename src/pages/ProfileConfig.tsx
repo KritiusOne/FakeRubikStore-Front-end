@@ -1,3 +1,4 @@
+import { AddressUserInfo } from '@/components/AddressUserInfo'
 import { Layout } from '@/components/Layout'
 import { TabsCollection } from '@/components/TabsCollection'
 import { Tab } from '@/components/ui/Tab'
@@ -26,7 +27,7 @@ export const ProfileConfig = () => {
             !showTab && <UserInfo />
           }
           {
-            showTab && <span>Address</span>
+            showTab && <AddressUserInfo />
           }
         </div>
       </main>
