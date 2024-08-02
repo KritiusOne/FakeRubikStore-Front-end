@@ -3,12 +3,21 @@ import { UserData } from './ui/UserData'
 import { useUserSesion } from '@/zustand/UserStorage'
 import { IconAddressBook, IconMail, IconUser } from '@tabler/icons-react'
 import { Button } from './ui/Button'
+import { useNavigate } from 'react-router-dom'
+import { PRIVATE_USER_ROUTES } from '@/routes/TypesRoutes'
 
 interface Props {
 
 }
 export const UserInfo: React.FC<Props> = () => {
   const userInfo = useUserSesion(Storage => Storage.infoUser)
+  const navegate = useNavigate()
+  const handleClickButton = ()=>{
+    const params = new URLSearchParams()
+    params.set("id", "1")
+    const routeBase = PRIVATE_USER_ROUTES.EDIT_USER_INFO.split(":")
+    navegate(routeBase[0] + routeBase[1] + "?" + params.toString())
+  }
   return (
     <div className='flex flex-col justify-center items-center gap-2 px-2 py-4'>
       <UserData 
@@ -24,7 +33,7 @@ export const UserInfo: React.FC<Props> = () => {
       info={userInfo?.email ? userInfo.email : "email no registrado"} 
       title="Email" />
       <div>
-        <Button primary={true} size='extraLarge'> Editar Información </Button>
+        <Button onClick={handleClickButton} primary={true} size='extraLarge'> Editar Información </Button>
       </div>
     </div>
   )
