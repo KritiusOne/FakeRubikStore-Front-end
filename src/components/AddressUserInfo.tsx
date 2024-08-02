@@ -6,6 +6,8 @@ import { IconAddressBook } from '@tabler/icons-react'
 import { AddressById } from '@/types/UserTypes'
 import { Spinner } from './ui/Spinner'
 import { Button } from './ui/Button'
+import { useNavigate } from 'react-router-dom'
+import { PRIVATE_USER_ROUTES } from '@/routes/TypesRoutes'
 interface Props {
 
 }
@@ -15,6 +17,7 @@ export const AddressUserInfo: React.FC<Props> = () => {
   const infoUser = useUserSesion(Storage => Storage.infoUser)
   const token = useUserSesion(Storage => Storage.token)
   const getURL = useURLStorage(Storage => Storage.GetAddressById)
+  const navegate = useNavigate()
   useEffect(() => {
     const getAddressById = async () => {
       try {
@@ -39,6 +42,12 @@ export const AddressUserInfo: React.FC<Props> = () => {
     }
     getAddressById()
   }, [])
+  const handleClickButton = ()=>{
+    const params = new URLSearchParams()
+    params.set("id", "2")
+    const routeBase = PRIVATE_USER_ROUTES.EDIT_USER_INFO.split(":")
+    navegate(routeBase[0] + routeBase[1] + "?" + params.toString())
+  }
   return (
     <div className='flex flex-col justify-center items-center gap-2 px-2 py-4'>
       {
@@ -63,7 +72,7 @@ export const AddressUserInfo: React.FC<Props> = () => {
               Icon={IconAddressBook}
               info={address.country == null ? "No conocemos tu País" : address.country}
               title='País' />
-              <Button size='extraLarge' primary={true}> Editar información</Button>
+              <Button size='extraLarge' onClick={handleClickButton} primary={true}> Editar información</Button>
           </>
         )
       }

@@ -8,6 +8,7 @@ import { DetailsProduct } from "@/pages/DetailsProduct"
 import { Auth_Guard } from "./Auth.guard"
 import { MakeBuy } from "@/pages/MakeBuy"
 import { ProfileConfig } from "@/pages/ProfileConfig"
+import { EditUserInfo } from "@/pages/EditUserInfo"
 export const MyRoutes: React.FC<{}> = () => {
   return (
     <BrowserRouter>
@@ -25,7 +26,7 @@ export const MyRoutes: React.FC<{}> = () => {
           <Route path={PRIVATE_USER_ROUTES.PROFILE_CONFIG} element={<ProfileConfig />} />
         </Route>
         <Route element={<Auth_Guard />} >
-          <Route path={PRIVATE_USER_ROUTES.EDIT_USER_INFO} element={<ProfileConfig />} />
+          <Route path={PRIVATE_USER_ROUTES.EDIT_USER_INFO} element={<EditUserInfo />} />
         </Route>
         
       </Routes>
