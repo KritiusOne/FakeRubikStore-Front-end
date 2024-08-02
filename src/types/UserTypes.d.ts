@@ -44,3 +44,13 @@ export interface AddressUserUpdate {
   country: string;
   description: string;
 }
+
+export interface AddressById {
+  User: UserOrderInfo
+  id: number
+  address: string;
+  city: string;
+  state: string;
+  country: string;
+  description: string;
+}
