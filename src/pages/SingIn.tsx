@@ -105,23 +105,23 @@ export const SingIn: React.FC = () => {
           <form className="flex flex-col justify-center items-center w-full gap-2">
             <div className="w-3/4 text-left flex flex-col justify-center items-start gap-0.5">
               <Label stateData={name.state} htmlFor="name"> Nombre </Label>
-              <Input id="name" stateData={name.state} value={name.value} onChange={handleChangeNames} className='w-full outline-none rounded-3xl px-4 bg-bgLight focus:bg-white text-balck border-2 text-black' type="text" placeholder="Jonh" />
+              <Input inputColor="Light" uniqueBorder={true} autoComplete="off" id="name"  value={name.value} onChange={handleChangeNames} className='w-full outline-none rounded-3xl px-4 bg-bgLight focus:bg-white text-balck border-2 text-black' type="text" placeholder="Jonh" />
             </div>
             <div className="w-3/4 text-left flex flex-col justify-center items-start gap-0.5">
               <Label stateData={lastName.state} htmlFor="lastname"> Apellido </Label>
-              <Input id="lastname" stateData={lastName.state} placeholder="Doe" value={lastName.value} onChange={handleChangeLastName} type="text" />
+              <Input inputColor="Light" uniqueBorder={true} autoComplete="off" id="lastname"  placeholder="Doe" value={lastName.value} onChange={handleChangeLastName} type="text" />
             </div>
             <div className="w-3/4 text-left flex flex-col justify-center items-start gap-0.5">
               <Label htmlFor="mail" stateData={email.state}> Correo Electronico </Label>
-              <Input stateData={email.state} id="mail" placeholder="mail@example.com" value={email.value} onChange={handleChangeEmail} type="text" />
+              <Input inputColor="Light" uniqueBorder={true} autoComplete="off" id="mail" placeholder="mail@example.com" value={email.value} onChange={handleChangeEmail} type="text" />
             </div>
             <div className="w-3/4 text-left flex flex-col justify-center items-start gap-0.5">
               <Label stateData={password.state} htmlFor="password"> Contraseña </Label>
-              <Input stateData={password.state} id="password" placeholder="min 8 caracteres" value={password.value} onChange={handleChangePasword}type="password" />
+              <Input inputColor="Light" uniqueBorder={true} autoComplete="off" id="password" placeholder="min 8 caracteres" value={password.value} onChange={handleChangePasword}type="password" />
             </div>
             <div className="w-3/4 text-left flex flex-col justify-center items-start gap-0.5">
               <Label htmlFor="second_password" stateData={secondPassword.state}> Confirmar contraseña </Label>
-              <Input stateData={secondPassword.state} id="second_password" placeholder="min 8 caracteres" value={secondPassword.value} onChange={handleChangeSecondPasword} className='w-full outline-none rounded-3xl px-4 bg-bgLight focus:bg-white text-balck border-2 text-black' type="password" />
+              <Input inputColor="Light" uniqueBorder={true} autoComplete="off" id="second_password" placeholder="min 8 caracteres" value={secondPassword.value} onChange={handleChangeSecondPasword} className='w-full outline-none rounded-3xl px-4 bg-bgLight focus:bg-white text-balck border-2 text-black' type="password" />
             </div>
             {
               msg != "" && <span> {msg} </span>

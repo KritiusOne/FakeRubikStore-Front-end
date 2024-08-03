@@ -52,11 +52,11 @@ export function Login() {
           <form className='flex flex-col gap-2 text-bgLight w-full lg:w-3/5 mt-5'>
             <div className="w-full text-left flex flex-col justify-center items-start gap-0.5">
               <Label htmlFor="email"> Correo Electronico </Label>
-              <Input stateData="normal" id="email" value={email} onChange={(e) => setEmail(e.target.value)} className='w-full outline-none rounded-3xl px-4 bg-bgLight focus:bg-white text-balck border-2 text-black' type="text" placeholder="mail@example.com" />
+              <Input uniqueBorder={true} inputColor="Light" id="email" value={email} onChange={(e) => setEmail(e.target.value)} className='w-full outline-none rounded-3xl px-4 bg-bgLight focus:bg-white text-balck border-2 text-black' type="text" placeholder="mail@example.com" />
             </div>
             <div className="w-full text-left flex flex-col justify-center items-start gap-0.5">
               <Label htmlFor="password"> Contraseña </Label>
-              <Input stateData="normal" id="password" value={password} onChange={(e) => setPassword(e.target.value)} className='w-full outline-none rounded-3xl px-4 bg-bgLight focus:bg-white text-balck border-2 text-black' type="password" placeholder="min 8 caracteres" />
+              <Input uniqueBorder={true} inputColor="Light" id="password" value={password} onChange={(e) => setPassword(e.target.value)} className='w-full outline-none rounded-3xl px-4 bg-bgLight focus:bg-white text-balck border-2 text-black' type="password" placeholder="min 8 caracteres" />
             </div>
             <Button primary={true} size="extraLarge" onClick={handleClck} className='outline-none hover:bg-green'> <span>Iniciar sesion</span> </Button>
             <Link className='bg-bgLight border-2 border-solid border-bgLight rounded-md text-bgDark py-1 px-2 text-center hover:bg-transparent hover:text-bgLight' to={PUBLIC_ROUTES.SINGIN}> Registrarse </Link>
