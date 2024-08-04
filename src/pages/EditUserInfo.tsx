@@ -2,6 +2,8 @@ import { Layout } from '@/components/Layout'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Spinner } from '@/components/ui/Spinner'
+import { UpdateInfoUser } from '@/components/UpdateInfoUser'
+import { useUserSesion } from '@/zustand/UserStorage'
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 interface Props {
@@ -12,6 +14,7 @@ export const EditUserInfo: React.FC<Props> = () => {
   const params = new URLSearchParams(location.search)
   const [typeUpdate, setTypeUpdate] = useState(0)
   const [load, setLoad] = useState(false)
+  const userInfo = useUserSesion(Storage => Storage.infoUser)
   useEffect(()=>{
     try {
       setLoad(true)
@@ -24,41 +27,21 @@ export const EditUserInfo: React.FC<Props> = () => {
       console.log(error)
     }
   }, [])
+  
   return (
     <Layout>
       <main className='flex flexcol justify-center items-center bg-bgLight w-full h-full my-10 py-4 px-3'>
         {
           load && <Spinner />
         }
-        <div className='flex flex-col justify-center items-center w-1/2 h-full gap-2'>
+        <form className='flex flex-col justify-center items-center w-1/2 h-full gap-2'>
           {
-            typeUpdate == 1 && (
-              <>
-              <h1 className='text-xl text-pretty font-bold capitalize'> Ingrese sus nuevos datos </h1>
-              <span className='font-thin text-sm text-balance'>Si deja algún dato en blanco, este no se verá modificado</span>
-              <div className='flex flex-col justify-around items-center w-full text-left gap-1'>
-                <label htmlFor='name' className='font-semibold text-left'>Ingrese su nombre</label>
-                <Input id="name" placeholder='John'  />
-              </div>
-              <div className='flex flex-col justify-around items-center w-full text-left gap-1'>
-                <label htmlFor='name' className='font-semibold text-left'>Ingrese su Apellido</label>
-                <Input id="name" placeholder='Doe'  />
-              </div>
-              <div className='flex flex-col justify-around items-center w-full text-left gap-1'>
-                <label htmlFor='name' className='font-semibold text-left'>Ingrese su Telefono</label>
-                <Input id="name" placeholder='1234567890'  />
-              </div>
-              <div className='flex flex-col justify-around items-center w-full text-left gap-1'>
-                <label htmlFor='name' className='font-semibold text-left'>Ingrese su correo</label>
-                <Input id="name" placeholder='example@ejemplo.com'  />
-              </div>
-              <div className='flex flex-col justify-around items-center w-full text-left gap-1'>
-                <label htmlFor='name' className='font-semibold text-left'>Ingrese su contraseña</label>
-                <Input id="name" placeholder='***'  />
-              </div>
-              <Button primary={true} size='extraLarge'>Actualizar datos</Button>
-              </>
-            )
+            typeUpdate == 1 && <UpdateInfoUser 
+            Id={userInfo?.Id} 
+            first_name={userInfo?.First_Name}
+            last_name={userInfo?.Last_Name}
+            actualEmail={userInfo?.email}
+            actualPhone={userInfo?.phone} />
           }
           {
             typeUpdate == 2 && (
@@ -92,7 +75,7 @@ export const EditUserInfo: React.FC<Props> = () => {
               </>
             )
           }
-        </div>
+        </form>
       </main>
     </Layout>
   )
