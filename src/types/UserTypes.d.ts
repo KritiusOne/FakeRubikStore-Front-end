@@ -38,6 +38,7 @@ export interface UserUpdateBaseInfo {
 }
 
 export interface AddressUserUpdate {
+  id: string
   address: string;
   city: string;
   state: string;
