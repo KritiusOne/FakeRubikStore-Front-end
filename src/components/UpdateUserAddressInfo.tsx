@@ -6,7 +6,6 @@ import { sitesRegEx } from '@/lib/validation'
 import { AddressUserUpdate } from '@/types/UserTypes'
 import { useURLStorage } from '@/zustand/URLStorage'
 import { useUserSesion } from '@/zustand/UserStorage'
-import { userInfo } from 'os'
 import { useNavigate } from 'react-router-dom'
 import { PRIVATE_USER_ROUTES } from '@/routes/TypesRoutes'
 
