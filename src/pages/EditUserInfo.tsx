@@ -1,8 +1,7 @@
 import { Layout } from '@/components/Layout'
-import { Button } from '@/components/ui/Button'
-import { Input } from '@/components/ui/Input'
 import { Spinner } from '@/components/ui/Spinner'
 import { UpdateInfoUser } from '@/components/UpdateInfoUser'
+import { UpdateUserAddressInfo } from '@/components/UpdateUserAddressInfo'
 import { useUserSesion } from '@/zustand/UserStorage'
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
@@ -15,6 +14,7 @@ export const EditUserInfo: React.FC<Props> = () => {
   const [typeUpdate, setTypeUpdate] = useState(0)
   const [load, setLoad] = useState(false)
   const userInfo = useUserSesion(Storage => Storage.infoUser)
+
   useEffect(()=>{
     try {
       setLoad(true)
@@ -44,36 +44,7 @@ export const EditUserInfo: React.FC<Props> = () => {
             actualPhone={userInfo?.phone} />
           }
           {
-            typeUpdate == 2 && (
-              <>
-              <div className='flex flex-col justify-center items-center gap-0.5'>
-                <h1 className='text-xl text-pretty font-bold capitalize'> Ingrese los datos donde desea recibir sus envíos </h1>
-                <strong className="text-sm text-balance before:content-['*'] before:ml-0.5 before:text-red-500"> Campos opcionales</strong>
-
-              </div>
-              <div className='flex flex-col justify-around items-center w-full text-left gap-1'>
-                <label htmlFor='name' className='font-semibold text-left'>Ingrese su Dirección</label>
-                <Input id="name" placeholder='Cr. 1 Calle 1 Mz 1 Barrio' autoComplete='off'  />
-              </div>
-              <div className='flex flex-col justify-around items-center w-full text-left gap-1'>
-                <label htmlFor='name' className='font-semibold text-left'>Ingrese su Ciudad</label>
-                <Input id="name" placeholder='Bogotá' autoComplete='off'  />
-              </div>
-              <div className='flex flex-col justify-around items-center w-full text-left gap-1'>
-                <label htmlFor='name' className='font-semibold text-left'>Ingrese su departamento/estado</label>
-                <Input id="name" placeholder='Cundinamarca' autoComplete='off'  />
-              </div>
-              <div className='flex flex-col justify-around items-center w-full text-left gap-1'>
-                <label htmlFor='name' className='font-semibold text-left'>Ingrese su país</label>
-                <Input id="name" placeholder='Colombia' autoComplete='off'  />
-              </div>
-              <div className='flex flex-col justify-around items-center w-full text-left gap-1'>
-                <label htmlFor='name' className="font-semibold text-left after:content-['*'] after:ml-0.5 after:text-red-500">Ingrese su Descripción</label>
-                <Input id="name" placeholder='***' autoComplete='off'  />
-              </div>
-              <Button primary={true} size='extraLarge'>Actualizar datos</Button>
-              </>
-            )
+            typeUpdate == 2 && <UpdateUserAddressInfo id={userInfo != null ? parseInt(userInfo.IdAddress) : 0} />
           }
         </form>
       </main>
