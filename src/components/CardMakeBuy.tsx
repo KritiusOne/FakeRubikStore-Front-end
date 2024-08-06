@@ -25,7 +25,7 @@ export const CardMakeBuy: React.FC<Props> = ({ product }) => {
         </div>
         <span> ${product.price} c/u </span>
       </main>
-      <Button onClick={() => removeProduct(product.id)} size="small" className="p-0.5 flex flex-col justify-center items-center hover:bg-primaryRed hover:border-white hover:text-white">
+      <Button onClick={() => removeProduct(product.id)} size="small" className="p-0.5 flex flex-col justify-center items-center hover:bg-primaryRed hover:border-bgLight hover:text-white">
         <IconX />
       </Button>
     </article>
