@@ -11,6 +11,7 @@ interface Cart {
   minusStock: (numProd: number, id: number) => void
   removeProduct: (id: number) => void
   changeNumberStock: (id: number, stock: number) => void
+  clearCart: ()=> void
 }
 export const useCartStorage = create<Cart>((set, get) => ({
   ProductsCart: [],
@@ -75,5 +76,9 @@ export const useCartStorage = create<Cart>((set, get) => ({
     })
     const newParcialPrice = newCart.reduce((prev, current)=> prev + current.price * current.numberProd, 0)
     set({...cart, ProductsCart: newCart, parcialPrice: newParcialPrice})
+  },
+  clearCart: ()=>{
+    const actualCart = get()
+    set({...actualCart, ProductsCart: [], parcialPrice: 0})
   }
 }))
