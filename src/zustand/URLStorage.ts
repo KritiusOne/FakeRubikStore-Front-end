@@ -6,6 +6,7 @@ interface URLStorageTypes {
   GetAddressById: (id:string) => string
   UpdateUser: (id: string) => string
   UpdateAddress: (id: number)=> string
+  CreateOrder: string
 }
 export const useURLStorage = create<URLStorageTypes>(()=>({
   Products: import.meta.env.VITE_API_URL_PRODUCTS,
@@ -18,5 +19,6 @@ export const useURLStorage = create<URLStorageTypes>(()=>({
   },
   UpdateAddress: (id)=>{
     return `${import.meta.env.VITE_API_URL_UPDATE_ADDRESS}${id.toString()}`
-  }
+  },
+  CreateOrder: import.meta.env.VITE_API_URL_CREATE_ORDER
 }))
