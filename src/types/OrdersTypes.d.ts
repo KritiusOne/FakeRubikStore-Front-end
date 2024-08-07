@@ -27,10 +27,19 @@ export interface CreateOrder {
   idUser:        number;
   date:          Date;
   finalPrice:    number;
+  numberCard: string
   orderProducts: CreateOrderProduct[];
 }
 export interface CreateOrderProduct {
   idProduct:      number;
   productsNumber: number;
   price:          number;
+}
+export interface BasicOrderInfo {
+  id:            number;
+  idUser:        number;
+  idDelivery:    number;
+  date:          Date;
+  finalPrice:    number;
+  numberCard: string
 }
