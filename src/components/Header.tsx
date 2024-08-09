@@ -7,7 +7,7 @@ import { IconFilterFilled, IconLogout } from '@tabler/icons-react';
 import { IconHistory } from '@tabler/icons-react';
 import { useUserSesion } from "@/zustand/UserStorage";
 import { useNavigate } from "react-router-dom";
-import { PUBLIC_ROUTES } from "@/routes/TypesRoutes";
+import { PRIVATE_USER_ROUTES, PUBLIC_ROUTES } from "@/routes/TypesRoutes";
 
 interface Props extends HTMLAttributes<HTMLElement>{}
 export const Header: React.FC<Props> = ({...props})=> {
@@ -27,7 +27,8 @@ export const Header: React.FC<Props> = ({...props})=> {
           </li>
           {
             activeSesion && <li>
-            <Button size="extraLarge" className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"><span>Historial de compras</span> <IconHistory /> </Button>
+            <Button size="extraLarge" className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"
+            onClick={()=> navegate(PRIVATE_USER_ROUTES.SHOPPING_HISTORY) }><span>Historial de compras</span> <IconHistory /> </Button>
           </li>
           }
           {
