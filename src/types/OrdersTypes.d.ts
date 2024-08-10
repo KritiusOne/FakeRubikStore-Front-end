@@ -10,6 +10,7 @@ export interface Order {
   idDelivery:    number;
   date:          Date;
   finalPrice:    number;
+  numberCard: string
 }
 export interface DeliveryInfo {
   idState: number;
