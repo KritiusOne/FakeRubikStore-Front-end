@@ -7,7 +7,7 @@ interface URLStorageTypes {
   UpdateUser: (id: string) => string
   UpdateAddress: (id: number)=> string
   CreateOrder: string
-  GetAllOrdersByUser: (id: string) => string
+  GetAllOrdersByUser: (id: string, pageNumber: number, pageSize: number) => string
 }
 export const useURLStorage = create<URLStorageTypes>(()=>({
   Products: import.meta.env.VITE_API_URL_PRODUCTS,
@@ -22,10 +22,12 @@ export const useURLStorage = create<URLStorageTypes>(()=>({
     return `${import.meta.env.VITE_API_URL_UPDATE_ADDRESS}${id.toString()}`
   },
   CreateOrder: import.meta.env.VITE_API_URL_CREATE_ORDER,
-  GetAllOrdersByUser: (id)=>{
+  GetAllOrdersByUser: (id, pageNumber, pageSize)=>{
     const URL_BASE = import.meta.env.VITE_API_URL_GET_ALL_Orders
     const params = new URLSearchParams()
     params.append("IdUser", id)
+    params.append("PageSize", pageSize.toString())
+    params.append("PageNumber", pageNumber.toString())
     return `${URL_BASE}${params.toString()}`
   }
 }))
