@@ -1,10 +1,10 @@
-import { DeliveryStates } from '@/lib/DeliveryStates'
+import { DeliveryStates, getInWordStateDelivery } from '@/lib/DeliveryStates'
 import { OrderProduct } from '@/types/OrdersTypes'
 import React from 'react'
 import { Button } from './ui/Button'
-import { useURLStorage } from '@/zustand/URLStorage'
 import { useNavigate } from 'react-router-dom'
 import { PRIVATE_USER_ROUTES } from '@/routes/TypesRoutes'
+import { getSimpleDate } from '@/lib/DateManagment'
 
 interface Props {
   dateBuy: Date
@@ -14,33 +14,9 @@ interface Props {
   allProductInOrder: OrderProduct[],
   idOrder: string
 }
-const getSimpleDate = (DateBuy: Date) => {
-  const date = new Date(DateBuy)
-  const [month, day, year] = [
-    date.getMonth(),
-    date.getDate(),
-    date.getFullYear(),
-  ]
-  const Meses = [
-    "Enero",
-    "Febrero",
-    "Marzo",
-    "Abril",
-    "Mayo",
-    "Junio",
-    "Julio",
-    "Agosto",
-    "Septiembre",
-    "Octubre",
-    "Noviembre",
-    "Diciembre"
-  ]
-  return `${day} de ${Meses[month]} del ${year}`
-}
-const getInWordStateDelivery = (stateDelivery: number) => {
-  return DeliveryStates[stateDelivery].toString().replace("_", " ")
-}
-export const CardProductHistory: React.FC<Props> = ({ dateBuy, nameProduct, stateDelivery, img, allProductInOrder, idOrder }) => {
+
+
+export const CardOrdertHistory: React.FC<Props> = ({ dateBuy, nameProduct, stateDelivery, img, allProductInOrder, idOrder }) => {
   const navegate = useNavigate()
   const handleClickButton = () => {
     const ruta = PRIVATE_USER_ROUTES.SHOPPING_DETAILS.split(":")

@@ -1,4 +1,4 @@
-import { CardProductHistory } from '@/components/CardProductHistory'
+import { CardOrdertHistory } from '@/components/CardOrderHistory'
 import { Layout } from '@/components/Layout'
 import { Input } from '@/components/ui/Input'
 import { Paginated } from '@/components/ui/Paginated'
@@ -112,7 +112,7 @@ export const ShoppingHistory: React.FC = () => {
         </div>
         <div className='w-10/12 px-4 py-3 flex flex-col justify-center items-center gap-4'>
           {
-            !load && response != undefined && filter == "" && response.map((OrderOfUser) => <CardProductHistory
+            !load && response != undefined && filter == "" && response.map((OrderOfUser) => <CardOrdertHistory
               idOrder={OrderOfUser.id.toString()}
               dateBuy={OrderOfUser.date}
               nameProduct={OrderOfUser.orderProducts[0].productInfo.name}
@@ -132,7 +132,7 @@ export const ShoppingHistory: React.FC = () => {
                 returnable = orderProduct.productInfo.name.toLowerCase().trim().includes(filter.toLowerCase().trim())
               })
               return returnable
-            }).map((OrderOfUser) => <CardProductHistory
+            }).map((OrderOfUser) => <CardOrdertHistory
               key={OrderOfUser.id}
               idOrder={OrderOfUser.id.toString()}
               dateBuy={OrderOfUser.date}
