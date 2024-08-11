@@ -64,12 +64,16 @@ export const CardProductHistory: React.FC<Props> = ({ dateBuy, nameProduct, stat
           {
             stateDelivery == 1 && <i className='text-green text-balance'> Entregado hace poco </i>
           }
-          <p className='flex flex-col justify-center items-center'>
+          <p className='flex flex-col justify-center items-center text-balance text-center'>
             {
               allProductInOrder.map((productOrder, index) => {
                 if(index<3)
-                  return <span key={`${productOrder.idOrder}${productOrder.idProduct}`}> {productOrder.productInfo.name} </span>
+                  return <span key={`${productOrder.idOrder}${productOrder.idProduct}`} 
+                  className='max-w-[20ch] '> {productOrder.productInfo.name} </span>
               })
+            }
+            {
+              allProductInOrder.length > 3 && <span> Y otros {allProductInOrder.length - 3} más...  </span>
             }
           </p>
         </section>
