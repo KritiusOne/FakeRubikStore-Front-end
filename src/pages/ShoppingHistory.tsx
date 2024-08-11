@@ -21,9 +21,9 @@ export const ShoppingHistory: React.FC = () => {
   const [filter, setFilter] = useState("")
   const [response, setResponse] = useState<Order[]>()
 
-  const handleClickNextPage = async()=>{
+  const handleClickNextPage = async () => {
     try {
-      if(meta != undefined && !load && UserSesion.infoUser != null){
+      if (meta != undefined && !load && UserSesion.infoUser != null) {
         const URL = GetURL(UserSesion.infoUser.Id, meta.currentPage + 1, INITIAL_PAGE_SIZE)
         setLoad(true)
         const res = await fetch(URL, {
@@ -33,7 +33,7 @@ export const ShoppingHistory: React.FC = () => {
             Authorization: `${UserSesion.typetoken} ${UserSesion.token}`
           }
         })
-        if(res.ok){
+        if (res.ok) {
           const response: PaginatedResponse<Order[]> = await res.json()
           setResponse(response.response)
           setMeta(response.metaData)
@@ -44,9 +44,9 @@ export const ShoppingHistory: React.FC = () => {
       console.log(error)
     }
   }
-  const handleClickPreviwsPage = async()=>{
+  const handleClickPreviwsPage = async () => {
     try {
-      if(meta != undefined && !load && UserSesion.infoUser != null){
+      if (meta != undefined && !load && UserSesion.infoUser != null) {
         const URL = GetURL(UserSesion.infoUser.Id, meta.currentPage - 1, INITIAL_PAGE_SIZE)
         setLoad(true)
         const res = await fetch(URL, {
@@ -56,7 +56,7 @@ export const ShoppingHistory: React.FC = () => {
             Authorization: `${UserSesion.typetoken} ${UserSesion.token}`
           }
         })
-        if(res.ok){
+        if (res.ok) {
           const response: PaginatedResponse<Order[]> = await res.json()
           setResponse(response.response)
           setMeta(response.metaData)
@@ -113,6 +113,7 @@ export const ShoppingHistory: React.FC = () => {
         <div className='w-10/12 px-4 py-3 flex flex-col justify-center items-center gap-4'>
           {
             !load && response != undefined && filter == "" && response.map((OrderOfUser) => <CardProductHistory
+              idOrder={OrderOfUser.id.toString()}
               dateBuy={OrderOfUser.date}
               nameProduct={OrderOfUser.orderProducts[0].productInfo.name}
               stateDelivery={OrderOfUser.deliveryInfo.idState}
@@ -133,6 +134,7 @@ export const ShoppingHistory: React.FC = () => {
               return returnable
             }).map((OrderOfUser) => <CardProductHistory
               key={OrderOfUser.id}
+              idOrder={OrderOfUser.id.toString()}
               dateBuy={OrderOfUser.date}
               nameProduct={OrderOfUser.orderProducts[0].productInfo.name}
               stateDelivery={OrderOfUser.deliveryInfo.idState}
