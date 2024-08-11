@@ -50,3 +50,16 @@ export interface Review {
   description: string;
   rate:        number;
 }
+
+export interface ProductInCart extends Product {
+  numberProd: number
+}
+export interface ProductInfo {
+  id:          number;
+  name:        string;
+  price:       number;
+  stock:       number;
+  image:       string;
+  description: string;
+  thumbnail:   string;
+}

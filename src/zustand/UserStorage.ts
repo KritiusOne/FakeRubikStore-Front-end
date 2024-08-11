@@ -18,7 +18,7 @@ export const useUserSesion = create<UserSesion>((set)=>({
     const arrJwt = jwt.split(".")
     const transform = atob(arrJwt[1])
     const newUser = JSON.parse(transform)
-    localStorage.setItem("token", arrJwt[1])
+    localStorage.setItem("token", jwt)
     localStorage.setItem("typetoken", jwtType)
     set({activeSesion: true, infoUser: newUser, token: jwt, typetoken: jwtType})
   },
@@ -30,7 +30,8 @@ export const useUserSesion = create<UserSesion>((set)=>({
   haveSesion: ()=>{
     const token = localStorage.getItem("token")
     if(token != null){
-      const oldUser:User = JSON.parse(atob(token))
+      const splitToken = token.split(".")
+      const oldUser:User = JSON.parse(atob(splitToken[1]))
       const dateExp = new Date(oldUser.exp * 1000)
       const today = new Date(Date.now())
       if(today < dateExp){
@@ -38,6 +39,5 @@ export const useUserSesion = create<UserSesion>((set)=>({
         set({activeSesion: true, infoUser: oldUser, token: token, typetoken: typeToken})
       }
     }
-    console.log(token)
   }
 }))
