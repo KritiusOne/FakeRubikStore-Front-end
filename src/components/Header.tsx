@@ -23,8 +23,8 @@ export const Header: React.FC<Props> = ({ ...props }) => {
   return (
     <>
       <header {...props} className={`w-full bg-bgLight sticky top-0 z-30 flex flex-row justify-between items-center py-3 px-4 md:flex-col md:justify-center overflow-hidden ${props.className}`}>
-        <button onClick={() => setShowMenu(true)} className="bg-transparent border-none outline-none">
-          <HMenu className="block md:hidden cursor-pointer text-primaryRed" />
+        <button onClick={() => setShowMenu(true)} className="block md:hidden  bg-transparent border-none outline-none">
+          <HMenu className="cursor-pointer text-primaryRed" />
         </button>
         <SearchBar className="w-full" />
         <ul className="md:flex flex-row justify-center items-center gap-4 hidden">
