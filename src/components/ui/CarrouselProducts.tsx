@@ -14,49 +14,54 @@ export const CarrouselProducts: React.FC<CarrouselProductsProps> = ({ ...props }
   const [numCards, setNumCards] = useState(window.innerWidth <= 600 ? 2 : window.innerWidth <= 1024 ? 3 : 4)
   const [arrCards, setArrCards] = useState<Product[]>([])
   //const [animation, setAnimation] = useState("")
-  const next = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % productsCarousel.length);
-    if(currentIndex + numCards > 9){
-      const copy = [...productsCarousel]
-      let faltantes = currentIndex + numCards - 9
-      let indice = 0
-      const aux = copy.slice(currentIndex + 1)
-      while(faltantes != 0) {
-        aux.push(copy[indice])
-        faltantes--
-        indice++
+
+
+  const updateArrCards = (newIndex: number, numCardsToShow: number) => {
+    const totalProducts = productsCarousel.length;
+    if (newIndex + numCardsToShow > totalProducts) {
+      const copy = [...productsCarousel];
+      const aux = copy.slice(newIndex);
+      let faltantes = newIndex + numCardsToShow - totalProducts;
+      let parcialIndex = 0;
+      while (faltantes > 0) {
+        aux.push(copy[parcialIndex]);
+        faltantes--;
+        parcialIndex++;
       }
-      setArrCards(aux)
-    }else{
-      setArrCards(productsCarousel.slice(currentIndex + 1, currentIndex + numCards + 1))
+      setArrCards(aux);
+    } else {
+      setArrCards(productsCarousel.slice(newIndex, newIndex + numCardsToShow));
     }
+  };
+  const next = () => {
+    const newIndex = (currentIndex + 1) % productsCarousel.length;
+    setCurrentIndex(newIndex);
+    updateArrCards(newIndex, numCards);
   }
   const previous = () => {
-    const newIndex = currentIndex - 1 < 0 ? 9 : currentIndex - 1
-    if(newIndex + numCards > 9){
-      const copy = [...productsCarousel]
-      const aux = copy.slice(newIndex)
-      let faltantes = newIndex + numCards - 10
-      let parcialIndex = 0
-      while(faltantes > 0){
-        aux.push(copy[parcialIndex])
-        faltantes--
-        parcialIndex++
-      }
-      setCurrentIndex(newIndex)
-      setArrCards(aux)
-    }else{
-      setArrCards(productsCarousel.slice(currentIndex - 1, currentIndex - 1+ numCards))
-      setCurrentIndex(currentIndex - 1)
-    }
-    
+    const totalProducts = productsCarousel.length;
+    const newIndex = currentIndex - 1 < 0 ? totalProducts - 1 : currentIndex - 1;
+    setCurrentIndex(newIndex);
+    updateArrCards(newIndex, numCards);    
   }
   if (currentIndex > 9) {
     setCurrentIndex(0)
   }
   useEffect(()=>{
-    window.addEventListener("resize", ()=> setNumCards(window.innerWidth <= 600 ? 2 : window.innerWidth <= 1024 ? 3 : 4) )
-  })
+    const handleResize = () => {
+      const newNumCards = window.innerWidth <= 600 ? 2 : window.innerWidth <= 1024 ? 3 : 4;
+      setNumCards(newNumCards);
+      updateArrCards(currentIndex, newNumCards)
+    };
+  
+    window.addEventListener('resize', handleResize);
+  
+    handleResize();
+  
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [currentIndex, productsCarousel])
   return (
     <div className="flex flex-row items-center justify-between px-5 max-w-full">
       <Button border={false} onClick={previous}>
