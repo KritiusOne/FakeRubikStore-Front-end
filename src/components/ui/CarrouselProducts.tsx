@@ -11,7 +11,7 @@ interface CarrouselProductsProps extends HTMLAttributes<HTMLElement> {
 export const CarrouselProducts: React.FC<CarrouselProductsProps> = ({ ...props }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const productsCarousel = useProductStorage(state => state.BestProducts)
-  const [numCards, setNumCards] = useState(window.innerWidth <= 600 ? 2 : window.innerWidth <= 1024 ? 3 : 4)
+  const [numCards, setNumCards] = useState(window.innerWidth <= 600 ? 1 : window.innerWidth <= 1024 ? 2 : 4)
   const [arrCards, setArrCards] = useState<Product[]>([])
   //const [animation, setAnimation] = useState("")
 
@@ -49,7 +49,7 @@ export const CarrouselProducts: React.FC<CarrouselProductsProps> = ({ ...props }
   }
   useEffect(()=>{
     const handleResize = () => {
-      const newNumCards = window.innerWidth <= 600 ? 2 : window.innerWidth <= 1024 ? 3 : 4;
+      const newNumCards = window.innerWidth <= 600 ? 1 : window.innerWidth <= 1024 ? 2 : 4;
       setNumCards(newNumCards);
       updateArrCards(currentIndex, newNumCards)
     };

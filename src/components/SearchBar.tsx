@@ -4,7 +4,6 @@ import { ExpandedLogo } from "./ui/ExpandedLogo"
 import { useNavigate } from "react-router-dom"
 import { PUBLIC_ROUTES } from "@/routes/TypesRoutes"
 import { CartIcon } from "./ui/icons/CartIcon"
-import { ButtonCollection } from "./ui/ButtonCollection"
 import { useUserSesion } from "@/zustand/UserStorage"
 import { Button } from "./ui/Button"
 import { IconUserFilled } from "@tabler/icons-react"
@@ -29,12 +28,12 @@ export const SearchBar: React.FC<Props> = () => {
           <SearchIcon />
         </button>
       </nav>
-      <ButtonCollection className="hidden md:flex flex-row text-sm">
+      <div className="hidden md:flex gap-2 flex-row justify-center items-start text-sm">
         {
           User.activeSesion ? <Avatar nameUser={User.infoUser?.First_Name} /> : <Button onClick={()=> navegate(PUBLIC_ROUTES.LOGIN)} size="extraLarge" className="flex flex-row justify-center items-center gap-2" primary={true}><span>Iniciar Sesion</span><IconUserFilled /></Button>
         }
         <Button onClick={()=> cartStorage.changeViewCart(cartStorage.viewCart)} size="extraLarge" className="flex flex-row justify-center items-center gap-2"><span>Ver carrito</span> <CartIcon /></Button>
-      </ButtonCollection>
+      </div>
     </div>
   )
 }
