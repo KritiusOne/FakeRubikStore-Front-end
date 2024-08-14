@@ -11,7 +11,14 @@ import { ProfileConfig } from "@/pages/ProfileConfig"
 import { EditUserInfo } from "@/pages/EditUserInfo"
 import { ShoppingHistory } from "@/pages/ShoppingHistory"
 import { ShoppingDetails } from "@/pages/ShoppingDetails"
+import { useUserSesion } from "@/zustand/UserStorage"
+import { useEffect } from "react"
+
 export const MyRoutes: React.FC<{}> = () => {
+  const haveSesion = useUserSesion(state => state.haveSesion)
+  useEffect(()=>{
+    haveSesion()
+  }, [haveSesion])
   return (
     <BrowserRouter>
       <Routes>
@@ -23,17 +30,13 @@ export const MyRoutes: React.FC<{}> = () => {
 
         <Route element={<Auth_Guard />} >
           <Route path={PRIVATE_USER_ROUTES.MAKE_BUY} element={<MakeBuy />} />
-        </Route>
-        <Route element={<Auth_Guard />} >
+
           <Route path={PRIVATE_USER_ROUTES.PROFILE_CONFIG} element={<ProfileConfig />} />
-        </Route>
-        <Route element={<Auth_Guard />} >
+
           <Route path={PRIVATE_USER_ROUTES.EDIT_USER_INFO} element={<EditUserInfo />} />
-        </Route>
-        <Route element={<Auth_Guard />}>
+
           <Route path={PRIVATE_USER_ROUTES.SHOPPING_HISTORY} element={<ShoppingHistory />} />
-        </Route>
-        <Route element={<Auth_Guard />}>
+          
           <Route path={PRIVATE_USER_ROUTES.SHOPPING_DETAILS} element={<ShoppingDetails />} />
         </Route>
       </Routes>
