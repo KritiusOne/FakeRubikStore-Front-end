@@ -32,7 +32,7 @@ export const Hero: React.FC<Props> = ({...props})=>{
     selectNewImage(selectedIndex, imgs);
   }
   return (
-    <section aria-label="Hero" className="w-10/12 flex flex-col justify-center items-center gap-5" {...props} >
+    <section aria-label="Hero" className="w-10/12 mt-10" {...props} >
       <Carrousel imgCarrousel={getImageURL(selectedImg)} previous={previous} next={next} className="flex flex-row justify-center items-center w-full" />
     </section>
   )
