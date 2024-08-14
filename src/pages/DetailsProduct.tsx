@@ -4,6 +4,7 @@ import { Comment } from "@/components/ui/Comment"
 import { Divider } from "@/components/ui/Divider"
 import { CartIcon } from "@/components/ui/icons/CartIcon"
 import { ProgressBar } from "@/components/ui/Progressbar"
+import { Spinner } from "@/components/ui/Spinner"
 import { Stars } from "@/components/ui/Stars"
 import { PRIVATE_USER_ROUTES } from "@/routes/TypesRoutes"
 import { AllDataProduct } from "@/types/ProductsTypes"
@@ -19,28 +20,36 @@ export const DetailsProduct: React.FC = () => {
   const [numStars, setNumStars] = useState<number>(0)
   const addToCart = useCartStorage(Storage => Storage.add)
   const navegate = useNavigate()
+  const [load, setLoad] = useState(false)
   useEffect(() => {
     const getProduct = async () => {
-      const URL = `${import.meta.env.VITE_API_URL_PRODUCT_BY_ID}${params.get("id")}`
-      const response = await fetch(URL)
-      if (response.ok) {
-        const productData: ResponseBase<AllDataProduct> = await response.json()
-        const sumRate = productData.response.reviews.reduce((prev, current) => current.rate + prev, 0)
-        const promRate = sumRate / productData.response.reviews.length
-        setProductsDetails(productData.response)
-        setNumStars(isNaN(promRate) ? 0 : promRate)
+      try {
+        const URL = `${import.meta.env.VITE_API_URL_PRODUCT_BY_ID}${params.get("id")}`
+        setLoad(true)
+        const response = await fetch(URL)
+        if (response.ok) {
+          const productData: ResponseBase<AllDataProduct> = await response.json()
+          const sumRate = productData.response.reviews.reduce((prev, current) => current.rate + prev, 0)
+          const promRate = sumRate / productData.response.reviews.length
+          setProductsDetails(productData.response)
+          setNumStars(isNaN(promRate) ? 0 : promRate)
+          setLoad(false)
+        }
+      } catch (error) {
+        console.log(error)
       }
+
     }
-    window.scroll(0,0)
+    window.scroll(0, 0)
     getProduct()
   }, [])
-  const handleClickAdd = ()=>{
-    if(productDatails != undefined){
+  const handleClickAdd = () => {
+    if (productDatails != undefined) {
       addToCart(1, productDatails.id, productDatails.name, productDatails.price, productDatails.thumbnail)
     }
   }
-  const handleMakeBuyNow = ()=>{
-    if(productDatails != undefined){
+  const handleMakeBuyNow = () => {
+    if (productDatails != undefined) {
       addToCart(1, productDatails.id, productDatails.name, productDatails.price, productDatails.thumbnail)
       navegate(PRIVATE_USER_ROUTES.MAKE_BUY)
     }
@@ -101,11 +110,14 @@ export const DetailsProduct: React.FC = () => {
             </div>
             <div className="flex flex-col justify-start items-center">
               {
-                productDatails && productDatails?.reviews.map((review)=> <Comment description={review.description} rate={review.rate} key={review.userId} />)
+                productDatails && productDatails?.reviews.map((review) => <Comment description={review.description} rate={review.rate} key={review.userId} />)
               }
             </div>
           </div>
         </section>
+      {
+        load && <Spinner />
+      }
       </div>
     </Layout>
   )

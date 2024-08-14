@@ -2,20 +2,27 @@ import { BestProductsSection } from "@/components/BestProductsSection";
 import { Hero } from "@/components/Hero";
 import { Layout } from "@/components/Layout"
 import { CardProduct } from "@/components/ui/CardProduct";
+import { Spinner } from "@/components/ui/Spinner";
 //import response from "@/lib/mocks/products.json"
 import { useProductStorage } from "@/zustand/ProductStorage";
 import { useURLStorage } from "@/zustand/URLStorage";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 export const Home: React.FC = () => {
   const products = useProductStorage()
+  const [load, setLoad] = useState(false)
   const url = useURLStorage(urlStorage => urlStorage.Products)
   useEffect(() => {
+    setLoad(true)
     products.getProducts(url)
+    setLoad(false)
   }, [])
   return (
     <Layout>
       <main className="max-w-full p gap-10 flex flex-col justify-around items-center my-6">
         <Hero />
+        {
+          load && <Spinner colorSpinner="Light" />
+        }
         <BestProductsSection />
         <div className="flex flex-col justify-center gap-2 w-full px-5">
           <h2 className="text-2xl md:text-4xl text-center text-bgLight font-bold">Cubos de Rubik</h2>
