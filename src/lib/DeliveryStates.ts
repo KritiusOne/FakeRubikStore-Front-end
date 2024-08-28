@@ -1,9 +1,9 @@
 export enum DeliveryStates {
-  ENTREGADO = 1,
-  NO_ENTREGADO = 2,
-  EN_PREPARACION = 3,
-  ENVIADO = 4,
-  CANCELADO = 5
+  NO_ATENDIDO = 1,
+  EN_PREPARACION,
+  ENVIADO,
+  ENTREGADO,
+  CANCELADO
 }
 export const getInWordStateDelivery = (stateDelivery: number) => {
   return DeliveryStates[stateDelivery].toString().replace("_", " ")

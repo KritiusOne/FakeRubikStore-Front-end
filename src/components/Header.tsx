@@ -1,9 +1,9 @@
-import React, { HTMLAttributes, useState } from "react";
+import React, { HTMLAttributes, useEffect, useState } from "react";
 import { HMenu } from "./ui/icons/HMenu";
 import { SearchBar } from "./SearchBar";
 import { WCAIcon } from "./ui/icons/WCAIcon";
 import { Button } from "./ui/Button";
-import { IconFilterFilled, IconLogout } from '@tabler/icons-react';
+import { IconFilterFilled, IconLogout, IconMoneybag } from '@tabler/icons-react';
 import { IconHistory } from '@tabler/icons-react';
 import { useUserSesion } from "@/zustand/UserStorage";
 import { useNavigate } from "react-router-dom";
@@ -14,11 +14,18 @@ import { ResponsiveMenu } from "./ResponsiveMenu"
 interface Props extends HTMLAttributes<HTMLElement> { }
 
 export const Header: React.FC<Props> = ({ ...props }) => {
-  const activeSesion = useUserSesion(Storage => Storage.activeSesion)
-  const logOut = useUserSesion(Storage => Storage.logOut)
+  const UserSesion = useUserSesion()
   const navegate = useNavigate()
-  const [showMenu, setShowMenu] = useState(false)
   const cartStorage = useCartStorage()
+  const [showMenu, setShowMenu] = useState(false)
+  const [role, setRole] = useState("2")
+  useEffect(()=>{
+    if(UserSesion.infoUser){
+      setRole(UserSesion.infoUser.IdRole)
+    }else{
+      setRole("2")
+    }
+  }, [UserSesion.activeSesion])
 
   return (
     <>
@@ -29,22 +36,32 @@ export const Header: React.FC<Props> = ({ ...props }) => {
         <SearchBar className="w-full" />
         <ul className="md:flex flex-row justify-center items-center gap-4 hidden">
           <li>
-            <Button size="medium" className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"> <span>WCA</span> <WCAIcon className="text-xl" /></Button>
+            {
+              UserSesion.infoUser != null && role != "2" && <Button size="extraLarge" className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"> <span>Ver pedidos</span> <IconMoneybag /> </Button> 
+            }
+            {
+              role == "2" && <Button size="medium" className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"> <span>WCA</span> <WCAIcon className="text-xl" /></Button>
+            }
           </li>
           <li>
-            <Button size="extraLarge" className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"> <span>Busqueda avanzada</span> <IconFilterFilled /> </Button>
+            {
+              role == "2" && <Button size="extraLarge" className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"> <span>Busqueda avanzada</span> <IconFilterFilled /> </Button>
+            }
+            {
+              UserSesion.infoUser != null && role == "1" && <Button size="extraLarge" className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"> <span> Panel de control </span> <WCAIcon /> </Button>
+            }
           </li>
           {
-            activeSesion && <li>
+            UserSesion.activeSesion && <li>
               <Button size="extraLarge" className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"
                 onClick={() => navegate(PRIVATE_USER_ROUTES.SHOPPING_HISTORY)}><span>Historial de compras</span> <IconHistory /> </Button>
             </li>
           }
           {
-            activeSesion && <li>
+            UserSesion.activeSesion && <li>
               <Button size="extraLarge" className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"
                 onClick={() => {
-                  logOut()
+                  UserSesion.logOut()
                   navegate(PUBLIC_ROUTES.HOME)
                 }}><span>Cerrar sesión</span> <IconLogout /> </Button>
             </li>
@@ -54,7 +71,7 @@ export const Header: React.FC<Props> = ({ ...props }) => {
       {
         showMenu && (
           <Dialog onClose={() => setShowMenu(false)}>
-            <ResponsiveMenu handleClickCart={()=>{
+            <ResponsiveMenu handleClose={()=> setShowMenu(false) } handleClickCart={()=>{
               cartStorage.changeViewCart(cartStorage.viewCart)
               setShowMenu(false)
             }} />
