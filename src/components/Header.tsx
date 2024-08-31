@@ -7,7 +7,7 @@ import { IconFilterFilled, IconLogout, IconMoneybag } from '@tabler/icons-react'
 import { IconHistory } from '@tabler/icons-react';
 import { useUserSesion } from "@/zustand/UserStorage";
 import { useNavigate } from "react-router-dom";
-import { PRIVATE_USER_ROUTES, PUBLIC_ROUTES } from "@/routes/TypesRoutes";
+import { PRIVATE_ADMIN_ROUTES, PRIVATE_SELLER_ROUTES, PRIVATE_USER_ROUTES, PUBLIC_ROUTES } from "@/routes/TypesRoutes";
 import { Dialog } from "./ui/Dialog";
 import { useCartStorage } from "@/zustand/CartStorage";
 import { ResponsiveMenu } from "./ResponsiveMenu"
@@ -37,7 +37,9 @@ export const Header: React.FC<Props> = ({ ...props }) => {
         <ul className="md:flex flex-row justify-center items-center gap-4 hidden">
           <li>
             {
-              UserSesion.infoUser != null && role != "2" && <Button size="extraLarge" className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"> <span>Ver pedidos</span> <IconMoneybag /> </Button> 
+              UserSesion.infoUser != null && role != "2" && <Button size="extraLarge" 
+              className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"
+              onClick={()=> navegate(PRIVATE_SELLER_ROUTES.SELL_ORDERS)}> <span>Ver pedidos</span> <IconMoneybag /> </Button> 
             }
             {
               role == "2" && <Button size="medium" className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"> <span>WCA</span> <WCAIcon className="text-xl" /></Button>
@@ -48,7 +50,9 @@ export const Header: React.FC<Props> = ({ ...props }) => {
               role == "2" && <Button size="extraLarge" className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"> <span>Busqueda avanzada</span> <IconFilterFilled /> </Button>
             }
             {
-              UserSesion.infoUser != null && role == "1" && <Button size="extraLarge" className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"> <span> Panel de control </span> <WCAIcon /> </Button>
+              UserSesion.infoUser != null && role == "1" && <Button size="extraLarge" 
+              className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"
+              onClick={()=> navegate(PRIVATE_ADMIN_ROUTES.CONTROL_PANEL) }> <span> Panel de control </span> <WCAIcon /> </Button>
             }
           </li>
           {
