@@ -1,6 +1,7 @@
 import { AllProductsGrid } from '@/components/AllProductsGrid'
 import { Layout } from '@/components/Layout'
 import { OrderDetailsHistory } from '@/components/OrderDetailsHistory'
+import { Button } from '@/components/ui/Button'
 import { Spinner } from '@/components/ui/Spinner'
 import { OrderProductToProduct } from '@/lib/ProductMapper'
 import { Order } from '@/types/OrdersTypes'
@@ -50,6 +51,9 @@ export const ShoppingDetails: React.FC = () => {
     }
     getInfoOrderById()
   }, [])
+  const deliveryCancel = async ()=>{
+
+  }
   return (
     <Layout>
       <main className='w-10/12 h-full flex flex-col justify-center items-center bg-bgLight my-10 px-4 py-3 gap-4'>
@@ -57,15 +61,24 @@ export const ShoppingDetails: React.FC = () => {
           load && <Spinner colorSpinner='blue' />
         }
         {
-          !load && products != undefined  && OrderDetails != null && (
+          !load && products != undefined && OrderDetails != null && (
             <>
               <h1 className='text-2xl font-medium text-center text-pretty font-mono'> Detalles de la Orden #{OrderDetails.deliveryInfo.code} </h1>
               <AllProductsGrid allProducts={products} />
-              <OrderDetailsHistory 
-              code={OrderDetails.deliveryInfo.code} 
-              date={OrderDetails.date}
-              finalPrice={OrderDetails.finalPrice}
-              idState={OrderDetails.deliveryInfo.idState} />
+              <OrderDetailsHistory
+                code={OrderDetails.deliveryInfo.code}
+                date={OrderDetails.date}
+                finalPrice={OrderDetails.finalPrice}
+                idState={OrderDetails.deliveryInfo.idState} />
+              <div className='w-full flex flex-row justify-center items-center'>
+                {
+                  OrderDetails.deliveryInfo.idState == 1 && <Button onClick={() => deliveryCancel()} primary={false} size='extraLarge'> Cancelar </Button>
+                }
+                {
+                  UserSesion.infoUser != null && UserSesion.infoUser.IdRole != "2" && OrderDetails.deliveryInfo.idState < 4 &&
+                  <Button primary={true} size='extraLarge'>Pasar a la siguiente etapa</Button>
+                }
+              </div>
             </>
           )
         }
