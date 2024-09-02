@@ -42,14 +42,11 @@ export const CardOrdertHistory: React.FC<Props> = ({ dateBuy, nameProduct, state
             title={nameProduct} />
         </aside>
         <section className='flex flex-col lg:flex-row justify-evenly items-center flex-1'>
-          <strong className={`${stateDelivery == 1 ? "text-green" : "text-primaryRed"} text-pretty`}>
+          <strong className={`${stateDelivery == 5 ? "text-green" : "text-primaryRed"} text-pretty`}>
             {
               getInWordStateDelivery(stateDelivery)
             }
           </strong>
-          {
-            stateDelivery == 1 && <i className='text-green text-balance'> Entregado hace poco </i>
-          }
           <p className='flex flex-col justify-center items-center text-balance text-center'>
             {
               allProductInOrder.map((productOrder, index) => {

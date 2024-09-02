@@ -25,17 +25,18 @@ export const OrderDetailsHistory: React.FC<Props> = ({date, idState, code, final
           </span>
         </div>
         <p >
+          
           {
-            idState == 1 && "Su pedido ya fue Entregado exitosamente en la fecha correspondiente."
+            idState == 1 && "Aún no hemos atendido su pedido, si desea mas información comuniquese por medio de las redes que aparecen al final de la pagina"
           }
           {
-            idState == 2 && "Aún no hemos atendido su pedido, si desea mas información comuniquese por medio de las redes que aparecen al final de la pagina"
+            idState == 2 && "Estamos preparando su pedido"
           }
           {
-            idState == 3 && "Estamos preparando su pedido"
+            idState == 3 && "Su pedido ya fue enviado exitosamente en la fecha correspondiente, dentro de poco debería llegarle sin contratiempos"
           }
           {
-            idState == 4 && "Su pedido ya fue enviado exitosamente en la fecha correspondiente, dentro de poco debería llegarle sin contratiempos"
+            idState == 4 && "Su pedido ya fue Entregado exitosamente en la fecha correspondiente."
           }
           {
             idState == 5 && "Usted decidió cancelar su pedido. Lo esperamos para la proxima"
