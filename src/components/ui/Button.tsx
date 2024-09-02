@@ -16,7 +16,7 @@ export const Button = ({
       {...props}
       type="button"
       className={`${primary ? "bg-primaryRed text-white font-bold border-primaryRed hover:bg-tomato hover:border-tomato" : "bg-transparent border-black text-black"} ${border ? "border-2" : "border-none"} border-solid rounded-md px-3 py-1
-      ${size == "small" ? "min-w-8 max-w-16" : size == "medium" ? "min-w-12 max-w-20" : size == "large" ? "min-w-16 max-w-24": "min-w-20"}
+      ${size == "small" ? "min-w-8 max-w-16" : size == "medium" ? "min-w-12 max-w-20" : size == "large" ? "min-w-16 max-w-24": "min-w-20"} hover:bg-bgDark hover:text-white hover:border-bgDark
       ${props.className}`}
       
     >
