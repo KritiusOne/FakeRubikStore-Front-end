@@ -1,6 +1,9 @@
 import { getSimpleDate } from '@/lib/DateManagment'
 import { getInWordStateDelivery } from '@/lib/DeliveryStates'
 import React from 'react'
+import { Button } from './ui/Button'
+import { useUserSesion } from '@/zustand/UserStorage'
+import { URLSearchParams } from 'url'
 
 interface Props {
   idState: number
@@ -24,8 +27,7 @@ export const OrderDetailsHistory: React.FC<Props> = ({date, idState, code, final
             }
           </span>
         </div>
-        <p >
-          
+        <p>
           {
             idState == 1 && "Aún no hemos atendido su pedido, si desea mas información comuniquese por medio de las redes que aparecen al final de la pagina"
           }
@@ -50,6 +52,7 @@ export const OrderDetailsHistory: React.FC<Props> = ({date, idState, code, final
         </span>
         <span className='text-md'> Costo Total: <strong> COP {finalPrice} </strong> </span>
       </aside>
+      
     </div>
   )
 }
