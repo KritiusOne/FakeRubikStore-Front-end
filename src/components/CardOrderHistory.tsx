@@ -42,7 +42,7 @@ export const CardOrdertHistory: React.FC<Props> = ({ dateBuy, nameProduct, state
             title={nameProduct} />
         </aside>
         <section className='flex flex-col lg:flex-row justify-evenly items-center flex-1'>
-          <strong className={`${stateDelivery == 5 ? "text-green" : "text-primaryRed"} text-pretty`}>
+          <strong className={`${stateDelivery == 1 || stateDelivery == 5? "text-primaryRed" :"text-green" } text-pretty`}>
             {
               getInWordStateDelivery(stateDelivery)
             }

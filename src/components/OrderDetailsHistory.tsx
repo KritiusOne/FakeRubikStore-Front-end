@@ -16,7 +16,7 @@ export const OrderDetailsHistory: React.FC<Props> = ({date, idState, code, final
     <div className='w-full flex flex-col justify-center items-center md:grid md:grid-cols-2 gap-4'>
       <section className='shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] flex flex-col items-start justify-center px-4 py-3 rounded-lg'>
         <div className='flex flex-row justify-start items-center w-full gap-4'>
-          <h2 className={`${idState != 1 ? "text-red-700" : "text-green"} text-xl font-thin `} >
+          <h2 className={`${idState == 5 || idState == 1 ? "text-red-700" : "text-green"} text-xl font-thin `} >
             {
               getInWordStateDelivery(idState)
             }
