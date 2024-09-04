@@ -1,5 +1,6 @@
 import { CardOrdertHistory } from '@/components/CardOrderHistory'
 import { Layout } from '@/components/Layout'
+import { Paginated } from '@/components/ui/Paginated'
 import { PAGE_NUMBER_DEFAULT, PAGE_SIZE_DEFAULT } from '@/lib/PetitionDataType'
 import { Order } from '@/types/OrdersTypes'
 import { PaginatedResponse } from '@/types/ResponseTypes'
@@ -82,6 +83,15 @@ export const Orders: React.FC = () => {
             </article>)
           }
         </div>
+        <footer className='w-full flex flex-row justify-center items-center gap-2'>
+          {
+            AllOrders && <Paginated 
+            actualPage={AllOrders.metaData.currentPage}
+            hasNextPage={AllOrders.metaData.hasNextPage}
+            onNext={()=> setPageNumber(AllOrders.metaData.currentPage + 1)}
+            onPreviws={()=> setPageNumber(AllOrders.metaData.currentPage - 1)} />
+          }
+        </footer>
       </main>
     </Layout>
   )
