@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/Button'
 import { Dialog } from '@/components/ui/Dialog'
 import { Spinner } from '@/components/ui/Spinner'
 import { OrderProductToProduct } from '@/lib/ProductMapper'
-import { PRIVATE_USER_ROUTES } from '@/routes/TypesRoutes'
+import { PRIVATE_SELLER_ROUTES, PRIVATE_USER_ROUTES } from '@/routes/TypesRoutes'
 import { Order } from '@/types/OrdersTypes'
 import { Product } from '@/types/ProductsTypes'
 import { useURLStorage } from '@/zustand/URLStorage'
@@ -54,12 +54,12 @@ export const ShoppingDetails: React.FC = () => {
     }
     getInfoOrderById()
   }, [])
-  const deliveryCancel = async () => {
+  const UpdateDeliveryState = async (newState: string) => {
     const BASE_URL = import.meta.env.VITE_API_URL_UPDATE_DELIVERY_STATE
     const params = new URLSearchParams()
     if(OrderDetails != undefined && UserSesion.infoUser != null){
       params.append("Id", OrderDetails.idDelivery.toString())
-      params.append("newState", "5")
+      params.append("newState", newState)
       const FINAL_URL = BASE_URL + params.toString()
       try{
         const res = await fetch(FINAL_URL, {
@@ -71,7 +71,12 @@ export const ShoppingDetails: React.FC = () => {
         if(res.ok){
           setShowModal(true)
           setTimeout(()=>{
-            navegation(PRIVATE_USER_ROUTES.SHOPPING_HISTORY)
+            if(UserSesion.infoUser != null && UserSesion.infoUser.IdRole != "2"){
+              navegation(PRIVATE_SELLER_ROUTES.SELL_ORDERS)  
+            }else{
+              navegation(PRIVATE_USER_ROUTES.SHOPPING_HISTORY)
+            }
+            
           }, 2000)
         }
       }catch (error){
@@ -95,13 +100,13 @@ export const ShoppingDetails: React.FC = () => {
                 date={OrderDetails.date}
                 finalPrice={OrderDetails.finalPrice}
                 idState={OrderDetails.deliveryInfo.idState} />
-              <div className='w-full flex flex-row justify-center items-center'>
+              <div className='w-full flex flex-row justify-center items-center gap-2'>
                 {
-                  OrderDetails.deliveryInfo.idState == 1 && <Button onClick={() => deliveryCancel()} primary={false} size='extraLarge'> Cancelar </Button>
+                  OrderDetails.deliveryInfo.idState == 1 && UserSesion.infoUser != null && UserSesion.infoUser.IdRole == "2" && <Button onClick={() => UpdateDeliveryState("5")} primary={false} size='extraLarge'> Cancelar </Button>
                 }
                 {
                   UserSesion.infoUser != null && UserSesion.infoUser.IdRole != "2" && OrderDetails.deliveryInfo.idState < 4 &&
-                  <Button primary={true} size='extraLarge'>Pasar a la siguiente etapa</Button>
+                  <Button onClick={()=> UpdateDeliveryState((OrderDetails.deliveryInfo.idState + 1).toString())} primary={true} size='extraLarge'>Pasar a la siguiente etapa</Button>
                 }
               </div>
             </>
@@ -111,7 +116,12 @@ export const ShoppingDetails: React.FC = () => {
           showModal && (
             <Dialog onClose={()=> setShowModal(true)}>
               <div className='w-full h-full text-center flex flex-col justify-center items-center bg-bgLight py-4'>
-                <h4 className='text-3xl font-semibold text-pretty text-primaryRed'> HAZ CANCELADO TU COMPRA CON EXITO! </h4>
+                {
+                  UserSesion.infoUser != null && UserSesion.infoUser.IdRole == "2" && <h4 className='text-3xl font-semibold text-pretty text-primaryRed'> HAZ CANCELADO TU COMPRA CON EXITO! </h4>
+                }
+                {
+                  UserSesion.infoUser != null && UserSesion.infoUser.IdRole != "2" && <h4 className='text-3xl font-semibold text-pretty text-primaryRed'> HAZ CAMBIADO EL ESTADO DE LA COMPRA! </h4>
+                }
                 <strong className='text-xl text-balance'>Dentro de breves momentos estarás siendo redirigido a la pagina anterior</strong>
                 <Spinner colorSpinner='yellow' />
               </div>

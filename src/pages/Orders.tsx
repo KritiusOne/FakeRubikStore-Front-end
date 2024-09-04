@@ -1,3 +1,4 @@
+import { CardOrdertHistory } from '@/components/CardOrderHistory'
 import { Layout } from '@/components/Layout'
 import { PAGE_NUMBER_DEFAULT, PAGE_SIZE_DEFAULT } from '@/lib/PetitionDataType'
 import { Order } from '@/types/OrdersTypes'
@@ -50,7 +51,7 @@ export const Orders: React.FC = () => {
         })
         if(res.ok){
           const response: PaginatedResponse<Order[]> = await res.json()
-          console.log(response)
+          //response.response = response.response.filter((orderUsers)=> orderUsers.deliveryInfo.idState != 5)
           setAllOrders(response)
         }
       } catch (error) {
@@ -66,9 +67,19 @@ export const Orders: React.FC = () => {
         <div>
           Aqui van a ir los filtros
         </div>
-        <div>
+        <div className='flex flex-col justify-center items-center gap-2'>
           {
-            AllOrders != undefined && AllOrders.response.map((order)=><span> {order.userInfo.name} </span>)
+            AllOrders != undefined && AllOrders.response.filter(orderUser => orderUser.deliveryInfo.idState != 5).map((order)=><article className=' w-full flex flex-col justify-center items-center border-solid border-primaryRed border-2 px-2 py-1 rounded-lg' key={order.id}>
+              <h3 className='text-xl text-primaryRed'> {order.userInfo.name + " " + order.userInfo.secondName} </h3>
+              <CardOrdertHistory 
+              allProductInOrder={order.orderProducts} 
+              dateBuy={order.date}
+              idOrder={order.id.toString()}
+              img={order.orderProducts[0].productInfo.thumbnail}
+              nameProduct={order.orderProducts[0].productInfo.name}
+              stateDelivery={order.deliveryInfo.idState}
+               />
+            </article>)
           }
         </div>
       </main>
