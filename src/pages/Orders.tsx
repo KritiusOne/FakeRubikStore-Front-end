@@ -1,5 +1,6 @@
 import { CardOrdertHistory } from '@/components/CardOrderHistory'
 import { Layout } from '@/components/Layout'
+import { Dropdown } from '@/components/ui/Dropdown'
 import { Paginated } from '@/components/ui/Paginated'
 import { PAGE_NUMBER_DEFAULT, PAGE_SIZE_DEFAULT } from '@/lib/PetitionDataType'
 import { Order } from '@/types/OrdersTypes'
@@ -9,9 +10,10 @@ import React, { useEffect, useState } from 'react'
 
 export const Orders: React.FC = () => {
   const [pageNumber, setPageNumber] = useState(PAGE_NUMBER_DEFAULT)
-  const [pageSize, setPageSize] = useState(PAGE_SIZE_DEFAULT)
+  const [pageSize] = useState(PAGE_SIZE_DEFAULT)
   const [AllOrders, setAllOrders] = useState<PaginatedResponse<Order[]>>()
   const TOKEN = useUserSesion(storage => `${storage.typetoken} ${storage.token}`)
+  const [StatesOrder] = useState(["General","No atendido", "En preparacion", "Enviado", "Recibido", "Cancelado"])
   useEffect(()=>{
     async function getAllOrders(){
       const params = new URLSearchParams()
@@ -65,8 +67,8 @@ export const Orders: React.FC = () => {
     <Layout>
       <main className='w-full h-full my-10 py-3 px-4 flex flex-col justify-center items-center gap-3 bg-bgLight'>
         <h1 className='text-3xl font-bold text-bgDark text-pretty'> Ordenes </h1>
-        <div>
-          Aqui van a ir los filtros
+        <div className='w-full flex flex-col md:flex-row justify-center items-center gap-3'>
+          <Dropdown AllOptions={StatesOrder} title='Filtrar por estados' />
         </div>
         <div className='flex flex-col justify-center items-center gap-2'>
           {
