@@ -14,6 +14,7 @@ export const Orders: React.FC = () => {
   const [AllOrders, setAllOrders] = useState<PaginatedResponse<Order[]>>()
   const TOKEN = useUserSesion(storage => `${storage.typetoken} ${storage.token}`)
   const [StatesOrder] = useState(["General","No atendido", "En preparacion", "Enviado", "Recibido", "Cancelado"])
+  const [selectedStateOrder, setSelectedStateOrder] = useState("general")
   useEffect(()=>{
     async function getAllOrders(){
       const params = new URLSearchParams()
@@ -63,16 +64,36 @@ export const Orders: React.FC = () => {
     }
     getAllOrders()
   }, [pageNumber, pageSize])
+  useEffect(()=>{
+    console.log(selectedStateOrder)
+  }, [selectedStateOrder])
   return (
     <Layout>
       <main className='w-full h-full my-10 py-3 px-4 flex flex-col justify-center items-center gap-3 bg-bgLight'>
         <h1 className='text-3xl font-bold text-bgDark text-pretty'> Ordenes </h1>
         <div className='w-full flex flex-col md:flex-row justify-center items-center gap-3'>
-          <Dropdown AllOptions={StatesOrder} title='Filtrar por estados' />
+          <Dropdown handleChange={(state)=> setSelectedStateOrder(state)} AllOptions={StatesOrder} title='Filtrar por estados' />
         </div>
         <div className='flex flex-col justify-center items-center gap-2'>
           {
-            AllOrders != undefined && AllOrders.response.filter(orderUser => orderUser.deliveryInfo.idState != 5).map((order)=><article className=' w-full flex flex-col justify-center items-center border-solid border-primaryRed border-2 px-2 py-1 rounded-lg' key={order.id}>
+            AllOrders != undefined && AllOrders.response.filter(orderUser =>{
+              if(selectedStateOrder == "no atendido"){
+                return orderUser.deliveryInfo.idState == 1
+              }
+              if(selectedStateOrder == "en preparacion"){
+                return orderUser.deliveryInfo.idState == 2
+              }
+              if(selectedStateOrder == "enviado"){
+                return orderUser.deliveryInfo.idState == 3
+              }
+              if(selectedStateOrder == "recibido"){
+                return orderUser.deliveryInfo.idState == 4
+              }
+              if(selectedStateOrder == "cancelado"){
+                return orderUser.deliveryInfo.idState == 5
+              }
+              return orderUser.deliveryInfo.idState < 4
+            }).map((order)=><article className=' w-full flex flex-col justify-center items-center border-solid border-primaryRed border-2 px-2 py-1 rounded-lg' key={order.id}>
               <h3 className='text-xl text-primaryRed'> {order.userInfo.name + " " + order.userInfo.secondName} </h3>
               <CardOrdertHistory 
               allProductInOrder={order.orderProducts} 
