@@ -2,19 +2,22 @@ import { CardOrdertHistory } from '@/components/CardOrderHistory'
 import { Layout } from '@/components/Layout'
 import { Dropdown } from '@/components/ui/Dropdown'
 import { Paginated } from '@/components/ui/Paginated'
+import { isLowerDay, isLowerMonth, isLowerWeek } from '@/lib/DateManagment'
 import { PAGE_NUMBER_DEFAULT, PAGE_SIZE_DEFAULT } from '@/lib/PetitionDataType'
 import { Order } from '@/types/OrdersTypes'
 import { PaginatedResponse } from '@/types/ResponseTypes'
 import { useUserSesion } from '@/zustand/UserStorage'
 import React, { useEffect, useState } from 'react'
 
+const STATES = ["General","No atendido", "En preparacion", "Enviado", "Recibido", "Cancelado"]
+const DATES = ["Todos","Hoy", "Semana pasada", "Hace un mes"]
 export const Orders: React.FC = () => {
   const [pageNumber, setPageNumber] = useState(PAGE_NUMBER_DEFAULT)
   const [pageSize] = useState(PAGE_SIZE_DEFAULT)
   const [AllOrders, setAllOrders] = useState<PaginatedResponse<Order[]>>()
   const TOKEN = useUserSesion(storage => `${storage.typetoken} ${storage.token}`)
-  const [StatesOrder] = useState(["General","No atendido", "En preparacion", "Enviado", "Recibido", "Cancelado"])
-  const [selectedStateOrder, setSelectedStateOrder] = useState("general")
+  const [selectedStateOrder, setSelectedStateOrder] = useState("General")
+  const [selectedDate, setSelectedDate] = useState("Todos")
   useEffect(()=>{
     async function getAllOrders(){
       const params = new URLSearchParams()
@@ -55,8 +58,13 @@ export const Orders: React.FC = () => {
         })
         if(res.ok){
           const response: PaginatedResponse<Order[]> = await res.json()
-          //response.response = response.response.filter((orderUsers)=> orderUsers.deliveryInfo.idState != 5)
-          setAllOrders(response)
+          const finalResponse: PaginatedResponse<Order[]> = {
+            metaData: response.metaData,
+            msg: response.msg,
+            statusCode: response.statusCode,
+            response: response.response.reverse()
+          }
+          setAllOrders(finalResponse)
         }
       } catch (error) {
         console.log(error)
@@ -64,35 +72,35 @@ export const Orders: React.FC = () => {
     }
     getAllOrders()
   }, [pageNumber, pageSize])
-  useEffect(()=>{
-    console.log(selectedStateOrder)
-  }, [selectedStateOrder])
   return (
     <Layout>
       <main className='w-full h-full my-10 py-3 px-4 flex flex-col justify-center items-center gap-3 bg-bgLight'>
         <h1 className='text-3xl font-bold text-bgDark text-pretty'> Ordenes </h1>
         <div className='w-full flex flex-col md:flex-row justify-center items-center gap-3'>
-          <Dropdown handleChange={(state)=> setSelectedStateOrder(state)} AllOptions={StatesOrder} title='Filtrar por estados' />
+          <Dropdown handleChange={(state)=> setSelectedStateOrder(state)} AllOptions={STATES} title='Filtrar por estados' />
+          <Dropdown AllOptions={DATES} handleChange={(e)=> setSelectedDate(e)} title='Filtrar por fecha' />
         </div>
         <div className='flex flex-col justify-center items-center gap-2'>
           {
             AllOrders != undefined && AllOrders.response.filter(orderUser =>{
-              if(selectedStateOrder == "no atendido"){
-                return orderUser.deliveryInfo.idState == 1
-              }
-              if(selectedStateOrder == "en preparacion"){
-                return orderUser.deliveryInfo.idState == 2
-              }
-              if(selectedStateOrder == "enviado"){
-                return orderUser.deliveryInfo.idState == 3
-              }
-              if(selectedStateOrder == "recibido"){
-                return orderUser.deliveryInfo.idState == 4
-              }
-              if(selectedStateOrder == "cancelado"){
-                return orderUser.deliveryInfo.idState == 5
+              const indexOf = STATES.indexOf(selectedStateOrder)
+              if(indexOf > 0){
+                return indexOf == orderUser.deliveryInfo.idState
               }
               return orderUser.deliveryInfo.idState < 4
+            }).filter(orderUser =>{
+              const indexOf = DATES.indexOf(selectedDate)
+              const date = new Date(orderUser.date)
+              if(indexOf == 1){
+                return isLowerDay(date)
+              }
+              if(indexOf == 2){
+                return isLowerWeek(date)
+              }
+              if(indexOf == 3){
+                return isLowerMonth(date)
+              }
+              return true
             }).map((order)=><article className=' w-full flex flex-col justify-center items-center border-solid border-primaryRed border-2 px-2 py-1 rounded-lg' key={order.id}>
               <h3 className='text-xl text-primaryRed'> {order.userInfo.name + " " + order.userInfo.secondName} </h3>
               <CardOrdertHistory 
