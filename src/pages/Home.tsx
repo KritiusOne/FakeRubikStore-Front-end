@@ -12,8 +12,12 @@ export const Home: React.FC = () => {
   const [load, setLoad] = useState(false)
   const url = useURLStorage(urlStorage => urlStorage.Products)
   useEffect(() => {
+    const params = new URLSearchParams()
+    params.append("PageSize", "20")
+    params.append("PageNumber", "1")
+    const FINAL_URL = url + params.toString()
     setLoad(true)
-    products.getProducts(url)
+    products.getProducts(FINAL_URL)
     setLoad(false)
   }, [])
   return (
