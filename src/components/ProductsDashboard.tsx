@@ -1,39 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { LegacyRef } from 'react'
 import { Button } from './ui/Button'
-import { IconPlus } from '@tabler/icons-react'
-import { useURLStorage } from '@/zustand/URLStorage'
+import { IconEdit, IconPlus, IconX } from '@tabler/icons-react'
 import { Spinner } from './ui/Spinner'
+import { Table } from './Table'
 import { PaginatedResponse } from '@/types/ResponseTypes'
 import { Product } from '@/types/ProductsTypes'
-import { Table } from './Table'
-
-const INITIAL_PAGE_SIZE = 10
-const INITIAL_PAGE_NUMBER = 1
-export const ProductsDashboard: React.FC = () => {
-  const [load, setLoad] = useState(false)
-  const [PageSize] = useState(INITIAL_PAGE_SIZE)
-  const [PageNumber] = useState(INITIAL_PAGE_NUMBER)
-  const URL_BASE = useURLStorage(Storage => Storage.Products)
-  const [InfoProducts, setInfoProducts] = useState<PaginatedResponse<Product[]>>()
-  useEffect(()=>{
-    const getProducts = async()=>{
-      const params = new URLSearchParams()
-      params.append("PageSize", PageSize.toString())
-      params.append("PageNumber", PageNumber.toString())
-      try {
-        setLoad(true)
-        const res = await fetch(URL_BASE + params.toString())
-        if(res.ok){
-          const response: PaginatedResponse<Product[]> = await res.json()
-          setInfoProducts(response)
-          setLoad(false)
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    getProducts()    
-  }, [PageSize, PageNumber])
+interface Props {
+  load: boolean
+  InfoProducts?: PaginatedResponse<Product[]>
+  myRef: React.RefObject<HTMLDivElement>
+}
+export const ProductsDashboard: React.FC<Props> = ({load, InfoProducts, myRef}) => {
   return (
     <div className='max-w-5xl flex flex-col justify-center items-center gap-2'>
       <div className='w-full flex flex-row justify-between items-center'>
@@ -42,11 +19,8 @@ export const ProductsDashboard: React.FC = () => {
       </div>
       <div className='w-full overflow-x-auto shadow-md sm:rounded-lg'>
         {
-          load && (<div className='w-full flex justify-center items-center'><Spinner /></div>)
-        }
-        {
-          !load && InfoProducts != undefined && (
-            <Table>
+          InfoProducts != undefined && (
+            <Table >
               <Table.Header>
                 <Table.HeaderTitle>Id</Table.HeaderTitle>
                 <Table.HeaderTitle>Nombre</Table.HeaderTitle>
@@ -57,7 +31,7 @@ export const ProductsDashboard: React.FC = () => {
                 {
                   InfoProducts.response.map(product=> {
                     return (
-                      <Table.BodyRow title={product.id.toString()}>
+                      <Table.BodyRow key={product.id} title={product.id.toString()}>
                         <Table.Cell>
                           {product.name}
                         </Table.Cell>
@@ -65,7 +39,14 @@ export const ProductsDashboard: React.FC = () => {
                           {product.price}
                         </Table.Cell>
                         <Table.Cell>
-                          <Button>Action</Button>
+                          <div className='w-full h-full flex flex-row justify-center items-center gap-2'>
+                            <Button>
+                              <IconEdit />
+                            </Button>
+                            <Button>
+                              <IconX />
+                            </Button>
+                          </div>
                         </Table.Cell>
                       </Table.BodyRow>
                     )
@@ -74,6 +55,13 @@ export const ProductsDashboard: React.FC = () => {
               </Table.Body>
             </Table>
           )
+        }
+        {
+          <div ref={myRef} className='w-full flex justify-center items-center'>
+            {
+              load && <Spinner />
+            }
+          </div>
         }
       </div>
     </div>
