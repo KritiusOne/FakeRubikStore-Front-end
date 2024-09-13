@@ -1,17 +1,20 @@
 import { Layout } from '@/components/Layout'
-import { ProductsDashboard } from '@/components/ProductsDashboard'
 import { TabsCollection } from '@/components/TabsCollection'
+import { Spinner } from '@/components/ui/Spinner'
 import { Tab } from '@/components/ui/Tab'
+import { Order } from '@/types/OrdersTypes'
 import { Product } from '@/types/ProductsTypes'
 import { PaginatedResponse } from '@/types/ResponseTypes'
 import { useURLStorage } from '@/zustand/URLStorage'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { lazy, Suspense, useEffect, useRef, useState } from 'react'
 
 interface Props{}
 
 type TypesTabs = "Products" | "Users" | "Sells"
 const INITIAL_PAGE_SIZE = 10
 const INITIAL_PAGE_NUMBER = 1
+
+const ProductsDashboard = lazy(()=> import("@/components/ProductsDashboard"))
 export const PanelControl: React.FC<Props> = () => {
   const [activeTab, setActiveTab] = useState<TypesTabs>("Products")
   const [load, setLoad] = useState(false)
@@ -33,6 +36,7 @@ export const PanelControl: React.FC<Props> = () => {
     response: [],
     statusCode: 404
   })
+  
   const tableProductsRef = useRef<HTMLDivElement>(null)
   const getProducts = async()=>{
     if(activeTab != "Products"){
@@ -58,9 +62,11 @@ export const PanelControl: React.FC<Props> = () => {
       console.log(error)
     }
   }
+
   useEffect(()=>{
     getProducts()    
   }, [PageNumberProducts])
+
   const manageTabs = (id: string)=>{
     if(id == 'Products'){
       setActiveTab("Products")
@@ -96,8 +102,13 @@ export const PanelControl: React.FC<Props> = () => {
           <Tab onClick={(e)=> manageTabs(e.currentTarget.id)} id='Sells' TabTitle='Ventas' state={activeTab == "Sells"} />
         </TabsCollection>
         {
-          activeTab == "Products" && <ProductsDashboard myRef={tableProductsRef} load={load} InfoProducts={InfoProducts} />
+          activeTab == "Products" && (
+            <Suspense fallback={<Spinner />}>
+              <ProductsDashboard myRef={tableProductsRef} load={load} InfoProducts={InfoProducts} />
+            </Suspense>
+          )
         }
+        
       </main>
     </Layout>
   )

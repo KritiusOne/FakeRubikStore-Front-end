@@ -1,4 +1,4 @@
-import React, { LegacyRef } from 'react'
+import React from 'react'
 import { Button } from './ui/Button'
 import { IconEdit, IconPlus, IconX } from '@tabler/icons-react'
 import { Spinner } from './ui/Spinner'
@@ -10,7 +10,7 @@ interface Props {
   InfoProducts?: PaginatedResponse<Product[]>
   myRef: React.RefObject<HTMLDivElement>
 }
-export const ProductsDashboard: React.FC<Props> = ({load, InfoProducts, myRef}) => {
+const ProductsDashboard: React.FC<Props> = ({ load, InfoProducts, myRef }) => {
   return (
     <div className='max-w-5xl flex flex-col justify-center items-center gap-2'>
       <div className='w-full flex flex-row justify-between items-center'>
@@ -29,7 +29,7 @@ export const ProductsDashboard: React.FC<Props> = ({load, InfoProducts, myRef}) 
               </Table.Header>
               <Table.Body>
                 {
-                  InfoProducts.response.map(product=> {
+                  InfoProducts.response.map(product => {
                     return (
                       <Table.BodyRow key={product.id} title={product.id.toString()}>
                         <Table.Cell>
@@ -56,14 +56,13 @@ export const ProductsDashboard: React.FC<Props> = ({load, InfoProducts, myRef}) 
             </Table>
           )
         }
-        {
-          <div ref={myRef} className='w-full flex justify-center items-center'>
-            {
-              load && <Spinner />
-            }
-          </div>
-        }
+        <div ref={myRef} className='w-full flex justify-center items-center'>
+          {
+            load && <Spinner />
+          }
+        </div>
       </div>
     </div>
   )
 }
+export default ProductsDashboard;
