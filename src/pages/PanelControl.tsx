@@ -63,10 +63,10 @@ export const PanelControl: React.FC<Props> = () => {
   const tableOrdersRef = useRef<HTMLDivElement>(null)
   const { token, typetoken } = useUserSesion()
   useEffect(() => {
-    if(activeTab != "Products") return
+    if (activeTab != "Products") return
     setLoad(true)
-    getGroupRegisters<Product[]>(PageSize.toString(), PageNumberProducts.toString(),`${typetoken} ${token}`, Products).then(res =>{
-      if(res != undefined){
+    getGroupRegisters<Product[]>(PageSize.toString(), PageNumberProducts.toString(), `${typetoken} ${token}`, Products).then(res => {
+      if (res != undefined) {
         setInfoProducts(prev => ({
           metaData: {
             ...res.metaData,
@@ -76,15 +76,15 @@ export const PanelControl: React.FC<Props> = () => {
           response: [...prev.response, ...res.response],
           statusCode: res.statusCode
         }))
-        
+
       }
-    }).finally(()=> setLoad(false))
-  }, [PageNumberProducts, activeTab])
+    }).finally(() => setLoad(false))
+  }, [PageNumberProducts])
   useEffect(() => {
-    if(activeTab != "Sells") return
+    if (activeTab != "Sells" || OrdersInfo.metaData.currentPage == PageNumberOrders) return
     setLoadOrders(true)
-    getGroupRegisters<Order[]>("5", PageNumberOrders.toString(),`${typetoken} ${token}`, AllOrders).then(res =>{
-      if(res != undefined){
+    getGroupRegisters<Order[]>("5", PageNumberOrders.toString(), `${typetoken} ${token}`, AllOrders).then(res => {
+      if (res != undefined) {
         setOrdersInfo(prev => ({
           metaData: {
             ...res.metaData,
@@ -95,8 +95,8 @@ export const PanelControl: React.FC<Props> = () => {
           statusCode: res.statusCode
         }))
       }
-    }).finally(()=> setLoadOrders(false))
-    
+    }).finally(() => setLoadOrders(false))
+
   }, [PageNumberOrders, activeTab])
 
   const manageTabs = (id: string) => {
