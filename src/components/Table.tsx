@@ -35,7 +35,7 @@ interface PropsTableHeaderTitle {
 }
 export const TableHeaderTitle: React.FC<PropsTableHeaderTitle> = ({ children }) => {
   return (
-    <th scope="col" className="px-6 py-3">
+    <th scope="col" className="px-2 md:px-6 py-3 text-center">
       {children}
     </th>
   )
@@ -54,7 +54,7 @@ interface PropsTableBodyRow {
 export const TableBodyRow: React.FC<PropsTableBodyRow> = ({ children, title }) => {
   return (
     <tr className='odd:bg-bgLight even:bg-gray-50 text-gray-800 border-b dark:border-gray-700'>
-      <th scope="row" className="px-6 py-4 font-medium whitespace-nowrap dark:text-white">
+      <th scope="row" className="md:px-6 py-4 font-medium whitespace-nowrap dark:text-white text-center">
         {title}
       </th>
       {
@@ -65,7 +65,7 @@ export const TableBodyRow: React.FC<PropsTableBodyRow> = ({ children, title }) =
 }
 export const TableCell: React.FC<Props> = ({children}) => {
   return (
-    <td className="px-6 py-4">
+    <td className="px-2 md:px-6 py-4 text-center">
       {children}
     </td>
   )
