@@ -63,7 +63,7 @@ export const PanelControl: React.FC<Props> = () => {
   const tableOrdersRef = useRef<HTMLDivElement>(null)
   const { token, typetoken } = useUserSesion()
   useEffect(() => {
-    if (activeTab != "Products") return
+    if (activeTab != "Products" || InfoProducts.metaData.currentPage == PageNumberProducts) return
     setLoad(true)
     getGroupRegisters<Product[]>(PageSize.toString(), PageNumberProducts.toString(), `${typetoken} ${token}`, Products).then(res => {
       if (res != undefined) {

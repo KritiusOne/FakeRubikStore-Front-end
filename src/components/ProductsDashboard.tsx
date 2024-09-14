@@ -5,17 +5,20 @@ import { Spinner } from './ui/Spinner'
 import { Table } from './Table'
 import { PaginatedResponse } from '@/types/ResponseTypes'
 import { Product } from '@/types/ProductsTypes'
+import { useNavigate } from 'react-router-dom'
+import { PRIVATE_ADMIN_ROUTES } from '@/routes/TypesRoutes'
 interface Props {
   load: boolean
   InfoProducts?: PaginatedResponse<Product[]>
   myRef: React.RefObject<HTMLDivElement>
 }
 const ProductsDashboard: React.FC<Props> = ({ load, InfoProducts, myRef }) => {
+  const navegate = useNavigate()
   return (
     <div className='max-w-5xl flex flex-col justify-center items-center gap-2'>
       <div className='w-full flex flex-row justify-between items-center'>
         <h2 className='text-xl font-bold text-pretty'> Lista de productos</h2>
-        <Button primary={true} size='extraLarge' className='flex-row'> <span className='flex flex-row gap-1'><IconPlus /> Agregar producto</span></Button>
+        <Button onClick={()=> navegate(PRIVATE_ADMIN_ROUTES.CREATE_PRODUCT) } primary={true} size='extraLarge' className='flex-row'> <span className='flex flex-row gap-1'><IconPlus /> Agregar producto</span></Button>
       </div>
       <div className='w-full overflow-x-auto shadow-md sm:rounded-lg'>
         {
