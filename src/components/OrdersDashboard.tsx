@@ -2,7 +2,7 @@ import { Order } from '@/types/OrdersTypes'
 import React from 'react'
 import { Table } from './Table'
 import { Spinner } from './ui/Spinner'
-import { IconEdit } from '@tabler/icons-react'
+import { IconArrowRight } from '@tabler/icons-react'
 import { Button } from './ui/Button'
 import { getSimpleDate } from '@/lib/DateManagment'
 
@@ -35,13 +35,15 @@ const OrdersDashboard: React.FC<Props> = ({ load, myRef, InfoOrders }) => {
                 return (
                   <Table.BodyRow key={OldOrder.id} title={OldOrder.id.toString()}>
                     <Table.Cell>
-                      {OldOrder.userInfo.name + " " + OldOrder.userInfo.secondName}
+                      {OldOrder.userInfo.name}
                     </Table.Cell>
                     <Table.Cell>
                       {OldOrder.finalPrice + " " + "COP"}
                     </Table.Cell>
                     <Table.Cell>
-                      {OldOrder.orderProducts.length}
+                      <span className={
+                        OldOrder.orderProducts.length >= 3 ? "text-red-600" : ""
+                      }> {OldOrder.orderProducts.length} </span>
                     </Table.Cell>
                     <Table.Cell>
                       {getSimpleDate(OldOrder.date)}
@@ -49,7 +51,7 @@ const OrdersDashboard: React.FC<Props> = ({ load, myRef, InfoOrders }) => {
                     <Table.Cell>
                       <div className='w-full h-full flex flex-row justify-center items-center gap-2'>
                         <Button>
-                          <IconEdit />
+                          <IconArrowRight />
                         </Button>
                       </div>
                     </Table.Cell>
