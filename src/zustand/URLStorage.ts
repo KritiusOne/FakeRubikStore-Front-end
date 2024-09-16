@@ -11,6 +11,7 @@ interface URLStorageTypes {
   GetOrderById: (id:string)=> string
   AllOrders: string
   CreateProduct: string
+  GetProductByID: string
 }
 export const useURLStorage = create<URLStorageTypes>(()=>({
   Products: import.meta.env.VITE_API_URL_PRODUCTS,
@@ -40,5 +41,6 @@ export const useURLStorage = create<URLStorageTypes>(()=>({
     params.append("id", id)
     return `${URL_BASE}${params.toString()} `
   },
-  CreateProduct: import.meta.env.VITE_API_URL_CREATE_PRODUCT
+  CreateProduct: import.meta.env.VITE_API_URL_CREATE_PRODUCT,
+  GetProductByID: import.meta.env.VITE_API_URL_PRODUCT_BY_ID
 }))
