@@ -1,10 +1,14 @@
 import { Layout } from '@/components/Layout'
+import { Dialog } from '@/components/ui/Dialog'
 import { GroupInput } from '@/components/ui/GroupInput'
+import { Spinner } from '@/components/ui/Spinner'
 import { onlyNumberAnyExtention } from '@/lib/validation'
+import { PRIVATE_ADMIN_ROUTES } from '@/routes/TypesRoutes'
 import { useURLStorage } from '@/zustand/URLStorage'
 import { useUserSesion } from '@/zustand/UserStorage'
 import { IconUpload } from '@tabler/icons-react'
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 interface InfoTypes {
   Name: string
@@ -34,6 +38,9 @@ export const CreateProduct: React.FC = () => {
   })
   const { CreateProduct } = useURLStorage()
   const { typetoken, token } = useUserSesion()
+  const [showModal, setShowModal] = useState(false)
+  const navegate = useNavigate()
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!showError.allError && info.Stock > 0 && info.Price > 0 && thumbnailValue != undefined && ImageValue != undefined && info.Description != "") {
@@ -56,7 +63,8 @@ export const CreateProduct: React.FC = () => {
           }
         })
         if (res.ok) {
-          //redirección
+          setShowModal(true)
+          setTimeout(()=> navegate(PRIVATE_ADMIN_ROUTES.CONTROL_PANEL), 3000)
         }
       } catch (error) {
         console.log(error)
@@ -92,7 +100,7 @@ export const CreateProduct: React.FC = () => {
             <div className='flex flex-col justify-center items-center gap-2'>
               <label className="flex flex-row gap-0.5 justify-center items-center bg-primaryRed px-2 py-1 text-white  rounded cursor-pointer hover:bg-tomato" >
                 <IconUpload /> Subir miniatura
-                <input onChange={(e) => e.target.files != null ? setThumbnailValue(e.target.files[0]) : console.log("accion cancelada")} className="hidden w-full h-full" type="file"></input>
+                <input  accept='image/*'  onChange={(e) => e.target.files != null ? setThumbnailValue(e.target.files[0]) : console.log("accion cancelada")} className="hidden w-full h-full" type="file"></input>
               </label>
               {
                 thumbnailValue != undefined && <img src={URL.createObjectURL(thumbnailValue)} alt="Miniatura del nuevo objeto" className='max-w-80 max-h-80 ' />
@@ -101,7 +109,7 @@ export const CreateProduct: React.FC = () => {
             <div className='flex flex-col justify-center items-center gap-2'>
               <label className="flex flex-row gap-0.5 justify-center items-center bg-primaryRed px-2 py-1 text-white rounded cursor-pointer hover:bg-tomato" >
                 <IconUpload /> Subir Imagen
-                <input onChange={(e) => e.target.files != null ? setImageValue(e.target.files[0]) : console.log("accion cancelada")} className="hidden w-full h-full" type="file"></input>
+                <input  accept='image/*'  onChange={(e) => e.target.files != null ? setImageValue(e.target.files[0]) : console.log("accion cancelada")} className="hidden w-full h-full" type="file"></input>
               </label>
               {
                 ImageValue != undefined && <img src={URL.createObjectURL(ImageValue)} alt="Miniatura del nuevo objeto" className='max-w-80 max-h-80 object-cover' />
@@ -126,6 +134,17 @@ export const CreateProduct: React.FC = () => {
         }
         {
           showError.errorStock != "" && <strong className='text-xl text-primaryRed'> {showError.errorStock} </strong>
+        }
+        {
+          showModal && (
+            <Dialog onClose={() => setShowModal(false)}>
+              <div className='w-full h-full bg-bgLight flex flex-col justify-center items-center gap-2 py-2'>
+                <h2 className='text-3xl text-pretty font-oswald font-bold mb-4'>Tu producto se a creado correctamente</h2>
+                <strong className='text-xl text-balance'>Serás redireccionado en un momento</strong>
+                <Spinner />
+              </div>
+            </Dialog>
+          )
         }
       </main>
     </Layout>
