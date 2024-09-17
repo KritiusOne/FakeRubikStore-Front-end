@@ -43,17 +43,15 @@ export const EditProduct: React.FC = () => {
     errorStock: "",
     allError: false
   })
-  const { CreateProduct } = useURLStorage()
+  const { UpdateProduct } = useURLStorage()
   const { token, typetoken } = useUserSesion()
   const navegate = useNavigate()
   const [showModal, setShowModal] = useState(false)
   useEffect(() => {
     const getActualProduct = async () => {
       const paramsSplited = location.search.split("=")
-      console.log("no entré aun")
       if (!isNaN(parseInt(paramsSplited[1]))) {
         const id = parseInt(paramsSplited[1])
-        console.log("si entré")
         const FINAL_URL = GetProductByID + id
         setLoad(true)
         try {
@@ -84,18 +82,17 @@ export const EditProduct: React.FC = () => {
     e.preventDefault()
     if (!showError.allError && info.Stock > 0 && info.Price > 0 && thumbnailValue != undefined && ImageValue != undefined && info.Description != "" && InfoProduct != undefined) {
       const data = new FormData()
-      data.append("InfoProduct.Id", InfoProduct.id.toString())
-      data.append("InfoProduct.Name", info.Name)
-      data.append("InfoProduct.Stock", info.Stock.toString());
-      data.append("InfoProduct.Price", info.Price.toString());
-      data.append("InfoProduct.Description", info.Description);
-      data.append("InfoProduct.Image", "algo");
-      data.append("InfoProduct.Thumbnail", "alog");
-      data.append("InfoProduct.ProductCategories", "");
-      data.append("ThumbnailImage", ImageValue)
-      data.append("ProductImage", thumbnailValue)
+      data.append("InfoProduct.InfoProduct.Id", InfoProduct.id.toString())
+      data.append("InfoProduct.InfoProduct.Name", info.Name)
+      data.append("InfoProduct.InfoProduct.Price", info.Price.toString())
+      data.append("InfoProduct.InfoProduct.Stock", info.Stock.toString());
+      data.append("InfoProduct.InfoProduct.Image", "algo");
+      data.append("InfoProduct.InfoProduct.Description", info.Description)
+      data.append("InfoProduct.InfoProduct.Thumbnail", "alog");
+      data.append("InfoProduct.ThumbnailImage", ImageValue)
+      data.append("InfoProduct.ProductImage", thumbnailValue)
       try {
-        const res = await fetch(CreateProduct, {
+        const res = await fetch(UpdateProduct, {
           method: "PUT",
           body: data,
           headers: {
@@ -202,7 +199,7 @@ export const EditProduct: React.FC = () => {
           showModal && (
             <Dialog onClose={() => setShowModal(false)}>
               <div className='w-full h-full bg-bgLight flex flex-col justify-center items-center gap-2 py-2'>
-                <h2 className='text-3xl text-pretty font-oswald font-bold mb-4'>Tu producto se a creado correctamente</h2>
+                <h2 className='text-3xl text-pretty font-oswald font-bold mb-4'>Tu producto se a Actualizado correctamente</h2>
                 <strong className='text-xl text-balance'>Serás redireccionado en un momento</strong>
                 <Spinner />
               </div>
