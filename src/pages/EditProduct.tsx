@@ -3,6 +3,7 @@ import { Dialog } from '@/components/ui/Dialog'
 import { Divider } from '@/components/ui/Divider'
 import { GroupInput } from '@/components/ui/GroupInput'
 import { Spinner } from '@/components/ui/Spinner'
+import { RouteImage } from '@/lib/CreateRouteImage'
 import { onlyNumberAnyExtention } from '@/lib/validation'
 import { PRIVATE_ADMIN_ROUTES } from '@/routes/TypesRoutes'
 import { AllDataProduct } from '@/types/ProductsTypes'
@@ -144,7 +145,7 @@ export const EditProduct: React.FC = () => {
           !load && InfoProduct != undefined && (
             <div className="flex flex-col md:grid md:grid-cols-3 justify-center items-center lg:min-w-[800px] max-w-full px-6 py-4 text-bgDark mx-6 rounded-md">
               <section>
-                <img src={InfoProduct.image} alt={`Imagen del ${InfoProduct.name}`} />
+                <img src={RouteImage(InfoProduct.image)} alt={`Imagen del ${InfoProduct.name}`} />
               </section>
               <section className="flex flex-col justify-center items-center px-4 text-center mt-4 md:mt-0">
                 <h1 className="text-3xl w-full"> {InfoProduct.name} </h1>
