@@ -5,6 +5,7 @@ import { Spinner } from './ui/Spinner'
 import { IconArrowRight } from '@tabler/icons-react'
 import { Button } from './ui/Button'
 import { getSimpleDate } from '@/lib/DateManagment'
+import { useNavigate } from 'react-router-dom'
 
 interface Props {
   load: boolean
@@ -12,6 +13,7 @@ interface Props {
   myRef: React.RefObject<HTMLDivElement>
 }
 const OrdersDashboard: React.FC<Props> = ({ load, myRef, InfoOrders }) => {
+  const navegate = useNavigate()
   return (
     <div className='max-w-5xl flex flex-col justify-center items-center gap-2'>
       <div className='w-full flex flex-row justify-between items-center'>
@@ -50,7 +52,7 @@ const OrdersDashboard: React.FC<Props> = ({ load, myRef, InfoOrders }) => {
                     </Table.Cell>
                     <Table.Cell>
                       <div className='w-full h-full flex flex-row justify-center items-center gap-2'>
-                        <Button>
+                        <Button onClick={()=> navegate("/shopping-history/id?id="+OldOrder.id.toString())}>
                           <IconArrowRight />
                         </Button>
                       </div>
