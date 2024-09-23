@@ -1,4 +1,4 @@
-import { User } from '@/types/UserTypes'
+import { UserOrderInfo } from '@/types/UserTypes'
 import React from 'react'
 import { Table } from './Table'
 import { IconEdit } from '@tabler/icons-react'
@@ -7,10 +7,10 @@ import { Spinner } from './ui/Spinner'
 
 interface Props {
   load: boolean
-  InfoUsers?: User[]
+  InfoUsers?: UserOrderInfo[]
   myRef: React.RefObject<HTMLDivElement>
 }
-export const UsersDashboard: React.FC<Props> = ({load, myRef, InfoUsers}) => {
+const UsersDashboard: React.FC<Props> = ({load, myRef, InfoUsers}) => {
   return (
     <div className='max-w-5xl flex flex-col justify-center items-center gap-2'>
       <div className='w-full flex flex-row justify-between items-center'>
@@ -31,16 +31,16 @@ export const UsersDashboard: React.FC<Props> = ({load, myRef, InfoUsers}) => {
                 {
                   InfoUsers.map(user => {
                     return (
-                      <Table.BodyRow key={user.Id} title={user.Id.toString()}>
-                        <Table.Cell>
-                          {user.First_Name + " " + user.Last_Name}
+                      <Table.BodyRow key={user.id} title={user.id.toString()}>
+                        <Table.Cell className='text-wrap max-w-10 md:max-w-full'>
+                          {user.name + " " + user.secondName}
                         </Table.Cell>
-                        <Table.Cell>
+                        <Table.Cell className='max-w-48 text-wrap overflow-auto md:max-w-full'>
                           {user.email}
                         </Table.Cell>
                         <Table.Cell>
                           {
-                            user.IdRole
+                            user.idRole
                           }
                         </Table.Cell>
                         <Table.Cell>
@@ -67,3 +67,4 @@ export const UsersDashboard: React.FC<Props> = ({load, myRef, InfoUsers}) => {
     </div>
   )
 }
+export default UsersDashboard

@@ -6,6 +6,7 @@ import { getGroupRegisters } from '@/lib/getGroupRegisters'
 import { Order } from '@/types/OrdersTypes'
 import { Product } from '@/types/ProductsTypes'
 import { PaginatedResponse } from '@/types/ResponseTypes'
+import { UserOrderInfo } from '@/types/UserTypes'
 import { useURLStorage } from '@/zustand/URLStorage'
 import { useUserSesion } from '@/zustand/UserStorage'
 import React, { lazy, Suspense, useEffect, useRef, useState } from 'react'
@@ -18,17 +19,23 @@ const INITIAL_PAGE_NUMBER = 1
 
 const ProductsDashboard = lazy(() => import("@/components/ProductsDashboard"))
 const OrdersDashboard = lazy(() => import("@/components/OrdersDashboard"))
-
+const UsersDashboard = lazy(()=> import("@/components/UsersDashboard"))
 
 
 export const PanelControl: React.FC<Props> = () => {
   const [activeTab, setActiveTab] = useState<TypesTabs>("Products")
+  //loaders
   const [load, setLoad] = useState(false)
   const [LoadOrders, setLoadOrders] = useState(false)
+  const [loadUsers, setLoadUsers] = useState(false)
+  //Fetching de datos
   const [PageSize] = useState(INITIAL_PAGE_SIZE)
   const [PageNumberProducts, setPageNumberProducts] = useState(INITIAL_PAGE_NUMBER)
   const [PageNumberOrders, setPageNumberOrders] = useState(INITIAL_PAGE_NUMBER)
-  const { AllOrders, Products } = useURLStorage()
+  const [PageNumberUsers, setPageNumberUsers] = useState(INITIAL_PAGE_NUMBER)
+  const { AllOrders, Products, GetAllUsers } = useURLStorage()
+  const { token, typetoken } = useUserSesion()
+  //Respuestas del fetching
   const [InfoProducts, setInfoProducts] = useState<PaginatedResponse<Product[]>>({
     metaData: {
       currentPage: 0,
@@ -59,9 +66,27 @@ export const PanelControl: React.FC<Props> = () => {
     response: [],
     statusCode: 404
   })
+  const [UsersInfo, setUsersInfo] = useState<PaginatedResponse<UserOrderInfo[]>>({
+    metaData: {
+      currentPage: 0,
+      pageSize: 0,
+      totalPage: 0,
+      totalCount: 0,
+      hasNextPage: false,
+      hasPreviousPage: false,
+      nextPageURL: "",
+      previousPageURL: ""
+    },
+    msg: "",
+    response: [],
+    statusCode: 404
+  })
+  // Referencias
   const tableProductsRef = useRef<HTMLDivElement>(null)
   const tableOrdersRef = useRef<HTMLDivElement>(null)
-  const { token, typetoken } = useUserSesion()
+  const tableUsersRef = useRef<HTMLDivElement>(null)
+
+
   useEffect(() => {
     if (activeTab != "Products" || InfoProducts.metaData.currentPage == PageNumberProducts) return
     setLoad(true)
@@ -98,7 +123,20 @@ export const PanelControl: React.FC<Props> = () => {
     }).finally(() => setLoadOrders(false))
 
   }, [PageNumberOrders, activeTab])
-
+  useEffect(()=>{
+    if (activeTab != "Users" ) return
+    setLoadUsers(true)
+    getGroupRegisters<UserOrderInfo[]>(PageSize.toString(), "1", `${typetoken} ${token}`, GetAllUsers).then(res => {
+      if (res != undefined) {
+        setUsersInfo(prev => ({
+          metaData: res.metaData,
+          msg: res.msg,
+          response: [...prev.response, ...res.response],
+          statusCode: res.statusCode
+        }))
+      }
+    }).finally(() => setLoadUsers(false))
+  }, [PageNumberUsers, activeTab])
   const manageTabs = (id: string) => {
     if (id == 'Products') {
       setActiveTab("Products")
@@ -153,6 +191,13 @@ export const PanelControl: React.FC<Props> = () => {
           activeTab == "Sells" && (
             <Suspense fallback={<Spinner />}>
               <OrdersDashboard myRef={tableOrdersRef} load={LoadOrders} InfoOrders={OrdersInfo.response} />
+            </Suspense>
+          )
+        }
+        {
+          activeTab == "Users" && (
+            <Suspense fallback={<Spinner />}>
+              <UsersDashboard load={loadUsers} myRef={tableUsersRef} InfoUsers={UsersInfo.response} />
             </Suspense>
           )
         }
