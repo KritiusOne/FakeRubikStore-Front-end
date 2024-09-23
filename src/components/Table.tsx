@@ -9,7 +9,7 @@ interface TableCompound extends React.FC<Props> {
   HeaderTitle: React.FC<PropsTableHeaderTitle>;
   Body: React.FC<Props>;
   BodyRow: React.FC<PropsTableBodyRow>;
-  Cell: React.FC<Props>;
+  Cell: React.FC<PropsCell>;
 }
 export const Table: TableCompound = ({ children }) => {
   return (
@@ -54,7 +54,7 @@ interface PropsTableBodyRow {
 export const TableBodyRow: React.FC<PropsTableBodyRow> = ({ children, title }) => {
   return (
     <tr className='odd:bg-bgLight even:bg-gray-50 text-gray-800 border-b dark:border-gray-700'>
-      <th scope="row" className="md:px-6 py-4 font-medium whitespace-nowrap dark:text-white text-center">
+      <th scope="row" className="md:px-6 py-4 font-medium whitespace-nowrap dark:text-white text-center px-2">
         {title}
       </th>
       {
@@ -63,9 +63,12 @@ export const TableBodyRow: React.FC<PropsTableBodyRow> = ({ children, title }) =
     </tr>
   )
 }
-export const TableCell: React.FC<Props> = ({children}) => {
+interface PropsCell extends React.TdHTMLAttributes<HTMLTableDataCellElement> {
+  children: ReactNode
+}
+export const TableCell: React.FC<PropsCell> = ({children, ...props}) => {
   return (
-    <td className="px-2 md:px-6 py-4 text-center">
+    <td {...props} className={`px-2 md:px-6 py-4 text-center text-wrap ${props.className}`}>
       {children}
     </td>
   )
