@@ -124,9 +124,9 @@ export const PanelControl: React.FC<Props> = () => {
 
   }, [PageNumberOrders, activeTab])
   useEffect(()=>{
-    if (activeTab != "Users" ) return
+    if (activeTab != "Users" || UsersInfo.metaData.currentPage == PageNumberUsers ) return
     setLoadUsers(true)
-    getGroupRegisters<UserOrderInfo[]>(PageSize.toString(), "1", `${typetoken} ${token}`, GetAllUsers).then(res => {
+    getGroupRegisters<UserOrderInfo[]>("5", PageNumberUsers.toString(), `${typetoken} ${token}`, GetAllUsers).then(res => {
       if (res != undefined) {
         setUsersInfo(prev => ({
           metaData: res.metaData,
@@ -167,6 +167,16 @@ export const PanelControl: React.FC<Props> = () => {
       if (first.isIntersecting && OrdersInfo.metaData.hasNextPage) setPageNumberOrders(prev => prev + 1)
     })
     if (!LoadOrders && observer && tableOrdersRef.current) observer.observe(tableOrdersRef.current)
+    return () => {
+      if (observer) observer.disconnect()
+    }
+  })
+  useEffect(() => {
+    const observer = new IntersectionObserver(async (entries) => {
+      const first = entries[0]
+      if (first.isIntersecting && UsersInfo.metaData.hasNextPage) setPageNumberUsers(prev => prev + 1)
+    })
+    if (!loadUsers && observer && tableUsersRef.current) observer.observe(tableUsersRef.current)
     return () => {
       if (observer) observer.disconnect()
     }
