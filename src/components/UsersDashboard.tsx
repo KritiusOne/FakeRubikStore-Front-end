@@ -1,9 +1,12 @@
 import { UserOrderInfo } from '@/types/UserTypes'
-import React from 'react'
+import React, { useState } from 'react'
 import { Table } from './Table'
 import { IconEdit } from '@tabler/icons-react'
 import { Button } from './ui/Button'
 import { Spinner } from './ui/Spinner'
+import { Dialog } from './ui/Dialog'
+import { Dropdown } from './ui/Dropdown'
+import { ROLE_NAME } from '@/lib/getUserRole'
 
 interface Props {
   load: boolean
@@ -11,6 +14,12 @@ interface Props {
   myRef: React.RefObject<HTMLDivElement>
 }
 const UsersDashboard: React.FC<Props> = ({load, myRef, InfoUsers}) => {
+  const [showModal, setShowModal] = useState(false)
+  const [selectedUser, setSelectedUser] = useState<UserOrderInfo>()
+  const handleClick = (user: UserOrderInfo)=> {
+    setSelectedUser(user)
+    setShowModal(true)
+  }
   return (
     <div className='max-w-5xl flex flex-col justify-center items-center gap-2'>
       <div className='w-full flex flex-row justify-between items-center'>
@@ -45,7 +54,7 @@ const UsersDashboard: React.FC<Props> = ({load, myRef, InfoUsers}) => {
                         </Table.Cell>
                         <Table.Cell>
                           <div className='w-full h-full flex flex-row justify-center items-center gap-2'>
-                            <Button>
+                            <Button onClick={()=> handleClick(user)}>
                               <IconEdit />
                             </Button>
                           </div>
@@ -64,6 +73,17 @@ const UsersDashboard: React.FC<Props> = ({load, myRef, InfoUsers}) => {
           load && <Spinner />
         }
       </div>
+      {
+        showModal && selectedUser != undefined && (
+          <Dialog onClose={()=> setShowModal(false)}>
+            <div className='w-full h-full text-center flex flex-col justify-center items-center gap-2 p-2 bg-bgLight'>
+              <h2 className='text-3xl font-oswald text-pretty'>Actualización del usuario</h2>
+              <Dropdown AllOptions={ROLE_NAME} handleChange={()=> console.log("cambio")} title='Rol del usuario' />
+              <Button primary={true} size='extraLarge'>Cambiar información</Button>
+            </div>
+          </Dialog>
+        )
+      }
     </div>
   )
 }
