@@ -13,12 +13,34 @@ interface Props {
   InfoUsers?: UserOrderInfo[]
   myRef: React.RefObject<HTMLDivElement>
 }
+type ROLES_USERS =  "ADMINISTRADOR" | "USUARIO" | "VENDEDOR"
 const UsersDashboard: React.FC<Props> = ({load, myRef, InfoUsers}) => {
   const [showModal, setShowModal] = useState(false)
   const [selectedUser, setSelectedUser] = useState<UserOrderInfo>()
+  const [newUserRole, setNewUserRole] = useState<ROLES_USERS>("USUARIO")
+  const [msg, setMsg] = useState("")
   const handleClick = (user: UserOrderInfo)=> {
     setSelectedUser(user)
     setShowModal(true)
+  }
+  const handleClickClose = ()=>{
+    setSelectedUser(undefined)
+    setShowModal(false)
+  }
+  const handleChangeNewUserRole = (opt: string) => {
+    if(ROLE_NAME.includes(opt)){
+      setNewUserRole(opt as ROLES_USERS)
+    }else{
+      setMsg("Se intentó elegir un rol que no corresponde a los establecidos")
+    }
+  }
+  const handleUpdateUser = async()=> {
+    if(!ROLE_NAME.includes(newUserRole)) {
+      setMsg("El rol es inadecuado")
+      return
+    }
+    
+
   }
   return (
     <div className='max-w-5xl flex flex-col justify-center items-center gap-2'>
@@ -75,11 +97,12 @@ const UsersDashboard: React.FC<Props> = ({load, myRef, InfoUsers}) => {
       </div>
       {
         showModal && selectedUser != undefined && (
-          <Dialog onClose={()=> setShowModal(false)}>
+          <Dialog onClose={()=> handleClickClose()}>
             <div className='w-full h-full text-center flex flex-col justify-center items-center gap-2 p-2 bg-bgLight'>
               <h2 className='text-3xl font-oswald text-pretty'>Actualización del usuario</h2>
-              <Dropdown AllOptions={ROLE_NAME} handleChange={()=> console.log("cambio")} title='Rol del usuario' />
-              <Button primary={true} size='extraLarge'>Cambiar información</Button>
+              <Dropdown AllOptions={ROLE_NAME} handleChange={handleChangeNewUserRole} title='Rol del usuario' />
+              {msg != "" && <strong className='text-red text-xl'> {msg} </strong>}
+              <Button onClick={()=> handleUpdateUser()} primary={true} size='extraLarge'>Cambiar información</Button>
             </div>
           </Dialog>
         )
