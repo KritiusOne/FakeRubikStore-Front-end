@@ -35,6 +35,7 @@ export const ShoppingHistory: React.FC = () => {
         })
         if (res.ok) {
           const response: PaginatedResponse<Order[]> = await res.json()
+          console.log(response.response)
           setResponse(response.response)
           setMeta(response.metaData)
           setLoad(false)

@@ -2,6 +2,7 @@ import { IconX } from "@tabler/icons-react";
 import React from "react";
 import { Button } from "./ui/Button";
 import { useCartStorage } from "@/zustand/CartStorage";
+import { RouteImage } from "@/lib/CreateRouteImage";
 
 
 interface Props {
@@ -18,7 +19,7 @@ export const CardCart: React.FC<Props> = ({ id, img, title, cantidad, price }) =
   return (
     <article className="flex flex-row justify-center items-center gap-2 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] px-1">
       <header className="max-w-28">
-        <img src={img} className="h-full w-full" alt={`imagen miniatura de ${title}`} />
+        <img src={RouteImage(img)} className="h-full w-full" alt={`imagen miniatura de ${title}`} />
       </header>
       <main className="flex flex-col justify-center items-center gap-0.5">
         <h4 className="text-pretty font-bold w-[16ch] "> {title} </h4>

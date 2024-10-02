@@ -13,6 +13,12 @@ import { ShoppingHistory } from "@/pages/ShoppingHistory"
 import { ShoppingDetails } from "@/pages/ShoppingDetails"
 import { useUserSesion } from "@/zustand/UserStorage"
 import { useEffect } from "react"
+import { SellersAuth_Guard } from "./SellersAuth.guard"
+import { Orders } from "@/pages/Orders"
+import { OnlyAdmins_Guard } from "./OnlyAdmins.guard"
+import { PanelControl } from "@/pages/PanelControl"
+import { CreateProduct } from "@/pages/CreateProduct"
+import { EditProduct } from "@/pages/EditProduct"
 
 export const MyRoutes: React.FC<{}> = () => {
   const haveSesion = useUserSesion(state => state.haveSesion)
@@ -38,6 +44,14 @@ export const MyRoutes: React.FC<{}> = () => {
           <Route path={PRIVATE_USER_ROUTES.SHOPPING_HISTORY} element={<ShoppingHistory />} />
           
           <Route path={PRIVATE_USER_ROUTES.SHOPPING_DETAILS} element={<ShoppingDetails />} />
+        </Route>
+        <Route element={<SellersAuth_Guard />}>
+          <Route path={PRIVATE_SELLER_ROUTES.SELL_ORDERS} element={<Orders />} />
+        </Route>
+        <Route element={<OnlyAdmins_Guard />}>
+          <Route path={PRIVATE_ADMIN_ROUTES.CONTROL_PANEL} element={<PanelControl />} />
+          <Route path={PRIVATE_ADMIN_ROUTES.CREATE_PRODUCT} element={<CreateProduct />} />
+          <Route path={PRIVATE_ADMIN_ROUTES.EDIT_PRODUCT} element={<EditProduct />} />
         </Route>
       </Routes>
     </BrowserRouter>

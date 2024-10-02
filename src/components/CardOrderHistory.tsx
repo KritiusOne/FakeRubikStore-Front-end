@@ -1,10 +1,11 @@
-import { DeliveryStates, getInWordStateDelivery } from '@/lib/DeliveryStates'
+import { getInWordStateDelivery } from '@/lib/DeliveryStates'
 import { OrderProduct } from '@/types/OrdersTypes'
 import React from 'react'
 import { Button } from './ui/Button'
 import { useNavigate } from 'react-router-dom'
 import { PRIVATE_USER_ROUTES } from '@/routes/TypesRoutes'
 import { getSimpleDate } from '@/lib/DateManagment'
+import { RouteImage } from '@/lib/CreateRouteImage'
 
 interface Props {
   dateBuy: Date
@@ -37,19 +38,16 @@ export const CardOrdertHistory: React.FC<Props> = ({ dateBuy, nameProduct, state
         <aside className='max-w-16 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]'>
           <img
             className='w-full'
-            src={img}
+            src={RouteImage(img)}
             alt={`Imagen representativa de ${nameProduct}`}
             title={nameProduct} />
         </aside>
         <section className='flex flex-col lg:flex-row justify-evenly items-center flex-1'>
-          <strong className={`${stateDelivery == 1 ? "text-green" : "text-primaryRed"} text-pretty`}>
+          <strong className={`${stateDelivery == 1 || stateDelivery == 5? "text-primaryRed" :"text-green" } text-pretty`}>
             {
               getInWordStateDelivery(stateDelivery)
             }
           </strong>
-          {
-            stateDelivery == 1 && <i className='text-green text-balance'> Entregado hace poco </i>
-          }
           <p className='flex flex-col justify-center items-center text-balance text-center'>
             {
               allProductInOrder.map((productOrder, index) => {

@@ -18,10 +18,10 @@ export const PRIVATE_USER_ROUTES = {
   SHOPPING_DETAILS: "/shopping-history/:id"
 }
 export const PRIVATE_SELLER_ROUTES = {
-  REPORTS_AREA: "/reports-area/:idArea",
-  EDIT_PRODUCTS: "/products/edit",
-  CREATE_REPORTS: "/reports-area/:idArea/create"
+  SELL_ORDERS: "/sell/orders"
 }
 export const PRIVATE_ADMIN_ROUTES = {
-  
+  CONTROL_PANEL: "/panel",
+  CREATE_PRODUCT: "/panel/newproduct",
+  EDIT_PRODUCT: "/panel/product/:id"
 }

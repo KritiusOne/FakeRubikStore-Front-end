@@ -12,8 +12,12 @@ export const Home: React.FC = () => {
   const [load, setLoad] = useState(false)
   const url = useURLStorage(urlStorage => urlStorage.Products)
   useEffect(() => {
+    const params = new URLSearchParams()
+    params.append("PageSize", "20")
+    params.append("PageNumber", "1")
+    const FINAL_URL = url + params.toString()
     setLoad(true)
-    products.getProducts(url)
+    products.getProducts(FINAL_URL)
     setLoad(false)
   }, [])
   return (
@@ -36,7 +40,7 @@ export const Home: React.FC = () => {
             }
           </div>
         </div>
-        <div className="w-11/12 h-full bg-bgLight text-center py-4">
+        <div className="w-11/12 h-full bg-bgLight text-center py-4 px-2 rounded-md">
           <h3 className="text-xl w-full font-semibold text-pretty text-center">
             Sobre Fake Rubik Store
           </h3>
@@ -46,7 +50,7 @@ export const Home: React.FC = () => {
           <div className="mt-4 grid grid-cols-1 md:grid-cols-2 justify-center items-start gap-2">
             <div className="flex flex-col justify-center items-center text-start px-4">
               <h4 className="text-lg w-full font-semibold text-pretty text-center"> ¿Que cubo comprar? </h4>
-              <p className="text-md">
+              <div className="text-md">
                 La elección del cubo de Rubik ideal depende de tu nivel de experiencia y de cómo quieras disfrutarlo.
                 <ul className="flex flex-col gap-2">
                   <li>
@@ -55,17 +59,17 @@ export const Home: React.FC = () => {
                   <li> <strong> Intermedios: </strong> Explora cubos 2x2, Pyraminx o Skewb para aumentar la dificultad y variedad. </li>
                   <li> <strong>Expertos:</strong> Si buscas velocidad, los cubos magnéticos de alta gama son tu mejor opción.</li>
                 </ul>
-              </p>
+              </div>
             </div>
             <div className="flex flex-col justify-center items-center text-start px-4">
               <h4 className="text-lg w-full font-semibold text-pretty text-center"> ¿Quien es el mejor cubero de la historia? </h4>
-              <p className="text-md ">
+              <div className="text-md ">
                 Hay 2 nombres que sobresalen
                 <ul className="text-start flex flex-col gap-2">
                   <li> <strong>Max Park:</strong> Conocido por su velocidad y consistencia, Max Park ha establecido numerosos récords mundiales y es considerado uno de los mejores speedcubers de la actualidad. </li>
                   <li><strong>Feliks Zemdegs:</strong> Otro nombre muy respetado en la comunidad, Feliks Zemdegs ha sido campeón del mundo en múltiples ocasiones y es reconocido por su estilo elegante y eficiente.</li>
                 </ul>
-              </p>
+              </div>
             </div>
             <div className="flex flex-col justify-center items-center text-start px-4">
               <h4 className="text-lg w-full font-semibold text-pretty text-center"> ¿Que marca de cubo comprar? </h4>
