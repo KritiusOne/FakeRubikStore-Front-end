@@ -55,3 +55,8 @@ export interface AddressById {
   country: string;
   description: string;
 }
+
+export interface UpdateUserRol {
+  IdUserToUpdate: number;
+  NewIdRol:       number;
+}
