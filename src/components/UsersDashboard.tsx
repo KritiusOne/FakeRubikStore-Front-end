@@ -22,7 +22,7 @@ const UsersDashboard: React.FC<Props> = ({ load, myRef, InfoUsers }) => {
   const [newUserRole, setNewUserRole] = useState<ROLES_USERS>("USUARIO")
   const [msg, setMsg] = useState("")
   const { UpdateUserRol } = useURLStorage()
-  const {typetoken, token} = useUserSesion()
+  const {typetoken, token, infoUser} = useUserSesion()
   const [sendSolicitud, setSendSolicitud] = useState(false)
 
   const handleClick = (user: UserOrderInfo) => {
@@ -66,11 +66,11 @@ const UsersDashboard: React.FC<Props> = ({ load, myRef, InfoUsers }) => {
           'Content-Type': 'application/json'
         }
       })
+      console.log(res.ok)
       if(res.ok) {
-        const response = await res.json()
-        console.log(response)
-        setSendSolicitud(false)
-        setMsg(response)
+        const response = await res.text()
+        setMsg(`${response}. En breves se actualizará la información`)
+        setTimeout(()=> location.reload(), 2000)
       }
     } catch (error) {
       setSendSolicitud(false)
@@ -85,7 +85,7 @@ const UsersDashboard: React.FC<Props> = ({ load, myRef, InfoUsers }) => {
       </div>
       <div className='w-full overflow-x-auto shadow-md sm:rounded-lg flex flex-col justify-center items-center gap-2'>
         {
-          InfoUsers != undefined && (
+          InfoUsers != undefined && infoUser != null && (
             <Table>
               <Table.Header>
                 <Table.HeaderTitle>Id</Table.HeaderTitle>
@@ -96,7 +96,7 @@ const UsersDashboard: React.FC<Props> = ({ load, myRef, InfoUsers }) => {
               </Table.Header>
               <Table.Body>
                 {
-                  InfoUsers.map(user => {
+                  InfoUsers.filter(user => user.email != infoUser.email).map(user => {
                     return (
                       <Table.BodyRow key={user.id} title={user.id.toString()}>
                         <Table.Cell className='text-wrap max-w-10 md:max-w-full'>
