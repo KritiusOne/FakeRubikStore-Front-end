@@ -53,9 +53,6 @@ const ProductsDashboard: React.FC<Props> = ({ load, InfoProducts, myRef }) => {
                             <Button onClick={() => navegateEditProduct(product)}>
                               <IconEdit />
                             </Button>
-                            <Button>
-                              <IconX />
-                            </Button>
                           </div>
                         </Table.Cell>
                       </Table.BodyRow>
