@@ -1,3 +1,4 @@
+import { Badge } from '@/components/Badge'
 import { Layout } from '@/components/Layout'
 import { Dialog } from '@/components/ui/Dialog'
 import { Divider } from '@/components/ui/Divider'
@@ -48,6 +49,8 @@ export const EditProduct: React.FC = () => {
   const { token, typetoken } = useUserSesion()
   const navegate = useNavigate()
   const [showModal, setShowModal] = useState(false)
+  const [editedTag, setEditedTag] = useState("")
+
   useEffect(() => {
     const getActualProduct = async () => {
       const paramsSplited = location.search.split("=")
@@ -135,6 +138,12 @@ export const EditProduct: React.FC = () => {
       setShowError(prev => ({ ...prev, errorStock: "El Stock contiene caracteres no validos", allError: true }))
     }
   }
+  const handleAddTags = (e: React.KeyboardEvent)=>{
+    if(e.key == "Enter"){
+      setInfo(prev =>({...prev, ProductCategories: [...prev.ProductCategories, editedTag.toUpperCase()]}))
+      setEditedTag("")
+    }
+  }
   return (
     <Layout>
       <main className='w-full h-full bg-bgLight my-10 p-2 flex flex-col justify-center items-center'>
@@ -193,6 +202,14 @@ export const EditProduct: React.FC = () => {
               <label htmlFor="Area" className='font-bold'>Descripción</label>
               <textarea value={info.Description} onChange={(e) => setInfo(prev => ({ ...prev, Description: e.target.value.trim() }))} placeholder='Un gran cubo para principiantes' id="Area" className='focus:border-black focus:placeholder-black p-1 resize-none h-20 w-full md:w-1/3 placeholder:text-sm outline-none border-2 px-2 py-1 rounded-sm border-slate-300 bg-slate-100'></textarea>
             </div>
+            <div className='w-full flex flex-col justify-center items-center gap-1'>
+              <GroupInput value={editedTag} labelTitle='Etiquetas' onKeyDown={handleAddTags} onChange={(e)=> setEditedTag(e.currentTarget.value.trim())} />
+              <span> Para agregar una etiqueta, escriba el nombre y presione enter </span>
+              {
+                info.ProductCategories.map((tag, i)=> <Badge title={tag} key={i} />)
+              }
+            </div>
+            
           </div>
           <input className='bg-primaryRed px-2 py-1 text-white rounded cursor-pointer hover:bg-tomato' type='submit' value="Crear Producto" />
         </form>
