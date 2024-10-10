@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button } from './ui/Button'
-import { IconEdit, IconPlus, IconX } from '@tabler/icons-react'
+import { IconEdit, IconPlus } from '@tabler/icons-react'
 import { Spinner } from './ui/Spinner'
 import { Table } from './Table'
 import { PaginatedResponse } from '@/types/ResponseTypes'

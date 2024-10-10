@@ -93,8 +93,8 @@ export const EditProduct: React.FC = () => {
       data.append("InfoProduct.InfoProduct.Image", "algo");
       data.append("InfoProduct.InfoProduct.Description", info.Description)
       data.append("InfoProduct.InfoProduct.Thumbnail", "alog");
-      data.append("InfoProduct.ThumbnailImage", ImageValue)
-      data.append("InfoProduct.ProductImage", thumbnailValue)
+      data.append("InfoProduct.ThumbnailImage", thumbnailValue)
+      data.append("InfoProduct.ProductImage", ImageValue)
       try {
         const res = await fetch(UpdateProduct, {
           method: "PUT",
@@ -203,11 +203,13 @@ export const EditProduct: React.FC = () => {
               <textarea value={info.Description} onChange={(e) => setInfo(prev => ({ ...prev, Description: e.target.value.trim() }))} placeholder='Un gran cubo para principiantes' id="Area" className='focus:border-black focus:placeholder-black p-1 resize-none h-20 w-full md:w-1/3 placeholder:text-sm outline-none border-2 px-2 py-1 rounded-sm border-slate-300 bg-slate-100'></textarea>
             </div>
             <div className='w-full flex flex-col justify-center items-center gap-1'>
-              <GroupInput value={editedTag} labelTitle='Etiquetas' onKeyDown={handleAddTags} onChange={(e)=> setEditedTag(e.currentTarget.value.trim())} />
+              <GroupInput autoComplete='off' value={editedTag} labelTitle='Etiquetas' onKeyDown={handleAddTags} onChange={(e)=> setEditedTag(e.currentTarget.value.trim())} />
               <span> Para agregar una etiqueta, escriba el nombre y presione enter </span>
-              {
-                info.ProductCategories.map((tag, i)=> <Badge title={tag} key={i} />)
-              }
+              <div className='w-full flex justify-center items-center gap-2 px-4 py-2'>
+                {
+                  info.ProductCategories.map((tag, i)=> <Badge title={tag} key={i} />)
+                }
+              </div>
             </div>
             
           </div>
