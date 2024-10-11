@@ -19,6 +19,7 @@ import { OnlyAdmins_Guard } from "./OnlyAdmins.guard"
 import { PanelControl } from "@/pages/PanelControl"
 import { CreateProduct } from "@/pages/CreateProduct"
 import { EditProduct } from "@/pages/EditProduct"
+import { SetTags } from "@/pages/SetTags"
 
 export const MyRoutes: React.FC<{}> = () => {
   const haveSesion = useUserSesion(state => state.haveSesion)
@@ -52,6 +53,7 @@ export const MyRoutes: React.FC<{}> = () => {
           <Route path={PRIVATE_ADMIN_ROUTES.CONTROL_PANEL} element={<PanelControl />} />
           <Route path={PRIVATE_ADMIN_ROUTES.CREATE_PRODUCT} element={<CreateProduct />} />
           <Route path={PRIVATE_ADMIN_ROUTES.EDIT_PRODUCT} element={<EditProduct />} />
+          <Route path={PRIVATE_ADMIN_ROUTES.CREATE_TAG} element={<SetTags />} />
         </Route>
       </Routes>
     </BrowserRouter>

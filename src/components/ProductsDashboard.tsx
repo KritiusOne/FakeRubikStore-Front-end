@@ -23,9 +23,12 @@ const ProductsDashboard: React.FC<Props> = ({ load, InfoProducts, myRef }) => {
   }
   return (
     <div className='max-w-5xl flex flex-col justify-center items-center gap-2'>
-      <div className='w-full flex flex-row justify-between items-center gap-4'>
+      <div className='w-full text-sm md:text-lg flex flex-col md:flex-row justify-center md:justify-between items-center gap-2 md:gap-4'>
         <h2 className='text-xl font-bold text-pretty'> Lista de productos</h2>
-        <Button onClick={() => navegate(PRIVATE_ADMIN_ROUTES.CREATE_PRODUCT)} primary={true} size='extraLarge' className='flex-row'> <span className='flex flex-row gap-1'><IconPlus /> Agregar producto</span></Button>
+        <div className='flex flex-col md:flex-row justify-center items-center gap-2'>
+          <Button onClick={() => navegate(PRIVATE_ADMIN_ROUTES.CREATE_PRODUCT)} primary={true} size='extraLarge' className='flex-row'> <span className='flex flex-row gap-1 justify-center items-center'><IconPlus /> Agregar producto</span></Button>
+          <Button onClick={()=> navegate(PRIVATE_ADMIN_ROUTES.CREATE_TAG)} size='extraLarge'>Agregar Tags</Button>
+        </div>
       </div>
       <div className='w-full overflow-x-auto shadow-md sm:rounded-lg'>
         {

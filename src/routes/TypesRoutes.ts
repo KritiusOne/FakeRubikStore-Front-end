@@ -23,5 +23,6 @@ export const PRIVATE_SELLER_ROUTES = {
 export const PRIVATE_ADMIN_ROUTES = {
   CONTROL_PANEL: "/panel",
   CREATE_PRODUCT: "/panel/newproduct",
-  EDIT_PRODUCT: "/panel/product/:id"
+  EDIT_PRODUCT: "/panel/product/:id",
+  CREATE_TAG: "/panel/tag"
 }
