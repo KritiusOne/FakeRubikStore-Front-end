@@ -5,14 +5,24 @@ import { useProductStorage } from '@/zustand/ProductStorage'
 import { useURLStorage } from '@/zustand/URLStorage'
 import { IconMinus, IconPlus } from '@tabler/icons-react'
 import { RouteImage } from '@/lib/CreateRouteImage'
+import { CreateProductTag } from '@/types/ProductsTypes'
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
 
+}
+const TransformProductsIds = (ProductsIds: number[])=>{
+  const aux = ProductsIds.map(id=>{
+    return {
+      idProduct: id
+    }
+  })
+  return aux
 }
 export const CreateTag: React.FC<Props> = ({ ...props }) => {
   const { AllProducts, getProducts } = useProductStorage()
   const { Products } = useURLStorage()
   const [ProductsIds, setProductsIds] = useState<number[]>([])
+  const [newTag, setNewTag] = useState("")
   useEffect(() => {
     if (AllProducts.length == 0) {
       const params = new URLSearchParams()
@@ -30,10 +40,16 @@ export const CreateTag: React.FC<Props> = ({ ...props }) => {
     const aux = ProductsIds.filter(id => id != IdProduct)
     setProductsIds(aux)
   }
+  const handleCreate = async()=>{
+    const body: CreateProductTag = {
+      name: newTag, 
+      productCategories: TransformProductsIds(ProductsIds)
+    }
+  }
   return (
     <div {...props} className={`w-full flex flex-col justify-center items-center px-2 py-4 gap-2`}>
       <h2 className='text-3xl font-bold font-oswald'>Crear nuevo tag</h2>
-      <Input placeholder='3x3' />
+      <Input value={newTag} placeholder='3x3' onChange={(e)=> setNewTag(e.currentTarget.value.toUpperCase())} />
       <div className=''>
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
           {
@@ -59,7 +75,7 @@ export const CreateTag: React.FC<Props> = ({ ...props }) => {
           }
         </div>
       </div>
-      <Button primary size='extraLarge'>Crear nuevo tag</Button>
+      <Button onClick={()=> handleCreate()} primary size='extraLarge'>Crear nuevo tag</Button>
     </div>
   )
 }
