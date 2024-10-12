@@ -6,23 +6,29 @@ import { useURLStorage } from '@/zustand/URLStorage'
 import { IconMinus, IconPlus } from '@tabler/icons-react'
 import { RouteImage } from '@/lib/CreateRouteImage'
 import { CreateProductTag } from '@/types/ProductsTypes'
+import { useUserSesion } from '@/zustand/UserStorage'
+import { Dialog } from './ui/Dialog'
+import { Spinner } from './ui/Spinner'
 
-interface Props extends HTMLAttributes<HTMLDivElement> {
-
-}
-const TransformProductsIds = (ProductsIds: number[])=>{
-  const aux = ProductsIds.map(id=>{
+interface Props extends HTMLAttributes<HTMLDivElement> { }
+const TransformProductsIds = (ProductsIds: number[]) => {
+  const aux = ProductsIds.map(id => {
     return {
       idProduct: id
     }
   })
   return aux
 }
+
 export const CreateTag: React.FC<Props> = ({ ...props }) => {
   const { AllProducts, getProducts } = useProductStorage()
-  const { Products } = useURLStorage()
+  const { Products, CreateTag } = useURLStorage()
   const [ProductsIds, setProductsIds] = useState<number[]>([])
   const [newTag, setNewTag] = useState("")
+  const [msg, setMsg] = useState("")
+  const [showDialog, setShowDialog] = useState(false)
+  const { typetoken, token } = useUserSesion()
+  const [load, setLoad] = useState(false)
   useEffect(() => {
     if (AllProducts.length == 0) {
       const params = new URLSearchParams()
@@ -31,25 +37,52 @@ export const CreateTag: React.FC<Props> = ({ ...props }) => {
       getProducts(Products + params.toString())
     }
   }, [])
-  const handleClickAdd = (IdProduct:number)=>{
-    if(ProductsIds.includes(IdProduct)) return
+  const handleClickAdd = (IdProduct: number) => {
+    if (ProductsIds.includes(IdProduct)) return
     setProductsIds(prev => [...prev, IdProduct])
   }
-  const handleClickDelete = (IdProduct:number)=>{
-    if(!ProductsIds.includes(IdProduct)) return
+  const handleClickDelete = (IdProduct: number) => {
+    if (!ProductsIds.includes(IdProduct)) return
     const aux = ProductsIds.filter(id => id != IdProduct)
     setProductsIds(aux)
   }
-  const handleCreate = async()=>{
+  const handleCreate = async () => {
+    if (newTag == "") {
+      setMsg("No haz ingresado el nombre del tag")
+      return
+    }
+    setMsg("")
     const body: CreateProductTag = {
-      name: newTag, 
+      name: newTag,
       productCategories: TransformProductsIds(ProductsIds)
+    }
+    try {
+      setShowDialog(true)
+      setLoad(true)
+      const res = await fetch(CreateTag, {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+          Authorization: `${typetoken} ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
+      if(res.ok){
+        setMsg("Se ha creado el Tag correctamente")
+        setNewTag("")
+        setProductsIds([])
+        setLoad(false)
+      }
+    } catch (error) {
+      console.log(error)
+      setLoad(false)
+      setMsg("Ha ocurrido un error")
     }
   }
   return (
     <div {...props} className={`w-full flex flex-col justify-center items-center px-2 py-4 gap-2`}>
       <h2 className='text-3xl font-bold font-oswald'>Crear nuevo tag</h2>
-      <Input value={newTag} placeholder='3x3' onChange={(e)=> setNewTag(e.currentTarget.value.toUpperCase())} />
+      <Input value={newTag} placeholder='3x3' onChange={(e) => setNewTag(e.currentTarget.value.toUpperCase())} />
       <div className=''>
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
           {
@@ -61,11 +94,11 @@ export const CreateTag: React.FC<Props> = ({ ...props }) => {
                 <h6 className='text-pretty'> {product.name} </h6>
                 {
                   !ProductsIds.includes(product.id) ? (
-                    <span onClick={()=> handleClickAdd(product.id)} className='bg-green rounded-xl cursor-pointer select-none transition-all ease-in-out hover:opacity-65'>
+                    <span onClick={() => handleClickAdd(product.id)} className='bg-green rounded-xl cursor-pointer select-none transition-all ease-in-out hover:opacity-65'>
                       <IconPlus className='text-white font-bold' />
                     </span>
                   ) : (
-                    <span onClick={()=>handleClickDelete(product.id)} className='bg-red-700 rounded-xl cursor-pointer select-none transition-all ease-in-out hover:opacity-65'>
+                    <span onClick={() => handleClickDelete(product.id)} className='bg-red-700 rounded-xl cursor-pointer select-none transition-all ease-in-out hover:opacity-65'>
                       <IconMinus className='text-white font-bold' />
                     </span>
                   )
@@ -75,7 +108,20 @@ export const CreateTag: React.FC<Props> = ({ ...props }) => {
           }
         </div>
       </div>
-      <Button onClick={()=> handleCreate()} primary size='extraLarge'>Crear nuevo tag</Button>
+      <Button onClick={() => handleCreate()} primary size='extraLarge'>Crear nuevo tag</Button>
+      {
+        !showDialog && msg != "" && <span> {msg} </span>
+      }
+      {
+        showDialog && (<Dialog onClose={()=> load ? console.log("Aun no se puede") : setShowDialog(false)}>
+          <div className='w-full bg-bgLight flex flex-col justify-center items-center gap-2 px-2 py-4'>
+            <h2 className='text-3xl font-bold pretty text-center'> {msg} </h2>
+            {
+              showDialog && load && <Spinner colorSpinner='blue'  />
+            }
+          </div>
+        </Dialog>)
+      }
     </div>
   )
 }
