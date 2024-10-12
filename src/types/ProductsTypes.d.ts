@@ -63,3 +63,11 @@ export interface ProductInfo {
   description: string;
   thumbnail:   string;
 }
+export interface ProductCategories {
+  idCategory: number | string,
+  idProduct: number | string
+}
+export interface CreateProductTag {
+  name: string
+  productCategories: ProductCategories[]
+}
