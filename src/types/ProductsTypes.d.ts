@@ -64,7 +64,7 @@ export interface ProductInfo {
   thumbnail:   string;
 }
 export interface ProductCategories {
-  idCategory: number | string,
+  idCategory?: number | string,
   idProduct: number | string
 }
 export interface CreateProductTag {
