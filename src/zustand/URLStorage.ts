@@ -16,6 +16,7 @@ interface URLStorageTypes {
   GetAllUsers: string
   UpdateUserRol: string
   CreateTag: string
+  GetAllTags: string
 }
 export const useURLStorage = create<URLStorageTypes>(()=>({
   Products: import.meta.env.VITE_API_URL_PRODUCTS,
@@ -50,5 +51,6 @@ export const useURLStorage = create<URLStorageTypes>(()=>({
   UpdateProduct: import.meta.env.VITE_API_URL_UPDATE_PRODUCT,
   GetAllUsers: import.meta.env.VITE_API_URL_GET_ALL_USERS,
   UpdateUserRol: import.meta.env.VITE_API_URL_UPDATE_USER_ROL,
-  CreateTag: import.meta.env.VITE_API_URL_CREATE_TAG
+  CreateTag: import.meta.env.VITE_API_URL_CREATE_TAG,
+  GetAllTags: import.meta.env.VITE_API_URL_CREATE_TAG
 }))
