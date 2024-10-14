@@ -30,12 +30,10 @@ export const CreateTag: React.FC<Props> = ({ ...props }) => {
   const { typetoken, token } = useUserSesion()
   const [load, setLoad] = useState(false)
   useEffect(() => {
-    if (AllProducts.length == 0) {
-      const params = new URLSearchParams()
-      params.append("PageSize", "100")
-      params.append("PageNumber", "1")
-      getProducts(Products + params.toString())
-    }
+    const params = new URLSearchParams()
+    params.append("PageSize", "100")
+    params.append("PageNumber", "1")
+    getProducts(Products + params.toString()) 
   }, [])
   const handleClickAdd = (IdProduct: number) => {
     if (ProductsIds.includes(IdProduct)) return
@@ -67,7 +65,7 @@ export const CreateTag: React.FC<Props> = ({ ...props }) => {
           'Content-Type': 'application/json'
         }
       })
-      if(res.ok){
+      if (res.ok) {
         setMsg("Se ha creado el Tag correctamente")
         setNewTag("")
         setProductsIds([])
@@ -113,15 +111,23 @@ export const CreateTag: React.FC<Props> = ({ ...props }) => {
         !showDialog && msg != "" && <span> {msg} </span>
       }
       {
-        showDialog && (<Dialog onClose={()=> load ? console.log("Aun no se puede") : setShowDialog(false)}>
+        showDialog && (<Dialog onClose={() => load ? console.log("Aun no se puede") : setShowDialog(false)}>
           <div className='w-full bg-bgLight flex flex-col justify-center items-center gap-2 px-2 py-4'>
             <h2 className='text-3xl font-bold pretty text-center'> {msg} </h2>
             {
-              showDialog && load && <Spinner colorSpinner='blue'  />
+              showDialog && load && <Spinner colorSpinner='blue' />
             }
           </div>
         </Dialog>)
       }
+    </div>
+  )
+}
+
+export const AsignateTag: React.FC = () => {
+  return (
+    <div className='w-full h-full flex '>
+      algo
     </div>
   )
 }
