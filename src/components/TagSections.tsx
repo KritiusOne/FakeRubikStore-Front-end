@@ -5,10 +5,12 @@ import { useProductStorage } from '@/zustand/ProductStorage'
 import { useURLStorage } from '@/zustand/URLStorage'
 import { IconMinus, IconPlus } from '@tabler/icons-react'
 import { RouteImage } from '@/lib/CreateRouteImage'
-import { CreateProductTag } from '@/types/ProductsTypes'
+import { Category, CreateProductTag } from '@/types/ProductsTypes'
 import { useUserSesion } from '@/zustand/UserStorage'
 import { Dialog } from './ui/Dialog'
 import { Spinner } from './ui/Spinner'
+import { ResponseBase } from '@/types/ResponseTypes'
+import { Badge } from './Badge'
 
 interface Props extends HTMLAttributes<HTMLDivElement> { }
 const TransformProductsIds = (ProductsIds: number[]) => {
@@ -19,6 +21,7 @@ const TransformProductsIds = (ProductsIds: number[]) => {
   })
   return aux
 }
+
 
 export const CreateTag: React.FC<Props> = ({ ...props }) => {
   const { AllProducts, getProducts } = useProductStorage()
@@ -33,7 +36,7 @@ export const CreateTag: React.FC<Props> = ({ ...props }) => {
     const params = new URLSearchParams()
     params.append("PageSize", "100")
     params.append("PageNumber", "1")
-    getProducts(Products + params.toString()) 
+    getProducts(Products + params.toString())
   }, [])
   const handleClickAdd = (IdProduct: number) => {
     if (ProductsIds.includes(IdProduct)) return
@@ -125,9 +128,56 @@ export const CreateTag: React.FC<Props> = ({ ...props }) => {
 }
 
 export const AsignateTag: React.FC = () => {
+  const { AllProducts } = useProductStorage()
+  const [tags, setTags] = useState<Category[]>([])
+  const [load, setLoad] = useState(false)
+  const { GetAllTags } = useURLStorage()
+  useEffect(() => {
+    const getTags = async () => {
+      if (tags.length !== 0) return
+      try {
+        setLoad(true)
+        const res = await fetch(GetAllTags)
+        if(res.ok){
+          const response: ResponseBase<Category[]> = await res.json()
+          console.log(response.msg)
+          setTags(response.response)
+        }
+      } catch (error) {
+        console.log(error)
+      }finally{
+        setLoad(false)
+      }
+    }
+    getTags()
+  }, [])
   return (
-    <div className='w-full h-full flex '>
-      algo
+    <div className='w-full h-full flex flex-col justify-center items-center px-2 py-4 gap-2'>
+      <Input autoComplete='off' placeholder='filtrar tag' />
+      <div className='w-full flex flex-row flex-wrap justify-center items-center gap-2'>
+        {
+          !load && tags.map(tag => <Badge title={tag.name} key={tag.id} />)
+        }
+        {
+          load && <Spinner />
+        }
+      </div>
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
+        {
+          AllProducts.map(product => <article className='select-none w-40 max-h-72 border border-solid border-black flex flex-col justify-center ' key={product.id}>
+            <section className='w-full h-3/5'>
+              <img src={RouteImage(product.thumbnail)} className='w-full h-full' alt={`imagen de ${product.name}`} />
+            </section>
+            <main className='w-full h-full flex flex-col justify-center items-center px-2 py-1'>
+              <h6 className='text-pretty'> {product.name} </h6>
+              <span className='bg-green rounded-xl cursor-pointer select-none transition-all ease-in-out hover:opacity-65'>
+                <IconPlus className='text-white font-bold' />
+              </span>
+            </main>
+          </article>)
+        }
+      </div>
+      <Button primary size='extraLarge'> Agregar tags </Button>
     </div>
   )
 }
