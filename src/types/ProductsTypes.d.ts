@@ -71,3 +71,7 @@ export interface CreateProductTag {
   name: string
   productCategories: ProductCategories[]
 }
+export interface Category {
+  id: number
+  name: string
+}
