@@ -5,7 +5,7 @@ import { useProductStorage } from '@/zustand/ProductStorage'
 import { useURLStorage } from '@/zustand/URLStorage'
 import { IconMinus, IconPlus } from '@tabler/icons-react'
 import { RouteImage } from '@/lib/CreateRouteImage'
-import { Category, CreateProductTag } from '@/types/ProductsTypes'
+import { Category, CreateProductTag, Product } from '@/types/ProductsTypes'
 import { useUserSesion } from '@/zustand/UserStorage'
 import { Dialog } from './ui/Dialog'
 import { Spinner } from './ui/Spinner'
@@ -132,50 +132,108 @@ export const AsignateTag: React.FC = () => {
   const [tags, setTags] = useState<Category[]>([])
   const [load, setLoad] = useState(false)
   const { GetAllTags } = useURLStorage()
+  const [selectedTags, setSelectedTags] = useState<Category[]>([])
+  const [selectedProducts, setSelectedProducts] = useState<Product[]>([])
+  const [products, setProducts] = useState<Product[]>([])
   useEffect(() => {
     const getTags = async () => {
       if (tags.length !== 0) return
       try {
         setLoad(true)
         const res = await fetch(GetAllTags)
-        if(res.ok){
+        if (res.ok) {
           const response: ResponseBase<Category[]> = await res.json()
           console.log(response.msg)
           setTags(response.response)
         }
       } catch (error) {
         console.log(error)
-      }finally{
+      } finally {
         setLoad(false)
       }
     }
     getTags()
+    setProducts([...AllProducts])
   }, [])
+  const handleClickAddTag = (Tag: Category) => {
+    const filteredTags = selectedTags.filter(tag => tag.id === Tag.id)
+    if (filteredTags.length !== 0) return
+    setSelectedTags([...selectedTags, Tag])
+    const newGroupTags = tags.filter(tag => tag.id !== Tag.id)
+    setTags(newGroupTags)
+  }
+  const handleClickAddProduct = (newProduct: Product)=>{
+    const filteredProd = selectedProducts.filter(product => product.id === newProduct.id)
+    if(filteredProd.length !== 0) return
+    setSelectedProducts([...selectedProducts, newProduct])
+    const newProducts = products.filter(product => product.id !== newProduct.id)
+    setProducts(newProducts)
+  }
+  const handleDeleteTag = (Tag: Category)=>{
+    const filteredTag = selectedTags.filter(tag => tag.id === Tag.id)
+    if(filteredTag.length === 0 ) return
+    const newSelecteds = selectedTags.filter(tag => tag.id !== Tag.id)
+    setSelectedTags(newSelecteds)
+    setTags([...tags, Tag])
+  }
+  const handleDeleteProduct = (productToDelete: Product)=>{
+    const filteredProd = selectedProducts.filter(prod => prod.id === productToDelete.id)
+    if(filteredProd.length === 0) return
+    const newSelecteds = selectedProducts.filter(prod => prod.id !== productToDelete.id)
+    setSelectedProducts(newSelecteds)
+    setProducts([...products, productToDelete].sort((a, b)=> a.id - b.id ))
+  }
   return (
     <div className='w-full h-full flex flex-col justify-center items-center px-2 py-4 gap-2'>
       <Input autoComplete='off' placeholder='filtrar tag' />
-      <div className='w-full flex flex-row flex-wrap justify-center items-center gap-2'>
-        {
-          !load && tags.map(tag => <Badge title={tag.name} key={tag.id} />)
-        }
-        {
-          load && <Spinner />
-        }
+      <div className='w-full flex flex-col justify-center items-center gap-2 px-2 py-4'>
+        <h2 className='text-3xl font-bold text-pretty text-center font-oswald'>Seleccione las tags a añadir</h2>
+        <div className='w-full flex flex-row flex-wrap justify-center items-center gap-2'>
+          {
+            !load && tags.map(tag => <Badge onClick={() => handleClickAddTag(tag)} title={tag.name} key={tag.id} />)
+          }
+          {
+            load && <Spinner />
+          }
+        </div>
       </div>
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
         {
-          AllProducts.map(product => <article className='select-none w-40 max-h-72 border border-solid border-black flex flex-col justify-center ' key={product.id}>
+          products.map(product => <article className='select-none w-40 max-h-72 border border-solid border-black flex flex-col justify-center ' key={product.id}>
             <section className='w-full h-3/5'>
               <img src={RouteImage(product.thumbnail)} className='w-full h-full' alt={`imagen de ${product.name}`} />
             </section>
             <main className='w-full h-full flex flex-col justify-center items-center px-2 py-1'>
               <h6 className='text-pretty'> {product.name} </h6>
-              <span className='bg-green rounded-xl cursor-pointer select-none transition-all ease-in-out hover:opacity-65'>
+              <span onClick={()=> handleClickAddProduct(product)} className='bg-green rounded-xl cursor-pointer select-none transition-all ease-in-out hover:opacity-65'>
                 <IconPlus className='text-white font-bold' />
               </span>
             </main>
           </article>)
         }
+      </div>
+      <div className='w-full flex flex-col justify-center items-center gap-2 px-2 py-4'>
+        <h2 className='text-3xl font-bold text-pretty text-center font-oswald'>Se le añadirán las siguientes tags a los siguientes productos</h2>
+        <div className='w-full flex flex-row flex-wrap justify-center items-center gap-2 px-2 py-4'>
+          {
+            selectedTags.map(tag => <Badge onClick={()=> handleDeleteTag(tag)} title={tag.name} key={tag.id} />)
+          }
+        </div>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
+          {
+            selectedProducts.map(product => <article className='select-none w-40 max-h-72 border border-solid border-black flex flex-col justify-center ' key={product.id}>
+              <section className='w-full h-3/5'>
+                <img src={RouteImage(product.thumbnail)} className='w-full h-full' alt={`imagen de ${product.name}`} />
+              </section>
+              <main className='w-full h-full flex flex-col justify-center items-center px-2 py-1'>
+                <h6 className='text-pretty'> {product.name} </h6>
+                <span onClick={()=> handleDeleteProduct(product)} className='bg-red-700 rounded-xl cursor-pointer select-none transition-all ease-in-out hover:opacity-65'>
+                  <IconMinus className='text-white font-bold' />
+                </span>
+              </main>
+            </article>)
+          }
+        </div>
       </div>
       <Button primary size='extraLarge'> Agregar tags </Button>
     </div>
