@@ -1,6 +1,6 @@
 import { Layout } from '@/components/Layout'
 import { TabsCollection } from '@/components/TabsCollection'
-import { CreateTag } from '@/components/TagSections'
+import { AsignateTag, CreateTag } from '@/components/TagSections'
 import { Tab } from '@/components/ui/Tab'
 import React, { useState } from 'react'
 
@@ -17,6 +17,9 @@ export const SetTags: React.FC = () => {
         </TabsCollection>
         {
           showTab == "CREATE" && <CreateTag />
+        }
+        {
+          showTab == "SET" && <AsignateTag />
         }
       </main>
     </Layout>
