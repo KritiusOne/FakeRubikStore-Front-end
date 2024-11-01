@@ -6,7 +6,7 @@ export interface Product {
 }
 export interface AllDataProduct {
   reviews:           Review[];
-  productCategories: any[];
+  productCategories: ProductCategories[];
   id:                number;
   name:              string;
   price:             number;
