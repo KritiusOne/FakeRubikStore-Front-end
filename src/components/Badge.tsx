@@ -5,6 +5,6 @@ interface Props extends HTMLAttributes<HTMLSpanElement> {
 }
 export const Badge: React.FC<Props> = ({ title, ...props }) => {
   return (
-    <span {...props} className={`text-sm bg-green text-white text-nowrap rounded p-1 ${props.className}`}> {title} </span>
+    <span {...props} className={`text-sm text-nowrap rounded p-1 ${props.className}`}> {title} </span>
   )
 }
