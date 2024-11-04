@@ -144,7 +144,6 @@ export const AsignateTag: React.FC = () => {
   const [products, setProducts] = useState<PaginatedResponse<AllDataProduct[]>>()
   const [showDialog, setShowDialog] = useState(false)
   const [msg, setMsg] = useState("")
-  const {token, typetoken} = useUserSesion()
   useEffect(() => {
     const getTags = async () => {
       if (tags.length !== 0) return
@@ -240,12 +239,13 @@ export const AsignateTag: React.FC = () => {
           categoryProductDTOs: toCreatePC
         }),
         headers: {
-          Authorization: `${typetoken} ${token}`
+          'Content-Type': 'application/json'
         }
       })
       if(response.ok){
         const textMsg = await response.text()
         setMsg(textMsg)
+        setTimeout(()=> location.reload(), 1000)
       }else{
         setMsg("Hubo un error, intente otra vez en otro momento")
       }
@@ -322,7 +322,7 @@ export const AsignateTag: React.FC = () => {
             {
               showDialog && !load && (<>
               <h2 className='text-2xl text-pretty text-center'> {msg} </h2>
-              <strong className='text-lg'>El proceso a terminado</strong>
+              <strong className='text-lg'>El proceso a terminado, espere un momentov</strong>
               </>
               )
             }
