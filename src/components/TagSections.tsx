@@ -12,11 +12,14 @@ import { Spinner } from './ui/Spinner'
 import { PaginatedResponse, ResponseBase } from '@/types/ResponseTypes'
 import { Badge } from './Badge'
 
-function checkAddedTag(tags: Category[], ProductsTag: ProductCategories[]){
+function checkAddedProduct(tags: Category[], ProductsTag: ProductCategories[]){
   const filteredTags = tags.filter(tag => ProductsTag.find(pc => pc.idCategory == tag.id))
   return !(filteredTags.length > 0)
 }
-
+function checkAddedTag(tag: Category, products: AllDataProduct[]){
+  const filteredPC = products.filter(product => product.productCategories.find(pc => pc.idCategory == tag.id))
+  return filteredPC.length > 0
+}
 interface Props extends HTMLAttributes<HTMLDivElement> { }
 const TransformProductsIds = (ProductsIds: number[]) => {
   const aux = ProductsIds.map(id => {
@@ -141,7 +144,7 @@ export const AsignateTag: React.FC = () => {
   const [products, setProducts] = useState<PaginatedResponse<AllDataProduct[]>>()
   const [showDialog, setShowDialog] = useState(false)
   const [msg, setMsg] = useState("")
-  //const {token, typetoken} = useUserSesion()
+  const {token, typetoken} = useUserSesion()
   useEffect(() => {
     const getTags = async () => {
       if (tags.length !== 0) return
@@ -181,6 +184,8 @@ export const AsignateTag: React.FC = () => {
     getProducts()
   }, [])
   const handleClickAddTag = (Tag: Category) => {
+    if(checkAddedTag(Tag, selectedProducts)) return
+    console.log("estoy en el evento de agregar tag")
     const filteredTags = selectedTags.filter(tag => tag.id === Tag.id)
     if (filteredTags.length !== 0) return
     setSelectedTags([...selectedTags, Tag])
@@ -189,7 +194,7 @@ export const AsignateTag: React.FC = () => {
   }
   const handleClickAddProduct = (newProduct: AllDataProduct) => {
     if (products == undefined) return
-    if(!checkAddedTag(selectedTags, newProduct.productCategories)) return
+    if(!checkAddedProduct(selectedTags, newProduct.productCategories)) return
     const filteredProd = selectedProducts.filter(product => product.id === newProduct.id)
     if (filteredProd.length !== 0) return
     setSelectedProducts([...selectedProducts, newProduct])
@@ -223,15 +228,20 @@ export const AsignateTag: React.FC = () => {
     setLoad(true)
     const toCreatePC:ProductCategories[] = []
     selectedProducts.forEach(productSelected => {
-      selectedTags.forEach(selectedTag => toCreatePC.push({idProduct: productSelected.id, idCategory: selectedTag.id}))      
+      selectedTags.forEach(selectedTag => toCreatePC.push({idCategory: selectedTag.id, idProduct: productSelected.id}))      
     });
+    console.log({
+      categoryProductDTOs: toCreatePC
+    })
     try {
       const response = await fetch(CreatePC, {
         method: "POST",
-        body: `"categoryProductDTOs": ${JSON.stringify(toCreatePC)}`,/*
+        body: JSON.stringify({
+          categoryProductDTOs: toCreatePC
+        }),
         headers: {
           Authorization: `${typetoken} ${token}`
-        }*/
+        }
       })
       if(response.ok){
         const textMsg = await response.text()
@@ -252,7 +262,7 @@ export const AsignateTag: React.FC = () => {
         <h2 className='text-3xl font-bold text-pretty text-center font-oswald'>Seleccione las tags a añadir</h2>
         <div className='w-full flex flex-row flex-wrap justify-center items-center gap-2'>
           {
-            !load && tags.length > 0 && tags.map(tag => <Badge className='cursor-pointer select-none' onClick={() => handleClickAddTag(tag)} title={tag.name} key={tag.id} />)
+            !load && tags.length > 0 && tags.map(tag => <Badge className={` select-none text-white ${checkAddedTag(tag, selectedProducts) ? "bg-black cursor-not-allowed" : "bg-green cursor-pointer"}`} onClick={() => handleClickAddTag(tag)} title={tag.name} key={tag.id} />)
           }
           {
             load && tags.length == 0  && <Spinner />
@@ -270,9 +280,9 @@ export const AsignateTag: React.FC = () => {
             </section>
             <main className='w-full h-full flex flex-col justify-center items-center px-2 py-1'>
               <h6 className='text-pretty'> {product.name} </h6>
-              <span onClick={() => handleClickAddProduct(product)}  className={`${checkAddedTag(selectedTags, product.productCategories) ? "bg-green cursor-pointer hover:opacity-65" : "bg-black cursor-not-allowed"} rounded-xl  select-none transition-all ease-in-out p-1`}>
+              <span onClick={() => handleClickAddProduct(product)}  className={`${checkAddedProduct(selectedTags, product.productCategories) ? "bg-green cursor-pointer hover:opacity-65" : "bg-black cursor-not-allowed"} rounded-xl  select-none transition-all ease-in-out p-1`}>
                 {
-                  checkAddedTag(selectedTags, product.productCategories) ? <IconPlus className='text-white font-bold' /> : <IconLockOff className='text-white font-bold' />
+                  checkAddedProduct(selectedTags, product.productCategories) ? <IconPlus className='text-white font-bold' /> : <IconLockOff className='text-white font-bold' />
                 }
               </span>
             </main>
@@ -283,7 +293,7 @@ export const AsignateTag: React.FC = () => {
         <h2 className='text-3xl font-bold text-pretty text-center font-oswald'>Se le añadirán las siguientes tags a los siguientes productos</h2>
         <div className='w-full flex flex-row flex-wrap justify-center items-center gap-2 px-2 py-4'>
           {
-            selectedTags.map(tag => <Badge onClick={() => handleDeleteTag(tag)} title={tag.name} key={tag.id} />)
+            selectedTags.map(tag => <Badge className={`select-none text-white bg-green cursor-pointer`} onClick={() => handleDeleteTag(tag)} title={tag.name} key={tag.id} />)
           }
         </div>
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
