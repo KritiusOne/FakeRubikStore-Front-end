@@ -6,7 +6,7 @@ export interface Product {
 }
 export interface AllDataProduct {
   reviews:           Review[];
-  productCategories: any[];
+  productCategories: ProductCategories[];
   id:                number;
   name:              string;
   price:             number;
@@ -62,4 +62,16 @@ export interface ProductInfo {
   image:       string;
   description: string;
   thumbnail:   string;
+}
+export interface ProductCategories {
+  idCategory?: number | string,
+  idProduct: number | string
+}
+export interface CreateProductTag {
+  name: string
+  productCategories: ProductCategories[]
+}
+export interface Category {
+  id: number
+  name: string
 }

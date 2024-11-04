@@ -48,6 +48,7 @@ export const EditProduct: React.FC = () => {
   const { token, typetoken } = useUserSesion()
   const navegate = useNavigate()
   const [showModal, setShowModal] = useState(false)
+
   useEffect(() => {
     const getActualProduct = async () => {
       const paramsSplited = location.search.split("=")
@@ -90,8 +91,8 @@ export const EditProduct: React.FC = () => {
       data.append("InfoProduct.InfoProduct.Image", "algo");
       data.append("InfoProduct.InfoProduct.Description", info.Description)
       data.append("InfoProduct.InfoProduct.Thumbnail", "alog");
-      data.append("InfoProduct.ThumbnailImage", ImageValue)
-      data.append("InfoProduct.ProductImage", thumbnailValue)
+      data.append("InfoProduct.ThumbnailImage", thumbnailValue)
+      data.append("InfoProduct.ProductImage", ImageValue)
       try {
         const res = await fetch(UpdateProduct, {
           method: "PUT",

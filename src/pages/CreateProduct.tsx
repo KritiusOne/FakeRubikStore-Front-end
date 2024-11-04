@@ -52,8 +52,8 @@ export const CreateProduct: React.FC = () => {
       data.append("InfoProduct.Image", "algo");
       data.append("InfoProduct.Thumbnail", "alog");
       data.append("InfoProduct.ProductCategories", "");
-      data.append("ThumbnailImage", ImageValue)
-      data.append("ProductImage", thumbnailValue)
+      data.append("ThumbnailImage", thumbnailValue)
+      data.append("ProductImage", ImageValue)
       try {
         const res = await fetch(CreateProduct, {
           method: "POST",
