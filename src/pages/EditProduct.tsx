@@ -6,7 +6,7 @@ import { Spinner } from '@/components/ui/Spinner'
 import { RouteImage } from '@/lib/CreateRouteImage'
 import { onlyNumberAnyExtention } from '@/lib/validation'
 import { PRIVATE_ADMIN_ROUTES } from '@/routes/TypesRoutes'
-import { AllDataProduct } from '@/types/ProductsTypes'
+import { AllDataProduct, ProductCategories } from '@/types/ProductsTypes'
 import { ResponseBase } from '@/types/ResponseTypes'
 import { useURLStorage } from '@/zustand/URLStorage'
 import { useUserSesion } from '@/zustand/UserStorage'
@@ -21,7 +21,7 @@ interface InfoTypes {
   Description: string
   Image: string
   Thumbnail: string
-  ProductCategories: string[]
+  ProductCategories: ProductCategories[]
 }
 export const EditProduct: React.FC = () => {
   const location = useLocation()

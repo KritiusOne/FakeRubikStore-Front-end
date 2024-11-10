@@ -1,4 +1,4 @@
-import { HTMLAttributes, HTMLProps } from "react"
+import { HTMLProps } from "react"
 
 interface Props extends HTMLProps<HTMLLabelElement> {
   children: JSX.Element | JSX.Element[] | string

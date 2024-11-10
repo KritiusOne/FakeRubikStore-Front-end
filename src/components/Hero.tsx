@@ -6,15 +6,15 @@ export const Hero: React.FC<Props> = ({...props})=>{
   const imgs =  ["banner.webp", "img-carrousel-1.webp", "img-carrousel-2.webp", "img-carrousel-3.webp", "img-carrousel-4.webp" ]
   const [selectedImg, setSelectedImage] = useState(imgs[0])
   const [selectedIndex, setSelectedIndex] = useState(0)
-  const [loaded, setLoaded] = useState(false)
+  const [_, setLoaded] = useState(false)
   
   useEffect(()=>{
     const interval = setInterval(() => {
-      selectNewImage(selectedIndex, imgs);
+      selectNewImage(imgs);
     }, 30000);
     return () => clearInterval(interval);
   })
-  const selectNewImage = (index: number, images: string[], next = true) => {
+  const selectNewImage = (images: string[], next = true) => {
     setLoaded(false);
     setTimeout(() => {
       const condition = next ? selectedIndex < images.length - 1 : selectedIndex > 0;
@@ -25,11 +25,11 @@ export const Hero: React.FC<Props> = ({...props})=>{
   }
 
   const previous = () => {
-    selectNewImage(selectedIndex, imgs, false);
+    selectNewImage(imgs, false);
   }
 
   const next = () => {
-    selectNewImage(selectedIndex, imgs);
+    selectNewImage(imgs);
   }
   return (
     <section aria-label="Hero" className="w-10/12 mt-10" {...props} >
