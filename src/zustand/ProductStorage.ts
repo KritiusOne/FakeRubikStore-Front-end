@@ -7,7 +7,7 @@ interface ProductStorageTypes {
   getProductsMock: (newProducts: ProductMock[])=> void
   getProducts: (url: string)=> void
 }
-export const useProductStorage = create<ProductStorageTypes>((set, get)=>({
+export const useProductStorage = create<ProductStorageTypes>((set)=>({
   AllProducts: [],
   BestProducts: [],
   getProductsMock: (newProucts)=>{
