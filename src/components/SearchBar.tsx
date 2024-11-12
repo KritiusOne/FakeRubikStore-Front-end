@@ -9,7 +9,7 @@ import { Button } from "./ui/Button"
 import { IconUserFilled } from "@tabler/icons-react"
 import { Avatar } from "./Avatar"
 import { useCartStorage } from "@/zustand/CartStorage"
-import { FiltersProductsNames, formatURLtoNavParams } from "@/lib/SearchProduct"
+import { FiltersProductsNames, formatURLtoNavParams } from "@/lib/SearchLibrary"
 
 interface Props extends HTMLAttributes<HTMLElement> { }
 

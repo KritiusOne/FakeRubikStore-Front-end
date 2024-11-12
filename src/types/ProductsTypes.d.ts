@@ -75,3 +75,13 @@ export interface Category {
   id: number
   name: string
 }
+
+export interface ProductsQueryFilters {
+  MinPrice?: number
+  MaxPrice?: number
+  NameProduct?: string
+  DescriptionProduct?: string
+  CategoriesIds?: number[]
+  PageSize?: number
+  PageNumber?: number
+}
