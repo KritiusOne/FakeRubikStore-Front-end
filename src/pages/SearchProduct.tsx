@@ -6,7 +6,7 @@ export const SearchProduct: React.FC = () => {
   return (
     <Layout className='flex justify-center items-center'>
       <div className='w-full h-full my-5 px-4 py-2 flex flex-row justify-between items-start bg-bgLight'>
-        <aside className='flex flex-col justify-center items-start gap-2 px-2 py-1'>
+        <aside className='flex flex-col justify-start items-center gap-1 px-2 py-1'>
           <FiltersSearchProducts />
         </aside>
         <main className='flex flex-col flex-1 justify-center items-center px-4 py-2 gap-2'>
