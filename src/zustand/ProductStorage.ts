@@ -8,6 +8,8 @@ interface ProductStorageTypes {
   MinPriceValue: number
   MaxPriceValue: number
   ProductTags: FilterByTag[]
+  load: boolean
+  setLoad: (stateLoad: boolean) => void
   getProductsMock: (newProducts: ProductMock[]) => void
   getProducts: (url: string) => void
   setMinPrice: (newMinPrice: number) => void
@@ -21,6 +23,11 @@ export const useProductStorage = create<ProductStorageTypes>((set, get) => ({
   MaxPriceValue: 250000,
   MinPriceValue: 0,
   ProductTags: [],
+  load: false,
+  setLoad(stateLoad) {
+    const storage = get()
+    set({...storage, load: stateLoad})
+  },
   setProductsTags: async () => {
     const Storage = get()
     if (Storage.ProductTags.length == 0) {
