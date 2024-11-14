@@ -75,7 +75,10 @@ export interface Category {
   id: number
   name: string
 }
-
+export interface FilterByTag {
+  Tag: Category
+  isSelect: boolean
+}
 export interface ProductsQueryFilters {
   MinPrice?: number
   MaxPrice?: number
