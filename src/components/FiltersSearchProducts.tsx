@@ -12,19 +12,21 @@ export const FiltersSearchProducts: React.FC = () => {
   }, [])
   return (
     <>
-      <div className='flex flex-col justify-center items-center p-1 gap-2'>
-        <strong className='text-xl font-mono text-pretty'>Precio minimo</strong>
-        <Slider max={100000} min={0} value={MinPriceValue} onChange={(e) => setMinPrice(Number(e.currentTarget.value))} />
-        <span className='text-lg font-normal text-balance'> {MinPriceValue} </span>
-      </div>
-      <div className='flex flex-col justify-center items-center p-1 gap-2'>
-        <strong className='text-xl font-mono text-pretty'>Precio maximo</strong>
-        <Slider max={250000} min={101000} value={MaxPriceValue} onChange={(e) => setMaxPrice(Number(e.currentTarget.value))} />
-        <span className='text-lg font-normal text-balance'> {MaxPriceValue} </span>
+      <div className='flex flex-col justify-center items-center'>
+        <div className='flex flex-col justify-center items-center p-1 gap-2'>
+          <strong className='text-xl font-mono text-pretty'>Precio minimo</strong>
+          <Slider max={100000} min={0} value={MinPriceValue} onChange={(e) => setMinPrice(Number(e.currentTarget.value))} />
+          <span className='text-lg font-normal text-balance'> {MinPriceValue} </span>
+        </div>
+        <div className='flex flex-col justify-center items-center p-1 gap-2'>
+          <strong className='text-xl font-mono text-pretty'>Precio maximo</strong>
+          <Slider max={250000} min={101000} value={MaxPriceValue} onChange={(e) => setMaxPrice(Number(e.currentTarget.value))} />
+          <span className='text-lg font-normal text-balance'> {MaxPriceValue} </span>
+        </div>
       </div>
       <div className='flex flex-col justify-center items-center p-1 gap-2'>
         <strong className='text-xl font-mono text-pretty'>Categorias</strong>
-        <div className='flex flex-col justify-center items-start gap-2'>
+        <div className='grid grid-cols-3 md:flex md:flex-col justify-center items-center gap-2'>
           {
             ProductTags.length == 0 && <Spinner colorSpinner='red' />
           } 
