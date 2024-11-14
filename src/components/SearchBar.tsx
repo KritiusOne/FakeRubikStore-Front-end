@@ -22,6 +22,8 @@ export const SearchBar: React.FC<Props> = () => {
     const params = new URLSearchParams()
     params.append(FiltersProductsNames.NameProduct, searchText)
     params.append(FiltersProductsNames.DescriptionProduct, searchText)
+    params.set(FiltersProductsNames.PageSize, "10")
+    params.set(FiltersProductsNames.PageNumber, "1")
     const URL2Nav = formatURLtoNavParams(params, PUBLIC_ROUTES.SEARCH_PRODUCT)
     navegate(URL2Nav)
   }
