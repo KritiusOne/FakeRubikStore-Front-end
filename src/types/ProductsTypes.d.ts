@@ -28,16 +28,7 @@ export interface ProductMock {
   thumbnail:          string;
   images:             string[];
 }
-export interface MetaData {
-  totalCount:      number;
-  pageSize:        number;
-  currentPage:     number;
-  totalPage:       number;
-  hasNextPage:     boolean;
-  hasPreviousPage: boolean;
-  nextPageURL:     string;
-  previousPageURL: string;
-}
+
 export interface Response {
   metaData:   MetaData;
   statusCode: number;
