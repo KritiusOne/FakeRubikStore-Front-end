@@ -12,7 +12,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 
 const INITIAL_PAGE_NUMBER = 1
 export const SearchProduct: React.FC = () => {
-  const { load, setLoad } = useProductStorage()
+  const { load, setLoad, MaxPriceValue, MinPriceValue, setMaxPrice, setMinPrice } = useProductStorage()
   const navegate = useNavigate()
   const location = useLocation()
   const [PageNumber, setPageNumber] = useState(INITIAL_PAGE_NUMBER)
@@ -31,44 +31,44 @@ export const SearchProduct: React.FC = () => {
     statusCode: 0,
     response: [],
   })
-  useEffect(()=>{
-    const getSearchedProducts = async()=>{
+  useEffect(() => {
+    const getSearchedProducts = async () => {
       const params = new URLSearchParams(location.search)
       const URL = import.meta.env.VITE_API_URL_GET_ALL_PRODUCTS_ALL_INFO
       const FINAL_URL = `${URL}?${params.toString()}`
-      if(params.has(FiltersProductsNames.PageNumber) && Number(params.get(FiltersProductsNames.PageNumber)) != PageNumber) {
+      if (params.has(FiltersProductsNames.PageNumber)
+        && Number(params.get(FiltersProductsNames.PageNumber)) != PageNumber) {
         setPageNumber(Number(params.get(FiltersProductsNames.PageNumber)))
-        console.log("Entre")
       }
       setLoad(true)
-      try {        
+      try {
         const res = await fetch(FINAL_URL)
-        if(res.ok){
+        if (res.ok) {
           const response: PaginatedResponse<AllDataProduct[]> = await res.json()
-          if(products.metaData.currentPage != response.metaData.currentPage &&response.metaData.currentPage > 1){
-            setProducts({
-              ...response,
-              response: [...products.response, ...response.response]
-            })
-          }else{
-            setProducts({...response})
-          }
+          setProducts({ ...response })
           setProducts(response)
         }
       } catch (error) {
         console.log(error)
-      }finally {
+      } finally {
         setLoad(false)
+        if (params.has(FiltersProductsNames.MaxPrice) == true && Number(params.get(FiltersProductsNames.MaxPrice)) != MaxPriceValue) {
+          setMaxPrice(Number(params.get(FiltersProductsNames.MaxPrice)))
+        }
+
+        if (params.has(FiltersProductsNames.MinPrice) == true && Number(params.get(FiltersProductsNames.MinPrice)) != MinPriceValue) {
+          setMinPrice(Number(params.get(FiltersProductsNames.MinPrice)))
+        }
       }
     }
     getSearchedProducts()
   }, [location.search])
-  const handleNumberPage = (numberPage: number)=>{
+  const handleNumberPage = (numberPage: number) => {
     const params = new URLSearchParams(location.search)
     params.set(FiltersProductsNames.PageNumber, numberPage.toString())
     setPageNumber(numberPage)
     const FINAL_URL = `${location.pathname}?${params.toString()}`
-    navegate(FINAL_URL, {replace: true})
+    navegate(FINAL_URL, { replace: true })
   }
   return (
     <Layout className='flex flex-col gap-2 justify-center items-center'>
@@ -80,23 +80,23 @@ export const SearchProduct: React.FC = () => {
           </aside>
           <main className='flex flex-col flex-1 justify-center items-center px-4 py-2 gap-2'>
             {
-              products.response.length == 0 && <Spinner />
+              products.response.length == 0 && load && <Spinner />
             }
             {
-              products.response.length != 0 && !load && products.response.map((product)=> <CardProduct price={product.price}  
-              productId={product.id}
-              thumbnail={product.thumbnail} 
-              title={product.name}
-              key={product.id} />)
+              products.response.length != 0 && !load && products.response.map((product) => <CardProduct price={product.price}
+                productId={product.id}
+                thumbnail={product.thumbnail}
+                title={product.name}
+                key={product.id} />)
             }
           </main>
         </div>
         <div className='flex flex-row gap-2'>
-          <Paginated 
-          actualPage={PageNumber}
-          hasNextPage={products.metaData.hasNextPage}
-          onNext={()=> handleNumberPage(PageNumber + 1)}
-          onPreviws={()=> handleNumberPage(PageNumber - 1)} />
+          <Paginated
+            actualPage={PageNumber}
+            hasNextPage={products.metaData.hasNextPage}
+            onNext={() => handleNumberPage(PageNumber + 1)}
+            onPreviws={() => handleNumberPage(PageNumber - 1)} />
         </div>
       </div>
     </Layout>
