@@ -1,16 +1,21 @@
 import { FiltersSearchProducts } from '@/components/FiltersSearchProducts'
 import { Layout } from '@/components/Layout'
 import { CardProduct } from '@/components/ui/CardProduct'
+import { Paginated } from '@/components/ui/Paginated'
 import { Spinner } from '@/components/ui/Spinner'
+import { FiltersProductsNames } from '@/lib/SearchLibrary'
 import { AllDataProduct } from '@/types/ProductsTypes'
 import { PaginatedResponse } from '@/types/ResponseTypes'
 import { useProductStorage } from '@/zustand/ProductStorage'
 import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
+const INITIAL_PAGE_NUMBER = 1
 export const SearchProduct: React.FC = () => {
   const { load, setLoad } = useProductStorage()
+  const navegate = useNavigate()
   const location = useLocation()
+  const [PageNumber, setPageNumber] = useState(INITIAL_PAGE_NUMBER)
   const [products, setProducts] = useState<PaginatedResponse<AllDataProduct[]>>({
     metaData: {
       currentPage: 0,
@@ -31,6 +36,10 @@ export const SearchProduct: React.FC = () => {
       const params = new URLSearchParams(location.search)
       const URL = import.meta.env.VITE_API_URL_GET_ALL_PRODUCTS_ALL_INFO
       const FINAL_URL = `${URL}?${params.toString()}`
+      if(params.has(FiltersProductsNames.PageNumber) && Number(params.get(FiltersProductsNames.PageNumber)) != PageNumber) {
+        setPageNumber(Number(params.get(FiltersProductsNames.PageNumber)))
+        console.log("Entre")
+      }
       setLoad(true)
       try {        
         const res = await fetch(FINAL_URL)
@@ -54,6 +63,13 @@ export const SearchProduct: React.FC = () => {
     }
     getSearchedProducts()
   }, [location.search])
+  const handleNumberPage = (numberPage: number)=>{
+    const params = new URLSearchParams(location.search)
+    params.set(FiltersProductsNames.PageNumber, numberPage.toString())
+    setPageNumber(numberPage)
+    const FINAL_URL = `${location.pathname}?${params.toString()}`
+    navegate(FINAL_URL, {replace: true})
+  }
   return (
     <Layout className='flex flex-col gap-2 justify-center items-center'>
       <div className='w-full h-full my-5 bg-bgLight flex flex-col justify-start items-center px-4 py-2'>
@@ -74,6 +90,13 @@ export const SearchProduct: React.FC = () => {
               key={product.id} />)
             }
           </main>
+        </div>
+        <div className='flex flex-row gap-2'>
+          <Paginated 
+          actualPage={PageNumber}
+          hasNextPage={products.metaData.hasNextPage}
+          onNext={()=> handleNumberPage(PageNumber + 1)}
+          onPreviws={()=> handleNumberPage(PageNumber - 1)} />
         </div>
       </div>
     </Layout>
