@@ -11,6 +11,7 @@ import { PRIVATE_ADMIN_ROUTES, PRIVATE_SELLER_ROUTES, PRIVATE_USER_ROUTES, PUBLI
 import { Dialog } from "./ui/Dialog";
 import { useCartStorage } from "@/zustand/CartStorage";
 import { ResponsiveMenu } from "./ResponsiveMenu"
+import { FiltersProductsNames, formatURLtoNavParams } from "@/lib/SearchLibrary";
 interface Props extends HTMLAttributes<HTMLElement> { }
 
 export const Header: React.FC<Props> = ({ ...props }) => {
@@ -26,7 +27,14 @@ export const Header: React.FC<Props> = ({ ...props }) => {
       setRole("2")
     }
   }, [UserSesion.activeSesion])
-
+  const handleSearchWCAProduct = ()=>{
+    const params = new URLSearchParams()
+    params.set(FiltersProductsNames.PageSize, "10")
+    params.set(FiltersProductsNames.PageNumber, "1")
+    params.set(FiltersProductsNames.CategoriesIds, "3")
+    const URL2Nav = formatURLtoNavParams(params, PUBLIC_ROUTES.SEARCH_PRODUCT)
+    navegate(URL2Nav)
+  }
   return (
     <>
       <header {...props} className={`w-full bg-bgLight sticky top-0 z-30 flex flex-row justify-between items-center py-3 px-4 md:flex-col md:justify-center overflow-hidden ${props.className}`}>
@@ -42,7 +50,10 @@ export const Header: React.FC<Props> = ({ ...props }) => {
               onClick={()=> navegate(PRIVATE_SELLER_ROUTES.SELL_ORDERS)}> <span>Ver pedidos</span> <IconMoneybag /> </Button> 
             }
             {
-              role == "2" && <Button size="medium" className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"> <span>WCA</span> <WCAIcon className="text-xl" /></Button>
+              role == "2" && <Button 
+              size="medium" 
+              className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"
+              onClick={()=> handleSearchWCAProduct()}> <span>WCA</span> <WCAIcon className="text-xl" /></Button>
             }
           </li>
           <li>
