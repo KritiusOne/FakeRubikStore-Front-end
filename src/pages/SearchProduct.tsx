@@ -1,6 +1,6 @@
 import { FiltersSearchProducts } from '@/components/FiltersSearchProducts'
 import { Layout } from '@/components/Layout'
-import { CardProduct } from '@/components/ui/CardProduct'
+import { CardSearchedProduct } from '@/components/ui/CardSearchedProduct'
 import { Paginated } from '@/components/ui/Paginated'
 import { Spinner } from '@/components/ui/Spinner'
 import { FiltersProductsNames } from '@/lib/SearchLibrary'
@@ -78,15 +78,13 @@ export const SearchProduct: React.FC = () => {
           <aside className='flex flex-row md:flex-col justify-center md:justify-start items-start md:items-center  gap-3 md:gap-1 px-2 py-1'>
             <FiltersSearchProducts />
           </aside>
-          <main className='flex flex-col flex-1 justify-center items-center px-4 py-2 gap-2'>
+          <main className='flex flex-col flex-1 justify-center items-center px-4 py-2 gap-4'>
             {
               products.response.length == 0 && load && <Spinner />
             }
             {
-              products.response.length != 0 && !load && products.response.map((product) => <CardProduct price={product.price}
-                productId={product.id}
-                thumbnail={product.thumbnail}
-                title={product.name}
+              products.response.length != 0 && !load && products.response.map((product) => <CardSearchedProduct
+                productInfo={product}
                 key={product.id} />)
             }
           </main>
