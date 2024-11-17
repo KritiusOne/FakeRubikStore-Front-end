@@ -16,6 +16,7 @@ interface ProductStorageTypes {
   setMaxPrice: (newMaxPrice: number) => void
   setProductsTags: () => void
   toggleProductTag: (id: number) => void
+  setVoidTags: ()=> void
 }
 export const useProductStorage = create<ProductStorageTypes>((set, get) => ({
   AllProducts: [],
@@ -24,6 +25,17 @@ export const useProductStorage = create<ProductStorageTypes>((set, get) => ({
   MinPriceValue: 0,
   ProductTags: [],
   load: false,
+  setVoidTags() {
+    const storage = get()
+    const productsTags = storage.ProductTags.map(tag => {
+      const tagFilter: FilterByTag = {
+        isSelect: false,
+        Tag: tag.Tag
+      }
+      return tagFilter
+    })
+    set({...storage, ProductTags: [...productsTags] })
+  },
   setLoad(stateLoad) {
     const storage = get()
     set({...storage, load: stateLoad})

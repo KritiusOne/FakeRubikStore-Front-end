@@ -10,6 +10,7 @@ import { IconUserFilled } from "@tabler/icons-react"
 import { Avatar } from "./Avatar"
 import { useCartStorage } from "@/zustand/CartStorage"
 import { FiltersProductsNames, formatURLtoNavParams } from "@/lib/SearchLibrary"
+import { useProductStorage } from "@/zustand/ProductStorage"
 
 interface Props extends HTMLAttributes<HTMLElement> { }
 
@@ -18,6 +19,7 @@ export const SearchBar: React.FC<Props> = () => {
   const User = useUserSesion()
   const cartStorage = useCartStorage()
   const [searchText, setSearchText] = useState("")
+  const { setVoidTags } = useProductStorage()
   const handleSearchProduct = ()=>{
     const params = new URLSearchParams()
     params.append(FiltersProductsNames.NameProduct, searchText)
@@ -25,7 +27,8 @@ export const SearchBar: React.FC<Props> = () => {
     params.set(FiltersProductsNames.PageSize, "10")
     params.set(FiltersProductsNames.PageNumber, "1")
     const URL2Nav = formatURLtoNavParams(params, PUBLIC_ROUTES.SEARCH_PRODUCT)
-    navegate(URL2Nav)
+    setVoidTags()
+    navegate(URL2Nav, {replace: true})
   }
   const handleClickLogo = (URL: string) => {
     navegate(URL)

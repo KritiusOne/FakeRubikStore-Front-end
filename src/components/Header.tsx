@@ -12,6 +12,7 @@ import { Dialog } from "./ui/Dialog";
 import { useCartStorage } from "@/zustand/CartStorage";
 import { ResponsiveMenu } from "./ResponsiveMenu"
 import { FiltersProductsNames, formatURLtoNavParams } from "@/lib/SearchLibrary";
+import { useProductStorage } from "@/zustand/ProductStorage";
 interface Props extends HTMLAttributes<HTMLElement> { }
 
 export const Header: React.FC<Props> = ({ ...props }) => {
@@ -20,6 +21,7 @@ export const Header: React.FC<Props> = ({ ...props }) => {
   const cartStorage = useCartStorage()
   const [showMenu, setShowMenu] = useState(false)
   const [role, setRole] = useState("2")
+  const { setVoidTags } = useProductStorage()
   useEffect(()=>{
     if(UserSesion.infoUser){
       setRole(UserSesion.infoUser.IdRole)
@@ -33,6 +35,7 @@ export const Header: React.FC<Props> = ({ ...props }) => {
     params.set(FiltersProductsNames.PageNumber, "1")
     params.set(FiltersProductsNames.CategoriesIds, "3")
     const URL2Nav = formatURLtoNavParams(params, PUBLIC_ROUTES.SEARCH_PRODUCT)
+    setVoidTags()
     navegate(URL2Nav)
   }
   return (
