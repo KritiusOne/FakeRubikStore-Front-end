@@ -74,8 +74,8 @@ export const SearchProduct: React.FC = () => {
     <Layout className='flex flex-col gap-2 justify-center items-center'>
       <div className='w-full h-full my-5 bg-bgLight flex flex-col justify-start items-center px-4 py-2'>
         <h1 className='text-3xl font-bold text-center text-pretty font-oswald'>Resultados de busqueda</h1>
-        <div className='w-full h-full my-5 px-4 py-2 flex flex-col md:flex-row justify-between items-start bg-bgLight'>
-          <aside className='flex flex-row md:flex-col justify-center md:justify-start items-start md:items-center  gap-3 md:gap-1 px-2 py-1'>
+        <div className='w-full h-full my-5 px-4 py-2 flex flex-col md:flex-row justify-between items-center md:items-start bg-bgLight'>
+          <aside className='flex flex-col-reverse md:flex-col justify-center md:justify-start items-center gap-3 md:gap-1 px-2 py-1'>
             <FiltersSearchProducts />
           </aside>
           <main className='flex flex-col flex-1 justify-center items-center px-4 py-2 gap-4'>

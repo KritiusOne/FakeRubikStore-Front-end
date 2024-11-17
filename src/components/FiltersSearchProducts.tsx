@@ -49,7 +49,7 @@ export const FiltersSearchProducts: React.FC = () => {
   return (
     <>
       <div className='flex flex-col justify-center items-center'>
-        <div className='flex flex-col justify-center items-center p-1 gap-2'>
+        <div className='flex flex-col md:flex-col justify-center items-center p-1 gap-2'>
           <strong className='text-xl font-mono text-pretty'>Precio minimo</strong>
           <Slider max={100000} min={0}
             value={MinPriceValue}
