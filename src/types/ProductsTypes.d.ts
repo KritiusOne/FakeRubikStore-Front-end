@@ -56,7 +56,8 @@ export interface ProductInfo {
 }
 export interface ProductCategories {
   idCategory?: number | string,
-  idProduct: number | string
+  idProduct: number | string,
+  categoryNav?: Category
 }
 export interface CreateProductTag {
   name: string
