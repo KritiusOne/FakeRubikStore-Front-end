@@ -3,7 +3,7 @@ import { HMenu } from "./ui/icons/HMenu";
 import { SearchBar } from "./SearchBar";
 import { WCAIcon } from "./ui/icons/WCAIcon";
 import { Button } from "./ui/Button";
-import { IconFilterFilled, IconLogout, IconMoneybag } from '@tabler/icons-react';
+import { IconLogout, IconMoneybag } from '@tabler/icons-react';
 import { IconHistory } from '@tabler/icons-react';
 import { useUserSesion } from "@/zustand/UserStorage";
 import { useNavigate } from "react-router-dom";
@@ -22,14 +22,14 @@ export const Header: React.FC<Props> = ({ ...props }) => {
   const [showMenu, setShowMenu] = useState(false)
   const [role, setRole] = useState("2")
   const { setVoidTags } = useProductStorage()
-  useEffect(()=>{
-    if(UserSesion.infoUser){
+  useEffect(() => {
+    if (UserSesion.infoUser) {
       setRole(UserSesion.infoUser.IdRole)
-    }else{
+    } else {
       setRole("2")
     }
   }, [UserSesion.activeSesion])
-  const handleSearchWCAProduct = ()=>{
+  const handleSearchWCAProduct = () => {
     const params = new URLSearchParams()
     params.set(FiltersProductsNames.PageSize, "10")
     params.set(FiltersProductsNames.PageNumber, "1")
@@ -48,27 +48,26 @@ export const Header: React.FC<Props> = ({ ...props }) => {
         <ul className="md:flex flex-row justify-center items-center gap-4 hidden">
           <li>
             {
-              UserSesion.infoUser != null && role != "2" && <Button size="extraLarge" 
-              className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"
-              onClick={()=> navegate(PRIVATE_SELLER_ROUTES.SELL_ORDERS)}> <span>Ver pedidos</span> <IconMoneybag /> </Button> 
+              UserSesion.infoUser != null && role != "2" && <Button size="extraLarge"
+                className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"
+                onClick={() => navegate(PRIVATE_SELLER_ROUTES.SELL_ORDERS)}> <span>Ver pedidos</span> <IconMoneybag /> </Button>
             }
             {
-              role == "2" && <Button 
-              size="medium" 
-              className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"
-              onClick={()=> handleSearchWCAProduct()}> <span>WCA</span> <WCAIcon className="text-xl" /></Button>
+              role == "2" && <Button
+                size="medium"
+                className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"
+                onClick={() => handleSearchWCAProduct()}> <span>WCA</span> <WCAIcon className="text-xl" /></Button>
             }
           </li>
-          <li>
-            {
-              role == "2" && <Button size="extraLarge" className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"> <span>Busqueda avanzada</span> <IconFilterFilled /> </Button>
-            }
-            {
-              UserSesion.infoUser != null && role == "1" && <Button size="extraLarge" 
-              className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"
-              onClick={()=> navegate(PRIVATE_ADMIN_ROUTES.CONTROL_PANEL) }> <span> Panel de control </span> <WCAIcon /> </Button>
-            }
-          </li>
+          {
+            UserSesion.infoUser != null && role == "1" && (
+              <li>
+                <Button size="extraLarge"
+                  className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"
+                  onClick={() => navegate(PRIVATE_ADMIN_ROUTES.CONTROL_PANEL)}> <span> Panel de control </span> <WCAIcon /> </Button>
+              </li>
+            )
+          }
           {
             UserSesion.activeSesion && <li>
               <Button size="extraLarge" className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"
@@ -89,7 +88,7 @@ export const Header: React.FC<Props> = ({ ...props }) => {
       {
         showMenu && (
           <Dialog onClose={() => setShowMenu(false)}>
-            <ResponsiveMenu handleClose={()=> setShowMenu(false) } handleClickCart={()=>{
+            <ResponsiveMenu handleClose={() => setShowMenu(false)} handleClickCart={() => {
               cartStorage.changeViewCart(cartStorage.viewCart)
               setShowMenu(false)
             }} />

@@ -7,6 +7,8 @@ import { Avatar } from "./Avatar"
 import { useUserSesion } from "@/zustand/UserStorage"
 import { Button } from "./ui/Button"
 import { IconCircleX, IconFilterFilled, IconHistory, IconLogout, IconMoneybag, IconShoppingCart, IconUserFilled } from "@tabler/icons-react"
+import { FiltersProductsNames, formatURLtoNavParams } from "@/lib/SearchLibrary"
+import { useProductStorage } from "@/zustand/ProductStorage"
 
 interface Props extends HTMLAttributes<HTMLElement> { 
   handleClickCart: ()=> void
@@ -17,11 +19,21 @@ export const ResponsiveMenu: React.FC<Props> = ({handleClickCart, handleClose}) 
   const navegate = useNavigate()
   const UserSesion = useUserSesion()
   const [role, setRole] = useState("0")
+  const {setVoidTags} = useProductStorage()
   useEffect(()=>{
     if(UserSesion.infoUser != null){
       setRole(UserSesion.infoUser.IdRole)
     }
   }, [])
+  const handleSearchWCAProduct = () => {
+    const params = new URLSearchParams()
+    params.set(FiltersProductsNames.PageSize, "10")
+    params.set(FiltersProductsNames.PageNumber, "1")
+    params.set(FiltersProductsNames.CategoriesIds, "3")
+    const URL2Nav = formatURLtoNavParams(params, PUBLIC_ROUTES.SEARCH_PRODUCT)
+    setVoidTags()
+    navegate(URL2Nav)
+  }
   return (
     <ul className="w-full h-full bg-bgLight flex flex-col px-4 py-3 items-center justify-center gap-2 rounded-md">
       <div className="w-3/4 h-full flex flex-col justify-center items-start gap-2">
@@ -46,7 +58,7 @@ export const ResponsiveMenu: React.FC<Props> = ({handleClickCart, handleClose}) 
             UserSesion.infoUser != null && role != "2" && <Button size="extraLarge" className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"> <span>Ver pedidos</span> <IconMoneybag /> </Button> 
           }
           {
-            role == "2" && <Button size="medium" className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"> <span>WCA</span> <WCAIcon className="text-xl" /></Button>
+            role == "2" && <Button onClick={()=> handleSearchWCAProduct()} size="medium" className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"> <span>WCA</span> <WCAIcon className="text-xl" /></Button>
           }
         </li>
         <li>
