@@ -20,6 +20,7 @@ import { PanelControl } from "@/pages/PanelControl"
 import { CreateProduct } from "@/pages/CreateProduct"
 import { EditProduct } from "@/pages/EditProduct"
 import { SetTags } from "@/pages/SetTags"
+import { SearchProduct } from "@/pages/SearchProduct"
 
 export const MyRoutes: React.FC<{}> = () => {
   const haveSesion = useUserSesion(state => state.haveSesion)
@@ -34,7 +35,7 @@ export const MyRoutes: React.FC<{}> = () => {
         <Route path={PUBLIC_ROUTES.SINGIN} element={<SingIn />} />
         <Route path={PUBLIC_ROUTES.VIEW_PRODUCT} element={<DetailsProduct />} />
         <Route path={PUBLIC_ROUTES[404]} element={<NotFount />} />
-
+        <Route path={PUBLIC_ROUTES.SEARCH_PRODUCT} element={<SearchProduct />} />
         <Route element={<Auth_Guard />} >
           <Route path={PRIVATE_USER_ROUTES.MAKE_BUY} element={<MakeBuy />} />
 

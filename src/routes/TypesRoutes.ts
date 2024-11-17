@@ -1,9 +1,9 @@
 
 export const PUBLIC_ROUTES = {
   HOME: "/",
-  SEARCH: "/:product-name",
   PRODUCTS: "/products",
   VIEW_PRODUCT: "/products/details/:id",
+  SEARCH_PRODUCT: "/products/search/:id",
   ABOUT: "/about-us",
   LOGIN: "/login",
   SINGIN: "/signin",
@@ -15,7 +15,7 @@ export const PRIVATE_USER_ROUTES = {
   MAKE_BUY: "/confirm_buy",
   SHOPPING_HISTORY: "/shopping-history",
   EDIT_USER_INFO: "/update/:id",
-  SHOPPING_DETAILS: "/shopping-history/:id"
+  SHOPPING_DETAILS: "/shopping-history/:id",
 }
 export const PRIVATE_SELLER_ROUTES = {
   SELL_ORDERS: "/sell/orders"

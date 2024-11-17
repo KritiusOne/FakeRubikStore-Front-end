@@ -1,4 +1,4 @@
-import { HTMLAttributes } from "react"
+import { HTMLAttributes, useState } from "react"
 import { SearchIcon } from "./ui/icons/SearchIcon"
 import { ExpandedLogo } from "./ui/ExpandedLogo"
 import { useNavigate } from "react-router-dom"
@@ -9,6 +9,8 @@ import { Button } from "./ui/Button"
 import { IconUserFilled } from "@tabler/icons-react"
 import { Avatar } from "./Avatar"
 import { useCartStorage } from "@/zustand/CartStorage"
+import { FiltersProductsNames, formatURLtoNavParams } from "@/lib/SearchLibrary"
+import { useProductStorage } from "@/zustand/ProductStorage"
 
 interface Props extends HTMLAttributes<HTMLElement> { }
 
@@ -16,15 +18,32 @@ export const SearchBar: React.FC<Props> = () => {
   const navegate = useNavigate()
   const User = useUserSesion()
   const cartStorage = useCartStorage()
+  const [searchText, setSearchText] = useState("")
+  const { setVoidTags } = useProductStorage()
+  const handleSearchProduct = ()=>{
+    const params = new URLSearchParams()
+    params.append(FiltersProductsNames.NameProduct, searchText)
+    params.append(FiltersProductsNames.DescriptionProduct, searchText)
+    params.set(FiltersProductsNames.PageSize, "10")
+    params.set(FiltersProductsNames.PageNumber, "1")
+    const URL2Nav = formatURLtoNavParams(params, PUBLIC_ROUTES.SEARCH_PRODUCT)
+    setVoidTags()
+    navegate(URL2Nav, {replace: true})
+  }
   const handleClickLogo = (URL: string) => {
     navegate(URL)
+  }
+  const handleKeyboardSearch = (e: React.KeyboardEvent<HTMLInputElement>)=>{
+    if(e.key == "Enter"){
+      handleSearchProduct()
+    }
   }
   return (
     <div className="w-full flex flex-row justify-between items-center px-0 md:px-10">
       <ExpandedLogo onClick={() => handleClickLogo(PUBLIC_ROUTES.HOME)} FillColor="#5A0001" Title="Fake Rubik Store" height="50" width="50" className="md:flex flex-col-reverse justify-center items-center text-xl text-center text-pretty cursor-pointer text-primaryRed hidden" />
       <nav className="max-w-full h-10 px-5 flex flex-row text-black flex-grow">
-        <input className="w-full outline-none rounded-l-3xl px-4 bg-bgLight focus:bg-white text-balck border-2 border-primaryRed border-solid" type="text" placeholder="Buscar productos" />
-        <button className="rounded-r-3xl bg-primaryRed px-4 text-zinc-50 hover:bg-tomato">
+        <input onKeyDown={handleKeyboardSearch} value={searchText} onChange={(e)=> setSearchText(e.currentTarget.value)} className="w-full outline-none rounded-l-3xl px-4 bg-bgLight focus:bg-white text-balck border-2 border-primaryRed border-solid" type="text" placeholder="Buscar productos" />
+        <button onClick={()=> handleSearchProduct()} className="rounded-r-3xl bg-primaryRed px-4 text-zinc-50 hover:bg-tomato">
           <SearchIcon />
         </button>
       </nav>

@@ -28,16 +28,7 @@ export interface ProductMock {
   thumbnail:          string;
   images:             string[];
 }
-export interface MetaData {
-  totalCount:      number;
-  pageSize:        number;
-  currentPage:     number;
-  totalPage:       number;
-  hasNextPage:     boolean;
-  hasPreviousPage: boolean;
-  nextPageURL:     string;
-  previousPageURL: string;
-}
+
 export interface Response {
   metaData:   MetaData;
   statusCode: number;
@@ -65,7 +56,8 @@ export interface ProductInfo {
 }
 export interface ProductCategories {
   idCategory?: number | string,
-  idProduct: number | string
+  idProduct: number | string,
+  categoryNav?: Category
 }
 export interface CreateProductTag {
   name: string
@@ -74,4 +66,17 @@ export interface CreateProductTag {
 export interface Category {
   id: number
   name: string
+}
+export interface FilterByTag {
+  Tag: Category
+  isSelect: boolean
+}
+export interface ProductsQueryFilters {
+  MinPrice?: number
+  MaxPrice?: number
+  NameProduct?: string
+  DescriptionProduct?: string
+  CategoriesIds?: number[]
+  PageSize?: number
+  PageNumber?: number
 }
