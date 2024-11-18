@@ -6,7 +6,7 @@ import { Logo } from "./ui/Logo"
 import { Avatar } from "./Avatar"
 import { useUserSesion } from "@/zustand/UserStorage"
 import { Button } from "./ui/Button"
-import { IconCircleX, IconFilterFilled, IconHistory, IconLogout, IconMoneybag, IconShoppingCart, IconUserFilled } from "@tabler/icons-react"
+import { IconCircleX, IconHistory, IconLogout, IconMoneybag, IconShoppingCart, IconUserFilled } from "@tabler/icons-react"
 import { FiltersProductsNames, formatURLtoNavParams } from "@/lib/SearchLibrary"
 import { useProductStorage } from "@/zustand/ProductStorage"
 
@@ -58,13 +58,10 @@ export const ResponsiveMenu: React.FC<Props> = ({handleClickCart, handleClose}) 
             UserSesion.infoUser != null && role != "2" && <Button size="extraLarge" className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"> <span>Ver pedidos</span> <IconMoneybag /> </Button> 
           }
           {
-            role == "2" && <Button onClick={()=> handleSearchWCAProduct()} size="medium" className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"> <span>WCA</span> <WCAIcon className="text-xl" /></Button>
+            <Button onClick={()=> handleSearchWCAProduct()} size="medium" className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"> <span>WCA</span> <WCAIcon className="text-xl" /></Button>
           }
         </li>
         <li>
-          {
-            role == "2" && <Button size="extraLarge" className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"> <span>Busqueda avanzada</span> <IconFilterFilled /> </Button>
-          }
           {
             UserSesion.infoUser != null && role != "2" && <Button size="extraLarge" className="flex flex-row gap-2 text-primaryRed border-primaryRed hover:bg-bgDark hover:text-white hover:border-bgDark"> <span> Panel de control </span> <WCAIcon /> </Button>
           }
