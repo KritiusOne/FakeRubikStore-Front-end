@@ -1,7 +1,6 @@
 import { HTMLAttributes } from "react"
 import { LinkedIn } from "./ui/icons/LinkedIn"
 import { Github } from "./ui/icons/Github"
-import { Instagram } from "./ui/icons/Instagram"
 
 interface Props extends HTMLAttributes<HTMLElement> { }
 export const Footer: React.FC<Props> = ({ ...props }) => {
@@ -12,7 +11,6 @@ export const Footer: React.FC<Props> = ({ ...props }) => {
           Resource
         </h4>
         <li>Documentación API</li>
-        <li>Blog</li>
         <li>
           <a target="_blank" href="https://github.com/KritiusOne/FakeRubikStore-Front-end" className="">
             Repositorio del proyecto
@@ -31,14 +29,11 @@ export const Footer: React.FC<Props> = ({ ...props }) => {
           Follow me
         </h4>
         <li className="flex flex-row gap-4">
-          <a target="_blank" href="https://www.linkedin.com/in/juliorodriguezureche--/" >
+          <a target="_blank" href="https://www.linkedin.com/in/juliorodriguezureche--/">
             <LinkedIn className="w-8 h-8" />
           </a>
           <a target="_blank" href="https://github.com/KritiusOne" >
             <Github className="w-8 h-8" />
-          </a>
-          <a target="_blank" href="https://www.instagram.com/rour10/" >
-            <Instagram className="w-8 h-8" />
           </a>
         </li>
       </ul>
